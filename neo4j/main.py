@@ -1,5 +1,6 @@
 from neo4j import GraphDatabase,Transaction
-
+from collections import defaultdict
+import operator
 
 
 
@@ -18,17 +19,37 @@ class Database:
     def get_student_courses(self):
         with self._driver.session() as session:
             response = session.write_transaction(self.query_courses)
-            student = None
-            courses = []
+            #students = None
+            enrolments = []
             for record in response:
-                if(student is None):
-                    student = record['student']
+                #if(student is None):
+                    #student = record['student']
                 
-                 
-                courses.append(record['course'])
                 
-            print(student['name'])
-            print(courses[0].keys())
+                
+                enrolments.append( (record['enrolment']['enrol_date'],record['student'],record['course']))
+                
+                
+                
+            #print(student['name'])
+            #enrol_dates = enrolments.values()
+            #print(enrol_dates)
+            sorted_enrol = sorted(enrolments, key= operator.itemgetter(0))
+            student_id = enrolments[1][1]['userid']
+            course_id = enrolments[1][2]['courseid']
+            print(f"match (s:student {{userid : '{student_id}'}})-[r]-(c:Courses {{courseid: '{course_id}'}}) create (s)-[:GRADE]->(c)")
+            #session.run("match(s:Student {userid : })")
+            for index in range(1,len(enrolments)-1):
+                first_course_index = enrolments[index][2]['courseid']
+                second_course_index = enrolments[index+1][2]['courseid']
+                
+                print(f"match (c1:Courses {{courseid : '{first_course_index}'}}),(c2:Courses {{courseid: '{second_course_index}'}}) create (c1)-[:GRADE]->(c2)")
+                #print(enrolments[index][2]['courseid'])
+                #print(enrolments[index+1][2]['courseid'])
+                
+            for enrol in enrolments[1:]:
+                print(enrol[0])
+            #print(courses[0].keys())
            
 
     
@@ -44,7 +65,7 @@ class Database:
         
     @staticmethod
     def query_courses(tx):
-        return( tx.run("match (student:Student {userid : '55'})-[r]-(course:Courses) return student,course"))    
+        return( tx.run("match (student:Student {userid : '55'})-[enrolment:Enrolled]-(course:Courses) return student,enrolment,course"))    
             
     @staticmethod
     def query_people(tx):
