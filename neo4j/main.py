@@ -1,7 +1,52 @@
 from neo4j import GraphDatabase,Transaction
 from collections import defaultdict
+from collections import Counter
 import operator
+from datetime import datetime
 
+
+def get_semester(unix_time):
+    date = datetime.utcfromtimestamp(unix_time)
+    month_to_semester = {
+            1:1,
+            0:1,
+            2:2
+    }
+    
+    semesters = date.year*2 + month_to_semester[date.month/6]
+    return semesters
+
+def enrolments_by_semester(enrolments):
+    enrolments_semester = defaultdict(list)
+    
+    [enrolments_semester[enrol.get_semester()].append(enrol) for enrol in enrolments]
+    
+    
+    
+    
+    
+    return enrolments_semester
+
+
+class Enrolment():
+    def __init__(self,enrol_date,student,course):
+        self.enrol_date = int(enrol_date)
+        self.course = course
+        self.student = student
+    
+    def get_semester(self):
+        date = datetime.utcfromtimestamp(self.enrol_date)
+        month_to_semester = {
+                1:1,
+                0:1,
+                2:2
+        }
+        
+        semesters = date.year*2 + month_to_semester[int(date.month/6)]
+        return semesters
+ 
+        
+    
 
 
 class Database:
@@ -26,26 +71,36 @@ class Database:
                     #student = record['student']
                 
                 
-                
-                enrolments.append( (record['enrolment']['enrol_date'],record['student'],record['course']))
+                enrolments.append(Enrolment(record['enrolment']['enrol_date'],record['student'],record['course']))
+                #enrolments.append( (record['enrolment']['enrol_date'],record['student'],record['course']))
                 
                 
                 
             #print(student['name'])
             #enrol_dates = enrolments.values()
             #print(enrol_dates)
-            sorted_enrol = sorted(enrolments, key= operator.itemgetter(0))
-            student_id = enrolments[1][1]['userid']
-            course_id = enrolments[1][2]['courseid']
-            print(f"match (s:student {{userid : '{student_id}'}})-[r]-(c:Courses {{courseid: '{course_id}'}}) create (s)-[:GRADE]->(c)")
-            #session.run("match(s:Student {userid : })")
-            for index in range(1,len(enrolments)-1):
-                first_course_index = enrolments[index][2]['courseid']
-                second_course_index = enrolments[index+1][2]['courseid']
+            sorted_enrol = sorted(enrolments, key = lambda enrol : enrol.get_semester())
+            
+            for enrol in sorted_enrol:
+                print(datetime.ctime(datetime.utcfromtimestamp(enrol.enrol_date)))
+                print(enrol.get_semester())
                 
+            print(enrolments_by_semester(sorted_enrol).items())
+            return
+            
+            student_id = sorted_enrol[0][1]['userid']
+            course_id = sorted_enrol[0][2]['courseid']
+            print(f"match (s:Student {{userid : '{student_id}'}})-[r]-(c:Courses {{courseid: '{course_id}'}}) create (s)-[:GRADE]->(c)")
+            session.run(f"match (s:Student {{userid : '{student_id}'}})-[r]-(c:Courses {{courseid: '{course_id}'}}) create (s)-[:GRADE]->(c)")
+            #session.run("match(s:Student {userid : })")
+            for index in range(0,len(sorted_enrol)-1):
+                
+                first_course_index = sorted_enrol[index][2]['courseid']
+                second_course_index = sorted_enrol[index+1][2]['courseid']
                 print(f"match (c1:Courses {{courseid : '{first_course_index}'}}),(c2:Courses {{courseid: '{second_course_index}'}}) create (c1)-[:GRADE]->(c2)")
-                #print(enrolments[index][2]['courseid'])
-                #print(enrolments[index+1][2]['courseid'])
+                session.run(f"match (c1:Courses {{courseid : '{first_course_index}'}}),(c2:Courses {{courseid: '{second_course_index}'}}) create (c1)-[:GRADE]->(c2)")
+                #print(first_course_index )
+                #print(second_course_index)
                 
             for enrol in enrolments[1:]:
                 print(enrol[0])
