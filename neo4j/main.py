@@ -14,7 +14,8 @@ def get_semester(unix_time):
             2:2
     }
     
-    semesters = date.year*2 + month_to_semester[date.month/6]
+    print(date.month)
+    semesters = date.year*2 + month_to_semester[(date.month/6)]
     return semesters
 
 def enrolments_by_semester(enrolments):
@@ -30,20 +31,27 @@ def enrolments_by_semester(enrolments):
 
 
 class Enrolment():
-    def __init__(self,enrol_date,student,course):
+    def __init__(self,enrol_date,student,course,grade = None):
         self.enrol_date = int(enrol_date)
         self.course = course
         self.student = student
+        self.grade = float(grade)
+        
+    def get_course_id(self):
+        return self.course['courseid']
+    
+    def get_student_id(self):
+        return self.student['userid']
     
     def get_semester(self):
         date = datetime.utcfromtimestamp(self.enrol_date)
         month_to_semester = {
-                1:1,
+                1:2,
                 0:1,
                 2:2
         }
         
-        semesters = date.year*2 + month_to_semester[int(date.month/6)]
+        semesters = date.year*2 + month_to_semester[int((date.month-1)/6)]
         return semesters
  
         
@@ -70,9 +78,16 @@ class Database:
             for record in response:
                 #if(student is None):
                     #student = record['student']
+                    
+                    
+                enrol_date =  record['enrolment']['enrol_date']
+                enrol_grade = record['enrolment']['grade']
+                student = record['student']
+                course = record['course']
+                                        
+                                    
                 
-                
-                enrolments.append(Enrolment(record['enrolment']['enrol_date'],record['student'],record['course']))
+                enrolments.append(Enrolment(enrol_date,student,course,enrol_grade))
                 #enrolments.append( (record['enrolment']['enrol_date'],record['student'],record['course']))
                 
                 
@@ -87,57 +102,44 @@ class Database:
                 print(datetime.ctime(datetime.utcfromtimestamp(enrol.enrol_date)))
                 print(enrol.get_semester())
                 
-            #grouped = [list(g) for k, g in groupby(L, lambda s: s.partition('_')[0])]
-            grouped_enrol = [list(g) for k,g in groupby(sorted_enrol, lambda enrol : enrol.get_semester())]
-                
+
+            #print(enrolments_by_semester(sorted_enrol).items())
             
             
-            course_id = sorted_enrol[0].course['courseid']
-            student_id = sorted_enrol[0].student['userid']
+            student_id = sorted_enrol[0].get_student_id()
+            course_id = sorted_enrol[0].get_course_id()
+            grade = sorted_enrol[0].grade
+            trajectory_name = f"ID: {course_id}\n\nNota:{grade}"
             
-            first_semester_courses = [enrol.course for enrol in grouped_enrol[0]]
-            for course in first_semester_courses:
-                course_id = course['courseid']
-                print(f"match (s:Student {{userid : '{student_id}'}})-[r]-(c:Courses {{courseid: '{course_id}'}}) create (s)-[:GRADE]->(c)")
-                session.run(f"match (s:Student {{userid : '{student_id}'}})-[r]-(c:Courses {{courseid: '{course_id}'}}) create (s)-[:GRADE]->(c)")
+            query_string = f"match (s:Student {{userid : '{student_id}'}})-[r]-(c:Courses {{courseid: '{course_id}'}}) create (s)-[:MATRICULADO]->(c) set c.trajectory_name = '{trajectory_name}'"
             
-            
-            #return
-            
-            #print(f"match (s:Student {{userid : '{student_id}'}})-[r]-(c:Courses {{courseid: '{course_id}'}}) create (s)-[:GRADE]->(c)")
+            print(query_string)
+            session.run(query_string)
             #session.run(f"match (s:Student {{userid : '{student_id}'}})-[r]-(c:Courses {{courseid: '{course_id}'}}) create (s)-[:GRADE]->(c)")
-            ##session.run("match(s:Student {userid : })")
-            for index in range(0,len(grouped_enrol)-1):
-                print(index)
-                print(f"create (m : INTERMEDIARY {{aluno : {student_id} , semestre : {grouped_enrol[index][0].get_semester()} }})")
-                session.run(f"create (m : INTERMEDIARY {{aluno : {student_id} , semestre : {grouped_enrol[index][0].get_semester()} }})")
+            #session.run("match(s:Student {userid : })")
+            for index in range(0,len(sorted_enrol)-1):
+                
+                first_course_index = sorted_enrol[index].get_course_id()
+                second_course_index = sorted_enrol[index+1].get_course_id()
+                grade1 = sorted_enrol[index].grade
+                trajectory1_name = f"ID: {first_course_index}\n\nNota:{grade1}"
+                
+                grade2 = sorted_enrol[index+1].grade
+                trajectory2_name = f"ID: {second_course_index}\n\n Nota:{grade2}"
+                
+                query_string = f"match (c1:Courses {{courseid : '{first_course_index}'}}),(c2:Courses {{courseid: '{second_course_index}'}}) create (c1)-[:MATRICULADO]->(c2) set c1.trajectory_name = '{trajectory1_name}' set c2.trajectory_name = '{trajectory2_name}'"
                 
                 
-                for course in [enrol.course for enrol in grouped_enrol[index]]:
-                    course_id = course['courseid']
-                    
-                    print(f"match (c1:Courses {{courseid : '{course_id}'}}),(m : INTERMEDIARY {{aluno : {student_id} , semestre : {grouped_enrol[index][0].get_semester()} }}) create (c1)-[:SEMESTRE]->(m)")
-                    session.run(f"match (c1:Courses {{courseid : '{course_id}'}}),(m : INTERMEDIARY {{aluno : {student_id} , semestre : {grouped_enrol[index][0].get_semester()} }}) create (c1)-[:SEMESTRE]->(m)")
-                    
-                    
+                print(query_string)
+                session.run(query_string)
                 
-                print("second")
-                for course in [enrol.course for enrol in grouped_enrol[index+1]]:
-                    course_id = course['courseid']
-                    
-                    print(f"match (c2:Courses {{courseid : '{course_id}'}}),(m : INTERMEDIARY {{aluno : {student_id} , semestre : {grouped_enrol[index][0].get_semester()} }}) create (m)-[:GRADE]->(c2)")
-                    session.run(f"match (c2:Courses {{courseid : '{course_id}'}}),(m : INTERMEDIARY {{aluno : {student_id} , semestre : {grouped_enrol[index][0].get_semester()} }}) create (m)-[:GRADE]->(c2)")
-                
-                
-                #first_course_index = sorted_enrol[index][2]['courseid']
-                #second_course_index = sorted_enrol[index+1][2]['courseid']
-                #print(f"match (c1:Courses {{courseid : '{first_course_index}'}}),(c2:Courses {{courseid: '{second_course_index}'}}) create (c1)-[:GRADE]->(c2)")
                 #session.run(f"match (c1:Courses {{courseid : '{first_course_index}'}}),(c2:Courses {{courseid: '{second_course_index}'}}) create (c1)-[:GRADE]->(c2)")
                 #print(first_course_index )
                 #print(second_course_index)
-            return
-            for enrol in enrolments[1:]:
-                print(enrol[0])
+                
+            #for enrol in enrolments[1:]:
+                #print(enrol[0])
+
             #print(courses[0].keys())
            
 
