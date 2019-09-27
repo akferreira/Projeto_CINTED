@@ -38,10 +38,10 @@ class Enrolment():
         self.grade = float(grade)
         
     def get_course_id(self):
-        return self.course['courseid']
+        return int(self.course['courseid'])
     
     def get_student_id(self):
-        return self.student['userid']
+        return int(self.student['userid'])
     
     def get_semester(self):
         date = datetime.utcfromtimestamp(self.enrol_date)
@@ -69,6 +69,43 @@ class Database:
     def get_people_no_wait(self):
         with self._driver.session() as session:
             session.write_transaction(self.async_tx,"match (p:Person) where p.born > 1981 return p")
+            
+    def create_simple_trajectory_graph(self,sorted_enrol):
+        with self._driver.session() as session:
+            student_id = sorted_enrol[0].get_student_id()
+            course_id = sorted_enrol[0].get_course_id()
+            grade = sorted_enrol[0].grade
+            trajectory_name = f"ID: {course_id:03d}   Nota:{grade:.2f}"
+            
+            
+            session.run("match (A)-[r:MATRICULADO]-(B) delete r")
+            
+            query_string = f"match (s:Student {{userid : '{student_id}'}})-[r]-(c:Courses {{courseid: '{course_id}'}}) create (s)-[:MATRICULADO {{empty: ''}}]->(c) set c.trajectory_name = '{trajectory_name}' set s.trajectory_name = 'Aluno {student_id}'"
+            
+            print(query_string)
+            session.run(query_string)
+            for index in range(0,len(sorted_enrol)-1):
+                
+                first_course_index = sorted_enrol[index].get_course_id()
+                second_course_index = sorted_enrol[index+1].get_course_id()
+                grade1 = sorted_enrol[index].grade
+                trajectory1_name = f"ID: {first_course_index:03d}   Nota:{grade1:.2f}"
+                
+                grade2 = sorted_enrol[index+1].grade
+                trajectory2_name = f"ID:{second_course_index:03d}   Nota:{grade2:.2f}"
+                
+                query_string = f"match (c1:Courses {{courseid : '{first_course_index}'}}),(c2:Courses {{courseid: '{second_course_index}'}}) create (c1)-[:MATRICULADO {{empty: ''}}]->(c2) set c1.trajectory_name = '{trajectory1_name}' set c2.trajectory_name = '{trajectory2_name}'"
+                
+                
+                print(query_string)
+                session.run(query_string)
+        
+        
+        return
+    def create_by_semester_trajectory_graph(self,sorted_enrol):
+        
+        
+        return
     
     def get_student_courses(self):
         with self._driver.session() as session:
@@ -109,9 +146,12 @@ class Database:
             student_id = sorted_enrol[0].get_student_id()
             course_id = sorted_enrol[0].get_course_id()
             grade = sorted_enrol[0].grade
-            trajectory_name = f"ID: {course_id}\n\nNota:{grade}"
+            trajectory_name = f"ID: {course_id:03d}   Nota:{grade:.2f}"
             
-            query_string = f"match (s:Student {{userid : '{student_id}'}})-[r]-(c:Courses {{courseid: '{course_id}'}}) create (s)-[:MATRICULADO]->(c) set c.trajectory_name = '{trajectory_name}'"
+            
+            session.run("match (A)-[r:MATRICULADO]-(B) delete r")
+            
+            query_string = f"match (s:Student {{userid : '{student_id}'}})-[r]-(c:Courses {{courseid: '{course_id}'}}) create (s)-[:MATRICULADO {{empty: ''}}]->(c) set c.trajectory_name = '{trajectory_name}' set s.trajectory_name = 'Aluno {student_id}'"
             
             print(query_string)
             session.run(query_string)
@@ -122,12 +162,12 @@ class Database:
                 first_course_index = sorted_enrol[index].get_course_id()
                 second_course_index = sorted_enrol[index+1].get_course_id()
                 grade1 = sorted_enrol[index].grade
-                trajectory1_name = f"ID: {first_course_index}\n\nNota:{grade1}"
+                trajectory1_name = f"ID: {first_course_index:03d}   Nota:{grade1:.2f}"
                 
                 grade2 = sorted_enrol[index+1].grade
-                trajectory2_name = f"ID: {second_course_index}\n\n Nota:{grade2}"
+                trajectory2_name = f"ID:{second_course_index:03d}   Nota:{grade2:.2f}"
                 
-                query_string = f"match (c1:Courses {{courseid : '{first_course_index}'}}),(c2:Courses {{courseid: '{second_course_index}'}}) create (c1)-[:MATRICULADO]->(c2) set c1.trajectory_name = '{trajectory1_name}' set c2.trajectory_name = '{trajectory2_name}'"
+                query_string = f"match (c1:Courses {{courseid : '{first_course_index}'}}),(c2:Courses {{courseid: '{second_course_index}'}}) create (c1)-[:MATRICULADO {{empty: ''}}]->(c2) set c1.trajectory_name = '{trajectory1_name}' set c2.trajectory_name = '{trajectory2_name}'"
                 
                 
                 print(query_string)
