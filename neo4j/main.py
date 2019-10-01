@@ -29,6 +29,19 @@ def enrolments_by_semester(enrolments):
     
     return enrolments_semester
 
+class ResourceAcess():
+    def __init__(self,unixtime,student,resource):
+        self.unixtime = unixtime
+        self.resource = resource
+        self.student = student
+        
+    def get_course_id(self):
+        return int(self.course['courseid'])
+    
+    def get_student_id(self):
+        return int(self.student['userid'])
+    
+
 
 class Enrolment():
     def __init__(self,enrol_date,student,course,grade = None):
@@ -70,6 +83,31 @@ class Database:
         with self._driver.session() as session:
             session.write_transaction(self.async_tx,"match (p:Person) where p.born > 1981 return p")
             
+            
+    def get_resource_access_ordered(self,session,course_id,student_id):
+        
+        query = f"match (student:Student {{userid: '{student_id}'}})-[access:Accessed]-(resource) where resource.courseid = '{course_id}' return student,access,resource"
+    
+        result = session.write_transaction(self.query_database,query)
+        
+        resources_access = [ResourceAcess(unixtime = record['access']['timeunix'],student = record['student'], resource = record['resource']) for record in result]
+        
+        for resource in resources_access:
+            print(resource.resource)
+            print(resource.student)
+            print(resource.unixtime)
+        
+        
+        sorted_access = sorted(resources_access, key = lambda resource : resource.unixtime)
+        
+        print(sorted_access)
+        
+        
+        
+        
+        
+        return sorted_access
+            
     def create_simple_trajectory_graph(self,sorted_enrol):
         with self._driver.session() as session:
             student_id = sorted_enrol[0].get_student_id()
@@ -110,28 +148,23 @@ class Database:
     def get_student_courses(self):
         with self._driver.session() as session:
             response = session.write_transaction(self.query_courses)
+            
+            self.get_resource_access_ordered(session,5,55)
+            
+            
             #students = None
             enrolments = []
             for record in response:
-                #if(student is None):
-                    #student = record['student']
-                    
-                    
                 enrol_date =  record['enrolment']['enrol_date']
                 enrol_grade = record['enrolment']['grade']
                 student = record['student']
                 course = record['course']
                                         
-                                    
-                
                 enrolments.append(Enrolment(enrol_date,student,course,enrol_grade))
-                #enrolments.append( (record['enrolment']['enrol_date'],record['student'],record['course']))
                 
                 
                 
-            #print(student['name'])
-            #enrol_dates = enrolments.values()
-            #print(enrol_dates)
+           
             sorted_enrol = sorted(enrolments, key = lambda enrol : enrol.get_semester())
             
             
@@ -172,15 +205,6 @@ class Database:
                 
                 print(query_string)
                 session.run(query_string)
-                
-                #session.run(f"match (c1:Courses {{courseid : '{first_course_index}'}}),(c2:Courses {{courseid: '{second_course_index}'}}) create (c1)-[:GRADE]->(c2)")
-                #print(first_course_index )
-                #print(second_course_index)
-                
-            #for enrol in enrolments[1:]:
-                #print(enrol[0])
-
-            #print(courses[0].keys())
            
 
     
@@ -199,8 +223,8 @@ class Database:
         return( tx.run("match (student:Student {userid : '55'})-[enrolment:Enrolled]-(course:Courses) return student,enrolment,course"))    
             
     @staticmethod
-    def query_people(tx):
-        return( tx.run("match (p:Person) where p.born > 1981 return p"))    
+    def query_database(tx,query):
+        return( tx.run(query))    
 
     def print_greeting(self, message):
         with self._driver.session() as session:
