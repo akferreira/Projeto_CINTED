@@ -29,9 +29,9 @@ def enrolments_by_semester(enrolments):
     
     return enrolments_semester
 
-class ResourceAcess():
+class ResourceAccess():
     def __init__(self,unixtime,student,resource):
-        self.unixtime = unixtime
+        self.unixtime = int(unixtime)
         self.resource = resource
         self.student = student
         
@@ -40,6 +40,11 @@ class ResourceAcess():
     
     def get_student_id(self):
         return int(self.student['userid'])
+    
+
+        
+    
+    
     
 
 
@@ -72,7 +77,6 @@ class Enrolment():
 
 
 class Database:
-
     def __init__(self, uri, user, password):
         self._driver = GraphDatabase.driver(uri, auth=(user, password))
 
@@ -85,22 +89,45 @@ class Database:
             
             
     def get_resource_access_ordered(self,session,course_id,student_id):
-        
         query = f"match (student:Student {{userid: '{student_id}'}})-[access:Accessed]-(resource) where resource.courseid = '{course_id}' return student,access,resource"
     
         result = session.write_transaction(self.query_database,query)
         
-        resources_access = [ResourceAcess(unixtime = record['access']['timeunix'],student = record['student'], resource = record['resource']) for record in result]
+        resources_access = []
+        
+        for record in result:
+            student = record['student']
+            resource = record['resource']
+            unixtimes = record['access']['timeunix']
+            
+            if(type(unixtimes) is str):
+                unixtimes = [unixtimes]
+                
+            resources_access.extend([ResourceAccess(unixtime,student,resource) for unixtime in unixtimes])
+            
+            
+            
+            
+            
+            
+            
+        
+        
+        #resources_access = [ResourceAccess(unixtime = record['access']['timeunix'],student = record['student'], resource = record['resource']) for record in result]
         
         for resource in resources_access:
-            print(resource.resource)
-            print(resource.student)
             print(resource.unixtime)
         
         
         sorted_access = sorted(resources_access, key = lambda resource : resource.unixtime)
         
-        print(sorted_access)
+        print("sorted")
+        
+        for resource in sorted_access:
+            print(resource.unixtime)
+            print(datetime.ctime(datetime.utcfromtimestamp(resource.unixtime)))
+        
+        print(len(resources_access))
         
         
         
