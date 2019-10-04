@@ -2,6 +2,7 @@ from neo4j import GraphDatabase,Transaction
 from collections import defaultdict
 from collections import Counter
 from itertools import groupby
+from time import time
 import operator
 from datetime import datetime
 
@@ -95,6 +96,10 @@ class Database:
         
         resources_access = []
         
+        t1 = time()
+        
+       
+        
         for record in result:
             student = record['student']
             resource = record['resource']
@@ -106,7 +111,10 @@ class Database:
             resources_access.extend([ResourceAccess(unixtime,student,resource) for unixtime in unixtimes])
             
             
-            
+        t2 = time()
+        total = ((t2-t1)*1000)*1000
+        
+        print(f"Took {total}\n")
             
             
             
