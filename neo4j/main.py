@@ -37,10 +37,25 @@ class ResourceAccess():
         self.student = student
         
     def get_course_id(self):
-        return int(self.course['courseid'])
+        return int(self.resource['courseid'])
+    
+    
+    def get_id_match_query(self):
+        
+        return f"{{resourceid : '{self.get_resource_id()}',type:'{self.get_resource_type()}' }}"
+    
+    def get_resource_id(self):
+        return int(self.resource['resourceid'])
+    
+    def get_resource_type(self):
+        return self.resource['type']
     
     def get_student_id(self):
         return int(self.student['userid'])
+    
+    def print_info(self):
+        print(f"Time:{self.unixtime} student : {self.get_student_id()} course : {self.get_course_id()} resource : {self.get_resource_id()}/{self.get_resource_type()}")
+    
     
 
         
@@ -92,13 +107,15 @@ class Database:
     def get_resource_access_ordered(self,session,course_id,student_id):
         query = f"match (student:Student {{userid: '{student_id}'}})-[access:Accessed]-(resource) where resource.courseid = '{course_id}' return student,access,resource"
     
+        print(query)
+    
         result = session.write_transaction(self.query_database,query)
         
         resources_access = []
         
-        t1 = time()
         
-       
+        
+        
         
         for record in result:
             student = record['student']
@@ -111,11 +128,7 @@ class Database:
             resources_access.extend([ResourceAccess(unixtime,student,resource) for unixtime in unixtimes])
             
             
-        t2 = time()
-        total = ((t2-t1)*1000)*1000
-        
-        print(f"Took {total}\n")
-            
+    
             
             
             
@@ -123,17 +136,39 @@ class Database:
         
         #resources_access = [ResourceAccess(unixtime = record['access']['timeunix'],student = record['student'], resource = record['resource']) for record in result]
         
-        for resource in resources_access:
-            print(resource.unixtime)
+        
         
         
         sorted_access = sorted(resources_access, key = lambda resource : resource.unixtime)
         
         print("sorted")
         
-        for resource in sorted_access:
-            print(resource.unixtime)
-            print(datetime.ctime(datetime.utcfromtimestamp(resource.unixtime)))
+        session.run("match (A)-[r:ACCESS_ORDER]-(B) delete r")
+        
+        
+        #create (s)-[:MATRICULADO {{empty: ''}}]->(c)
+        
+        first_resource_id_query = sorted_access[0].get_id_match_query()
+        query = f" match (student:Student {{userid :'{student_id}'}})-[access:Accessed {{timeunix : '{sorted_access[0].unixtime}'}}]-(resource: Resources {first_resource_id_query}) create (student)-[:ACCESS_ORDER {{empty: ''}}]->(resource)"
+        
+        print(query)
+        session.run(query)
+        
+        
+        for index in range(0, len(sorted_access)-1):
+            
+            
+            
+            resource_1_id_query = sorted_access[index].get_id_match_query()
+            resource_2_id_query = sorted_access[index+1].get_id_match_query()
+            
+            query = f"match (resource1 : Resources {resource_1_id_query}),(resource2 : Resources {resource_2_id_query})  create (resource1)-[:ACCESS_ORDER {{empty: ''}}]->(resource2)"
+            print(query)
+            session.run(query)
+            
+            #print(sorted_access[index].get_id_match_query())
+            #print(sorted_access[index+1].get_id_match_query())
+            
         
         print(len(resources_access))
         
