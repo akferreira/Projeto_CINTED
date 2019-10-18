@@ -149,7 +149,7 @@ class Database:
         #create (s)-[:MATRICULADO {{empty: ''}}]->(c)
         
         first_resource_id_query = sorted_access[0].get_id_match_query()
-        query = f" match (student:Student {{userid :'{student_id}'}})-[access:Accessed {{timeunix : '{sorted_access[0].unixtime}'}}]-(resource: Resources {first_resource_id_query}) create (student)-[:ACCESS_ORDER {{empty: ''}}]->(resource)"
+        query = f" match (student:Student {{userid :'{student_id}'}})-[access:Accessed {{timeunix : '{sorted_access[0].unixtime}'}}]-(resource: Resources {first_resource_id_query}) create (student)-[:ACCESS_ORDER {{count: 1}}]->(resource)"
         
         print(query)
         session.run(query)
@@ -162,9 +162,24 @@ class Database:
             resource_1_id_query = sorted_access[index].get_id_match_query()
             resource_2_id_query = sorted_access[index+1].get_id_match_query()
             
-            query = f"match (resource1 : Resources {resource_1_id_query}),(resource2 : Resources {resource_2_id_query})  create (resource1)-[:ACCESS_ORDER {{empty: ''}}]->(resource2)"
-            print(query)
-            session.run(query)
+            query_check_existence = f"match (resource1 : Resources {resource_1_id_query})-[r:ACCESS_ORDER]->(resource2 : Resources {resource_2_id_query}) return r,r.count" 
+            
+            result_check = session.write_transaction(self.query_database,query_check_existence)
+            
+            if(result_check.peek() is None):
+                
+                
+                query = f"match (resource1 : Resources {resource_1_id_query}),(resource2 : Resources {resource_2_id_query})  create (resource1)-[:ACCESS_ORDER {{count: 1}}]->(resource2)"
+                #print(f"{resource_1_id_query}//{resource_2_id_query}\n")
+                print(query)
+                session.run(query)
+                
+            else:
+                
+                count = int(result_check.single()['r.count']) + 1
+                query_update_count = f"match (resource1 : Resources {resource_1_id_query})-[r:ACCESS_ORDER]->(resource2 : Resources {resource_2_id_query}) set r.count = {count} return r" 
+                print(query_update_count)
+                session.run(query_update_count)
             
             #print(sorted_access[index].get_id_match_query())
             #print(sorted_access[index+1].get_id_match_query())
@@ -238,9 +253,9 @@ class Database:
             sorted_enrol = sorted(enrolments, key = lambda enrol : enrol.get_semester())
             
             
-            for enrol in sorted_enrol:
-                print(datetime.ctime(datetime.utcfromtimestamp(enrol.enrol_date)))
-                print(enrol.get_semester())
+            #for enrol in sorted_enrol:
+                #print(datetime.ctime(datetime.utcfromtimestamp(enrol.enrol_date)))
+                #print(enrol.get_semester())
                 
 
             #print(enrolments_by_semester(sorted_enrol).items())
@@ -256,7 +271,7 @@ class Database:
             
             query_string = f"match (s:Student {{userid : '{student_id}'}})-[r]-(c:Courses {{courseid: '{course_id}'}}) create (s)-[:MATRICULADO {{empty: ''}}]->(c) set c.trajectory_name = '{trajectory_name}' set s.trajectory_name = 'Aluno {student_id}'"
             
-            print(query_string)
+            #print(query_string)
             session.run(query_string)
             #session.run(f"match (s:Student {{userid : '{student_id}'}})-[r]-(c:Courses {{courseid: '{course_id}'}}) create (s)-[:GRADE]->(c)")
             #session.run("match(s:Student {userid : })")
@@ -273,8 +288,10 @@ class Database:
                 query_string = f"match (c1:Courses {{courseid : '{first_course_index}'}}),(c2:Courses {{courseid: '{second_course_index}'}}) create (c1)-[:MATRICULADO {{empty: ''}}]->(c2) set c1.trajectory_name = '{trajectory1_name}' set c2.trajectory_name = '{trajectory2_name}'"
                 
                 
-                print(query_string)
+                #print(query_string)
                 session.run(query_string)
+            
+        
            
 
     
