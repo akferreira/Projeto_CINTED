@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+<head>
+  <title>Network</title>
+  <script type="text/javascript" src="https://unpkg.com/vis-network@latest/dist/vis-network.min.js"></script>
+  <link href="https://unpkg.com/vis-network@latest/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
+  <style type="text/css">
+    #mynetwork {
+      width: 1200px;
+      height: 800px;
+      border: 1px solid lightgray;
+    }
+  </style>
+</head>
+<body>
+<div id="mynetwork"></div>
+
+<script type="text/javascript" src="jquery.min.js"></script>
+<script src="https://unpkg.com/neo4j-driver@1.7.6/lib/browser/neo4j-web.min.js"></script>
+<script type="text/javascript">
+
+
+const driver = neo4j.v1.driver("bolt://localhost:7687", neo4j.v1.auth.basic("neo4j", "cinted"));
+const session = driver.session();
+const resultPromise = session.run(
+  'match (A)-[r:ACCESS_ORDER]->(B:Resources) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B)'
+);
+
+var node_info = new vis.DataSet();
+  var r_info = new vis.DataSet();
+
+resultPromise.then(result => {
+  session.close();
+  
+
+  const singleRecord = result.records[0];
+  const node = singleRecord.get(0);
+  
+  for (record of result.records){
+    var nameA;
+  
+    if(record.get('typeA') == "Student"){
+     nameA =  record.get('A').properties.trajectory_name;
+    }
+    
+  else{
+    nameA = record.get('A').properties.name;
+  }
+    
+  
+  
+  nameB = record.get('B').properties.name;
+  
+  idA = record.get("id(A)").toNumber();
+  idB = record.get("id(B)").toNumber();
+  
+  const count = record.get('r').properties.count.toNumber();
+  var groupA = record.get('typeA')[0];
+  var groupB = record.get('typeB')[0];
+  
+  
+  try{
+    node_info.add({id : idA, label: nameA, group: groupA});
+  }
+  
+  catch(e){
+  }
+  
+  try{
+    node_info.add({id : idB, label: nameB, group: groupB});
+  }
+  
+  catch(e){
+  }
+  
+  try{
+    r_info.add({from: idA, to: idB,width: count,length: 250});
+    console.log([idA,idB,count]);
+  }
+  
+  catch(e){
+  }
+  
+  
+  
+  
+  } 
+  
+  
+  console.log(node_info);
+  // create an array with nodes
+  var nodes = new vis.DataSet([
+    {id: 1, label: 'aluno 1', group : "student", count: 11},
+    {id: 2, label: 'Node 2',group : "student", count: 1},
+    {id: 3, label: 'Node 3', count: 1},
+    {id: 4, label: 'Node 4', count: 1},
+    {id: 5, label: 'Node 5', count: 1}
+  ]);
+  
+  nodes.add([{id: 6, label: 'Node 6', count: 1}])
+
+  // create an array with edges
+  var edges = new vis.DataSet([
+    {from: 1, to: 3,length : 220,width: 3},
+    {from: 1, to: 2,length : 100},
+    {from: 2, to: 4,length : 230},
+    {from: 2, to: 5,length : 270},
+    {from: 3, to: 3,length : 220}
+  ]);
+  
+  edges.add([{from: 6, to: 3,length : 320},{from: 3, to: 6,length : 320}]);
+  
+  
+  // create a network
+  //nodes: nodes,
+  //  edges: edges,
+  //
+  var container = document.getElementById('mynetwork');
+  var data = {
+    nodes: node_info,
+    edges: r_info,
+    options: options
+  };
+  var options = {
+   
+  groups: {
+
+    Student: {
+
+      shape: 'circle',
+
+        widthConstraint: { maximum: 120 }
+      
+    },
+    Resources: {
+
+      shape: 'circle',
+
+        widthConstraint: { maximum: 120 }
+      
+    }
+  },
+  
+  physics: {
+    enabled: true,
+    hierarchicalRepulsion: {
+        centralGravity: 0.0,
+        nodeDistance: 50,
+    },
+    solver: 'hierarchicalRepulsion'
+},
+  
+  
+  edges:{
+    arrows: 'to',
+    color: 'red',
+    font: '12px arial #ff0000',
+    scaling:{
+      label: true,
+    },
+    shadow: true,
+    smooth: true,
+  }
+  
+ 
+  
+  };
+  var network = new vis.Network(container, data, options);
+  
+  // on application exit:
+  driver.close();
+});
+
+
+  
+</script>
+</body>
+</html>
