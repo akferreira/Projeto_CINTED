@@ -1,0 +1,25 @@
+match (student:Student {userid: '55'})-[access:Accessed]-(resource) where resource.courseid = '5' return student,access,resource
+sorted
+ match (student:Student {userid :'55'})-[access:Accessed {timeunix : '1477324749'}]-(resource: Resources {resourceid : '1',type:'forum' }) create (student)-[:ACCESS_ORDER {count: 1}]->(resource)
+match (resource1 : Resources {resourceid : '1',type:'forum' }),(resource2 : Resources {resourceid : '2',type:'choice' })  create (resource1)-[:ACCESS_ORDER {count: 1}]->(resource2)
+match (resource1 : Resources {resourceid : '2',type:'choice' }),(resource2 : Resources {resourceid : '1',type:'forum' })  create (resource1)-[:ACCESS_ORDER {count: 1}]->(resource2)
+match (resource1 : Resources {resourceid : '1',type:'forum' }),(resource2 : Resources {resourceid : '2',type:'forum' })  create (resource1)-[:ACCESS_ORDER {count: 1}]->(resource2)
+match (resource1 : Resources {resourceid : '2',type:'forum' }),(resource2 : Resources {resourceid : '1',type:'forum' })  create (resource1)-[:ACCESS_ORDER {count: 1}]->(resource2)
+match (resource1 : Resources {resourceid : '1',type:'forum' }),(resource2 : Resources {resourceid : '1',type:'forum' })  create (resource1)-[:ACCESS_ORDER {count: 1}]->(resource2)
+match (resource1 : Resources {resourceid : '1',type:'forum' })-[r:ACCESS_ORDER]->(resource2 : Resources {resourceid : '2',type:'forum' }) set r.count = 2 return r
+match (resource1 : Resources {resourceid : '2',type:'forum' }),(resource2 : Resources {resourceid : '3',type:'choice' })  create (resource1)-[:ACCESS_ORDER {count: 1}]->(resource2)
+match (resource1 : Resources {resourceid : '3',type:'choice' }),(resource2 : Resources {resourceid : '4',type:'file' })  create (resource1)-[:ACCESS_ORDER {count: 1}]->(resource2)
+match (resource1 : Resources {resourceid : '4',type:'file' }),(resource2 : Resources {resourceid : '1',type:'choice' })  create (resource1)-[:ACCESS_ORDER {count: 1}]->(resource2)
+match (resource1 : Resources {resourceid : '1',type:'choice' }),(resource2 : Resources {resourceid : '4',type:'file' })  create (resource1)-[:ACCESS_ORDER {count: 1}]->(resource2)
+match (resource1 : Resources {resourceid : '4',type:'file' }),(resource2 : Resources {resourceid : '4',type:'file' })  create (resource1)-[:ACCESS_ORDER {count: 1}]->(resource2)
+match (resource1 : Resources {resourceid : '4',type:'file' })-[r:ACCESS_ORDER]->(resource2 : Resources {resourceid : '4',type:'file' }) set r.count = 2 return r
+match (resource1 : Resources {resourceid : '4',type:'file' })-[r:ACCESS_ORDER]->(resource2 : Resources {resourceid : '4',type:'file' }) set r.count = 3 return r
+match (resource1 : Resources {resourceid : '4',type:'file' })-[r:ACCESS_ORDER]->(resource2 : Resources {resourceid : '4',type:'file' }) set r.count = 4 return r
+match (resource1 : Resources {resourceid : '4',type:'file' })-[r:ACCESS_ORDER]->(resource2 : Resources {resourceid : '4',type:'file' }) set r.count = 5 return r
+match (resource1 : Resources {resourceid : '4',type:'file' })-[r:ACCESS_ORDER]->(resource2 : Resources {resourceid : '4',type:'file' }) set r.count = 6 return r
+match (resource1 : Resources {resourceid : '4',type:'file' })-[r:ACCESS_ORDER]->(resource2 : Resources {resourceid : '4',type:'file' }) set r.count = 7 return r
+match (resource1 : Resources {resourceid : '4',type:'file' })-[r:ACCESS_ORDER]->(resource2 : Resources {resourceid : '4',type:'file' }) set r.count = 8 return r
+match (resource1 : Resources {resourceid : '4',type:'file' })-[r:ACCESS_ORDER]->(resource2 : Resources {resourceid : '4',type:'file' }) set r.count = 9 return r
+match (resource1 : Resources {resourceid : '4',type:'file' })-[r:ACCESS_ORDER]->(resource2 : Resources {resourceid : '4',type:'file' }) set r.count = 10 return r
+21
+finished
