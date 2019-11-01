@@ -121,10 +121,10 @@ class Database:
         for timesacessed_resource,resourceid in zip(timesaccessed,resourcesid) :
                 timesacessed_resource = int(timesacessed_resource) 
                 
-                if(timesacessed_resource > 1):
-                    timesunix_query_parameter = f"{timesunix[total_timesaccessed:total_timesaccessed+timesacessed_resource]}"
-                else:
-                    timesunix_query_parameter = f"{timesunix[total_timesaccessed]}"
+                #if(timesacessed_resource > 1):
+                timesunix_query_parameter = f"{timesunix[total_timesaccessed:total_timesaccessed+timesacessed_resource]}"
+                #else:
+                    #timesunix_query_parameter = f"{timesunix[total_timesaccessed]}"
                 
                 query_string = f"MATCH (A : Student {{userid: '{student_id}'}})-[r:Accessed]->(B: Resources {{resourceid : '{resourceid}',type: 'file'}}) set r.timeunix = {timesunix_query_parameter} return r"
                 result = session.write_transaction(self.query_database,query_string)
@@ -148,10 +148,10 @@ class Database:
             
             
     def get_resource_access_ordered(self,session,course_id,student_id):
-        self.parse_student_access_data_into_graph(session,student_id)
+        #self.parse_student_access_data_into_graph(session,student_id)
         
         
-        return
+        #return
         
         query = f"match (student:Student {{userid: '{student_id}'}})-[access:Accessed]-(resource) where resource.courseid = '{course_id}' return student,access,resource"
     
@@ -173,6 +173,9 @@ class Database:
             
             if(type(unixtimes) is str):
                 unixtimes = [unixtimes]
+            
+            #print(type(unixtimes))
+            print(unixtimes)
                 
             if(unixtimes is None) : 
                 print(resource)
@@ -184,7 +187,7 @@ class Database:
             
         sorted_access = sorted(resources_access, key = lambda resource : resource.unixtime)
         
-        print("sorted")
+        print(resources_access)
         
         
         
