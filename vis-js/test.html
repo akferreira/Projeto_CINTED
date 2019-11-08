@@ -41,13 +41,70 @@ function insert_edge(idA,idB,count,log10_timedelta){
 function average_delta(){}
 
 function create_graph_access_order(courseid){
-const resultPromise = session.run(
-  `match (A:Student {userid : '55'})-[r:ACCESS_ORDER]->(B:Resources  {courseid : '${courseid}'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B) 
-  union match (A:Resources  {courseid : '6'})-[r:ACCESS_ORDER]->(B:Resources  {courseid : '${courseid}'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B)`
-);
+    const session = driver.session();
+
+    const resultPromise = session.run(
+    `match (A:Student {userid : '55'})-[r:ACCESS_ORDER]->(B:Resources  {courseid : '${courseid}'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B) 
+    union match (A:Resources  {courseid : '6'})-[r:ACCESS_ORDER]->(B:Resources  {courseid : '${courseid}'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B)`
+    );
+
+    resultPromise.then(result => {
+        session.close();
 
 
+        const singleRecord = result.records[0];
+        const node = singleRecord.get(0);
+
+        for (record of result.records){
+        var nameA;
+
+        if(record.get('typeA') == "Student"){
+            nameA =  record.get('A').properties.trajectory_name;
+        }
+
+        else{
+            nameA = record.get('A').properties.name;
+        }
+
+
+
+        nameB = record.get('B').properties.name;
+
+        idA = record.get("id(A)").toNumber();
+        idB = record.get("id(B)").toNumber();
+
+        const count = record.get('r').properties.count.toNumber();
+        var groupA = record.get('typeA')[0];
+        var groupB = record.get('typeB')[0];
+
+        console.log("deltas of " + idA + "," + idB);
+        console.log(record.get('r'));
+        timedeltas = record.get('r').properties.timedeltas;
+        var total = 0;
+
+        for (timedelta of timedeltas){
+        total += parseInt(timedelta,10);
+        }
+
+        average = total/timedeltas.length;
+
+        console.log(average);
+        timeformatted = new Date(average * 1000)
+
+        log10_timedelta = Math.log10(average+1);
+
+        console.log(Math.log10(average+1));
+    
+        insert_node(idA,nameA,groupA);
+        insert_node(idB,nameB,groupB);
+        insert_edge(idA,idB,count,log10_timedelta);
+        
+    
+        }
+
+    });
 }
+
 
 
 
@@ -129,27 +186,6 @@ resultPromise.then(result => {
 }
 
   console.log(node_info);
-  // create an array with nodes
-  var nodes = new vis.DataSet([
-    {id: 1, label: 'aluno 1', group : "student", count: 11},
-    {id: 2, label: 'Node 2',group : "student", count: 1},
-    {id: 3, label: 'Node 3', count: 1},
-    {id: 4, label: 'Node 4', count: 1},
-    {id: 5, label: 'Node 5', count: 1}
-  ]);
-  
-  nodes.add([{id: 6, label: 'Node 6', count: 1}])
-
-  // create an array with edges
-  var edges = new vis.DataSet([
-    {from: 1, to: 3,length : 220,width: 3},
-    {from: 1, to: 2,length : 100},
-    {from: 2, to: 4,length : 230},
-    {from: 2, to: 5,length : 270},
-    {from: 3, to: 3,length : 220}
-  ]);
-  
-  edges.add([{from: 6, to: 3,length : 320},{from: 3, to: 6,length : 320}]);
   
   
   // create a network
@@ -216,6 +252,7 @@ resultPromise.then(result => {
     var clickedNodes = nodes.get(ids);
     console.log('clicked nodes:', clickedNodes);
 });
+    
   // on application exit:
   driver.close();
 });
