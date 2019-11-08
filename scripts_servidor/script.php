@@ -111,10 +111,10 @@ function file_grades (){
 global $DB;
 	
 $myfile = fopen("grades.csv", "w") or die("Unable to open file!");
-fwrite($myfile, "userid;course;grade"."\r\n");
+//fwrite($myfile, "userid;course;grade"."\r\n");
+fwrite($myfile, "userid;course;grade;enrol_date"."\r\n");
 
 $students = get_all_students();
-
 
 foreach($students as $student){
 
@@ -125,7 +125,7 @@ foreach($students as $student){
 		
 		if($userenrol != False){
 			$grade=get_student_grade($enrol->courseid,$student);
-			fwrite($myfile, $student.";".$enrol->courseid.";".$grade."\r\n");
+			fwrite($myfile, $student.";".$enrol->courseid.";".$grade.";".$enrol->timecreated."\r\n");
 					
 					}
 					}
@@ -342,7 +342,7 @@ function file_students_use_resource(){
 	global $DB;
 	
 	$myfile = fopen("accessed.csv", "w") or die("Unable to open file!");
-	fwrite($myfile, "userid;resourcesid;timesaccessed;timeunix"."\r\n");
+	fwrite($myfile, "userid;resourcesid;timesaccessed;timeunix;courseid;"."\r\n");
 	
 	$students = get_all_students();
 	
@@ -350,11 +350,17 @@ function file_students_use_resource(){
 		
 		fwrite($myfile, $student.";");
 		
+		
+		
 		$resourceinfo = get_all_resource_student($student);
 		
 		foreach($resourceinfo[0] as $resource){
 			fwrite($myfile, $resource.",");
 		}
+		
+		
+		
+		
 		
 		fwrite($myfile,";");
 		
@@ -368,7 +374,13 @@ function file_students_use_resource(){
 		foreach($resourceinfo[2] as $timeunix){
 			fwrite($myfile, $timeunix.",");
 		}
-			
+		
+		fwrite($myfile,";");
+		
+		foreach($resourceinfo[3] as $course){
+			fwrite($myfile, $course.",");
+		}
+		fwrite($myfile,";");	
 		fwrite($myfile,"\r\n");
 	}
 	
@@ -382,6 +394,7 @@ function get_all_resource_student($studentid){
 	$allresources = array();
 	$timesaccessed = array();
 	$timeunix = array();
+	$courses = array();
 	
 	$resources = $DB->get_records('moodle.logstore_standard_log', array('objecttable'=>'resource','userid'=>$studentid));
 	
@@ -389,6 +402,7 @@ function get_all_resource_student($studentid){
 		if(!in_array($resource->objectid,$allresources)) {
 			$allresources []= $resource->objectid;
 			$timesaccessed [$resource->objectid] = 1;
+			$courses [] = $resource->courseid; 
 		}
 		else{
 			$timesaccessed[$resource->objectid] = 1 + $timesaccessed[$resource->objectid];
@@ -397,7 +411,7 @@ function get_all_resource_student($studentid){
 	}
 	
 	
-	return array($allresources,$timesaccessed,$timeunix);
+	return array($allresources,$timesaccessed,$timeunix,$courses);
 }
 
 function file_user_resource_info(){
@@ -561,26 +575,26 @@ $coursetest = 9;
 $studenttest = 34;
 
 
-//$studentgrade = get_student_grade($coursetest,$studenttest);
+$studentgrade = get_student_grade($coursetest,$studenttest);
 
-//$studentsABCD = get_all_student_course_concept($coursetest);
-//var_dump($studentsABCD);
+$studentsABCD = get_all_student_course_concept($coursetest);
+var_dump($studentsABCD);
 
-//file_grades($coursetest);
+file_grades($coursetest);
 
-//file_students_use_resource();
-//file_resources();
-//file_courses ();
-//file_teachers ();
-//file_students ();
-//file_grades();
-//file_user_resource_info();
+file_students_use_resource();
+file_resources();
+file_courses ();
+file_teachers ();
+file_students ();
+file_grades();
+file_user_resource_info();
 
-//file_user_others_resources();
-//file_choice_info()
-//file_forum_info();
-//file_chat_info();
-//file_url_info();
-//file_page_info();
+file_user_others_resources();
+file_choice_info();
+file_forum_info();
+file_chat_info();
+file_url_info();
+file_page_info();
 file_folder_info();
 ?>
