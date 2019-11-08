@@ -121,13 +121,19 @@ class Database:
         for timesacessed_resource,resourceid in zip(timesaccessed,resourcesid) :
                 timesacessed_resource = int(timesacessed_resource) 
                 
-                #if(timesacessed_resource > 1):
-                timesunix_query_parameter = f"{timesunix[total_timesaccessed:total_timesaccessed+timesacessed_resource]}"
-                #else:
-                    #timesunix_query_parameter = f"{timesunix[total_timesaccessed]}"
+                timesunix_query_parameter = f"{timesunix[total_timesaccessed]}"
                 
-                query_string = f"MATCH (A : Student {{userid: '{student_id}'}})-[r:Accessed]->(B: Resources {{resourceid : '{resourceid}',type: 'file'}}) set r.timeunix = {timesunix_query_parameter} return r"
+                
+                query_string = f"MATCH (A : Student {{userid: '{student_id}'}})-[r:Accessed]->(B: Resources {{resourceid : '{resourceid}',type: 'file'}}) set r.timeunix = {timesunix_query_parameter} return r,B.courseid as courseid"
+            
                 result = session.write_transaction(self.query_database,query_string)
+                courseid = result.peek()['courseid']
+                
+                if(courseid is None):
+                    print("course match")
+                
+                
+                print(query_string)
                 
                 #if(resourceid == 32):
                     #print(resourceid)
@@ -148,14 +154,11 @@ class Database:
             
             
     def get_resource_access_ordered(self,session,course_id,student_id):
-        #self.parse_student_access_data_into_graph(session,student_id)
-        
-        
-        #return
+        self.parse_student_access_data_into_graph(session,student_id)
         
         query = f"match (student:Student {{userid: '{student_id}'}})-[access:Accessed]-(resource) where resource.courseid = '{course_id}' return student,access,resource"
     
-        #print(query)
+        print(query)
         print(f"Resource acess order of course {course_id}")
     
         result = session.write_transaction(self.query_database,query)
@@ -171,11 +174,13 @@ class Database:
             resource = record['resource']
             unixtimes = record['access']['timeunix']
             
-            if(type(unixtimes) is str):
+            if(student is None and resource is None and unixtimes is None):
+                continue
+            
+            if(type(unixtimes) is str or type(unixtimes) is int):
                 unixtimes = [unixtimes]
             
-            #print(type(unixtimes))
-            print(unixtimes)
+            print(f"{student_id} {unixtimes}")
                 
             if(unixtimes is None) : 
                 print(resource)
@@ -183,6 +188,9 @@ class Database:
             #print(f"{unixtimes}")    
                 
             resources_access.extend([ResourceAccess(unixtime,student,resource) for unixtime in unixtimes])
+            
+        if(len(resources_access) == 0):
+            return
             
             
         sorted_access = sorted(resources_access, key = lambda resource : resource.unixtime)
@@ -197,7 +205,7 @@ class Database:
         first_resource_id_query = sorted_access[0].get_id_match_query()
         query = f" match (student:Student {{userid :'{student_id}'}})-[access:Accessed {{timeunix : '{sorted_access[0].unixtime}'}}]-(resource: Resources {first_resource_id_query}) create (student)-[:ACCESS_ORDER {{count: 1, timedeltas : [0]}}]->(resource)"
         
-        print(query)
+        #print(query)
         session.run(query)
         
         
@@ -221,14 +229,14 @@ class Database:
                 
                 query = f"match (resource1 : Resources {resource_1_id_query}),(resource2 : Resources {resource_2_id_query})  create (resource1)-[:ACCESS_ORDER {{count: 1, timedeltas : [{timedelta}] }}]->(resource2)"
                 #print(f"{resource_1_id_query}//{resource_2_id_query}\n")
-                print(query)
+                #print(query)
                 session.run(query)
                 
             else:
                 
                 count = int(result_check.single()['r.count']) + 1
                 query_update_count = f"match (resource1 : Resources {resource_1_id_query})-[r:ACCESS_ORDER]->(resource2 : Resources {resource_2_id_query}) set r.count = {count} set r.timedeltas = r.timedeltas + [{timedelta}] return r" 
-                print(query_update_count)
+                #print(query_update_count)
                 session.run(query_update_count)
             
             #print(sorted_access[index].get_id_match_query())
@@ -255,7 +263,7 @@ class Database:
             
             query_string = f"match (s:Student {{userid : '{student_id}'}})-[r]-(c:Courses {{courseid: '{course_id}'}}) create (s)-[:MATRICULADO {{empty: ''}}]->(c) set c.trajectory_name = '{trajectory_name}' set s.trajectory_name = 'Aluno {student_id}'"
             
-            print(query_string)
+            #print(query_string)
             session.run(query_string)
             for index in range(0,len(sorted_enrol)-1):
                 
@@ -270,7 +278,7 @@ class Database:
                 query_string = f"match (c1:Courses {{courseid : '{first_course_index}'}}),(c2:Courses {{courseid: '{second_course_index}'}}) create (c1)-[:MATRICULADO {{empty: ''}}]->(c2) set c1.trajectory_name = '{trajectory1_name}' set c2.trajectory_name = '{trajectory2_name}'"
                 
                 
-                print(query_string)
+                #print(query_string)
                 session.run(query_string)
         
         
