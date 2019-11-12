@@ -104,7 +104,7 @@ class Database:
             session.write_transaction(self.async_tx,"match (p:Person) where p.born > 1981 return p")
             
     def parse_student_access_data_into_graph(self,session,student_id):
-        query_string = f"LOAD CSV WITH HEADERS FROM 'file:///accessed.csv' AS row FIELDTERMINATOR ';'  with row  where row.userid = '{student_id}' return row.userid as userid,split(row.timeunix,\",\") as timeunix,split(row.timesaccessed,\",\") as timesaccessed,split(row.resourcesid,\",\") as resourcesid"
+        query_string = f"LOAD CSV WITH HEADERS FROM 'file:///accessed.csv' AS row FIELDTERMINATOR ';'  with row  where row.userid = '{student_id}' return row.userid as userid,split(row.timeunix,\",\") as timeunix,split(row.timesaccessed,\",\") as timesaccessed,split(row.resourcesid,\",\") as resourcesid , split(row.courseid,\",\") as courseid"
     
         result = session.write_transaction(self.query_database,query_string)
         result = result.single()
@@ -112,9 +112,12 @@ class Database:
         timesunix = [timeunix for timeunix in result['timeunix'] if timeunix ]
         timesaccessed = [times for times in result['timesaccessed'] if times]
         resourcesid = [int(resourceid) for resourceid in result['resourcesid'] if resourceid]
+        coursesid = [courseid for courseid in result['courseid'] if courseid]
         
         total_timesaccessed = 0
-        #print(len(resourcesid))
+        print(resourcesid)
+        print(coursesid)
+        
         #print(len(timesaccessed))
         
         #print(len(timesunix))
@@ -122,6 +125,8 @@ class Database:
                 timesacessed_resource = int(timesacessed_resource) 
                 
                 timesunix_query_parameter = f"{timesunix[total_timesaccessed]}"
+                
+                
                 
                 
                 query_string = f"MATCH (A : Student {{userid: '{student_id}'}})-[r:Accessed]->(B: Resources {{resourceid : '{resourceid}',type: 'file'}}) set r.timeunix = {timesunix_query_parameter} return r,B.courseid as courseid"
@@ -140,7 +145,7 @@ class Database:
                     #print(f"{timesunix[total_timesaccessed:total_timesaccessed+timesacessed_resource]}")
                 total_timesaccessed+= timesacessed_resource
                 
-        print(total_timesaccessed)         
+        #print(total_timesaccessed)         
         
         #print(len(result['resourcesid']))
         
@@ -158,8 +163,8 @@ class Database:
         
         query = f"match (student:Student {{userid: '{student_id}'}})-[access:Accessed]-(resource) where resource.courseid = '{course_id}' return student,access,resource"
     
-        print(query)
-        print(f"Resource acess order of course {course_id}")
+        #print(query)
+        #print(f"Resource acess order of course {course_id}")
     
         result = session.write_transaction(self.query_database,query)
         
@@ -195,7 +200,7 @@ class Database:
             
         sorted_access = sorted(resources_access, key = lambda resource : resource.unixtime)
         
-        print(resources_access)
+        #print(resources_access)
         
         
         
@@ -203,9 +208,9 @@ class Database:
         #create (s)-[:MATRICULADO {{empty: ''}}]->(c)
         
         first_resource_id_query = sorted_access[0].get_id_match_query()
-        query = f" match (student:Student {{userid :'{student_id}'}})-[access:Accessed {{timeunix : '{sorted_access[0].unixtime}'}}]-(resource: Resources {first_resource_id_query}) create (student)-[:ACCESS_ORDER {{count: 1, timedeltas : [0]}}]->(resource)"
+        query = f" match (student:Student {{userid :'{student_id}'}})-[access:Accessed {{timeunix : {sorted_access[0].unixtime}}}]-(resource: Resources {first_resource_id_query}) create (student)-[:ACCESS_ORDER {{count: 1, timedeltas : [0]}}]->(resource)"
         
-        #print(query)
+        print(query)
         session.run(query)
         
         

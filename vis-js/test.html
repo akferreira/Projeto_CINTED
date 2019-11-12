@@ -20,9 +20,10 @@
 <script type="text/javascript">
 
 
-function insert_node(id, label,group){
+function insert_node(id, label,group,courseid = null){
+
     try{
-        node_info.add({id : id, label: label, group: group});
+        node_info.add({id : id, label: label, group: group,courseid : courseid});
     }
   
     catch(e){
@@ -30,6 +31,8 @@ function insert_node(id, label,group){
 }
 
 function insert_edge(idA,idB,count,log10_timedelta){
+
+
      try{
     r_info.add({from: idA, to: idB,width: count,length: 200 + 15*log10_timedelta});
   }
@@ -38,80 +41,115 @@ function insert_edge(idA,idB,count,log10_timedelta){
   }
 }
 
+function getEdgeBetweenNodes(node1,node2) {
+    edges =  r_info.get().filter(function (edge) {
+        return (edge.from === node1 && edge.to === node2 )|| (edge.from === node2 && edge.to === node1)
+    });
+    
+    return edges.length > 0;
+    
+};
+
 function average_delta(){}
 
-function create_graph_access_order(courseid){
-    const session = driver.session();
-
-    const resultPromise = session.run(
-    `match (A:Student {userid : '55'})-[r:ACCESS_ORDER]->(B:Resources  {courseid : '${courseid}'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B) 
-    union match (A:Resources  {courseid : '6'})-[r:ACCESS_ORDER]->(B:Resources  {courseid : '${courseid}'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B)`
-    );
-
-    resultPromise.then(result => {
-        session.close();
-
-
+function create_graph_access_order(result){
         const singleRecord = result.records[0];
         const node = singleRecord.get(0);
 
         for (record of result.records){
-        var nameA;
+            var nameA;
 
-        if(record.get('typeA') == "Student"){
-            nameA =  record.get('A').properties.trajectory_name;
-        }
+            if(record.get('typeA') == "Student"){
+                nameA =  record.get('A').properties.trajectory_name;
+            }
 
-        else{
-            nameA = record.get('A').properties.name;
-        }
+            else{
+                nameA = record.get('A').properties.name;
+            }
 
 
 
-        nameB = record.get('B').properties.name;
+            nameB = record.get('B').properties.name;
 
-        idA = record.get("id(A)").toNumber();
-        idB = record.get("id(B)").toNumber();
+            idA = record.get("id(A)").toNumber();
+            idB = record.get("id(B)").toNumber();
 
-        const count = record.get('r').properties.count.toNumber();
-        var groupA = record.get('typeA')[0];
-        var groupB = record.get('typeB')[0];
+            const count = record.get('r').properties.count.toNumber();
+            var groupA = record.get('typeA')[0];
+            var groupB = record.get('typeB')[0];
 
-        console.log("deltas of " + idA + "," + idB);
-        console.log(record.get('r'));
-        timedeltas = record.get('r').properties.timedeltas;
-        var total = 0;
+            console.log("deltas of " + idA + "," + idB);
+            console.log(record.get('r'));
+            timedeltas = record.get('r').properties.timedeltas;
+            var total = 0;
 
-        for (timedelta of timedeltas){
-        total += parseInt(timedelta,10);
-        }
+            for (timedelta of timedeltas){
+            total += parseInt(timedelta,10);
+            }
 
-        average = total/timedeltas.length;
+            average = total/timedeltas.length;
 
-        console.log(average);
-        timeformatted = new Date(average * 1000)
+            console.log(average);
+            timeformatted = new Date(average * 1000)
 
-        log10_timedelta = Math.log10(average+1);
+            log10_timedelta = Math.log10(average+1);
 
-        console.log(Math.log10(average+1));
-    
-        insert_node(idA,nameA,groupA);
-        insert_node(idB,nameB,groupB);
-        insert_edge(idA,idB,count,log10_timedelta);
+            console.log(Math.log10(average+1));
         
-    
+            insert_node(idA,nameA,groupA);
+            insert_node(idB,nameB,groupB);
+            console.log("dg");
+            //console.log(getEdgeBetweenNodes(idA,idB));
+            
+            if(getEdgeBetweenNodes(idA,idB) == false){
+                insert_edge(idA,idB,count,log10_timedelta);
+                }
+            //console.log(getEdgeBetweenNodes(idA,idB));
+            
+        
         }
 
-    });
+
 }
 
+function create_graph_course_order(result){
+    for (record of result.records){
+            var nameA;
 
+            if(record.get('typeA') == "Student"){
+                nameA =  record.get('A').properties.trajectory_name;
+            }
+
+            else{
+                nameA = record.get('A').properties.name;
+            }
+
+
+
+            nameB = record.get('B').properties.name;
+            courseB = Number(record.get('B').properties.courseid)
+
+            idA = record.get("id(A)").toNumber();
+            idB = record.get("id(B)").toNumber();
+            var groupA = record.get('typeA')[0];
+            var groupB = record.get('typeB')[0];
+        
+            insert_node(idA,nameA,groupA);
+            insert_node(idB,nameB,groupB,courseB);
+            insert_edge(idA,idB,1,1);
+            
+        
+        }
+
+
+
+}
 
 
 const driver = neo4j.v1.driver("bolt://localhost:7687", neo4j.v1.auth.basic("neo4j", "cinted"));
 const session = driver.session();
 const resultPromise = session.run(
-  "match (A:Student {userid : '55'})-[r:ACCESS_ORDER]->(B:Resources  {courseid : '6'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B) union match (A:Resources  {courseid : '6'})-[r:ACCESS_ORDER]->(B:Resources  {courseid : '6'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B)"
+  "match (A)-[r:MATRICULADO]->(B) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B),B.courseid"
 );
 
 var node_info = new vis.DataSet();
@@ -119,142 +157,124 @@ var r_info = new vis.DataSet();
 
 resultPromise.then(result => {
     session.close();
+    create_graph_course_order(result);
 
 
-    const singleRecord = result.records[0];
-    const node = singleRecord.get(0);
-
-    for (record of result.records){
-    var nameA;
-
-    if(record.get('typeA') == "Student"){
-        nameA =  record.get('A').properties.trajectory_name;
-    }
-
-    else{
-    nameA = record.get('A').properties.name;
-    }
+    console.log(node_info);
 
 
+    // create a network
+    //nodes: nodes,
+    //  edges: edges,
+    //
+    var container = document.getElementById('mynetwork');
+    var data = {
+        nodes: node_info,
+        edges: r_info,
+        options: options
+    };
+    var options = {
 
-    nameB = record.get('B').properties.name;
-
-    idA = record.get("id(A)").toNumber();
-    idB = record.get("id(B)").toNumber();
-
-    const count = record.get('r').properties.count.toNumber();
-    var groupA = record.get('typeA')[0];
-    var groupB = record.get('typeB')[0];
-
-    console.log("deltas of " + idA + "," + idB);
-    console.log(record.get('r'));
-    timedeltas = record.get('r').properties.timedeltas;
-    var total = 0;
-
-    for (timedelta of timedeltas){
-    total += parseInt(timedelta,10);
-    }
-
-    average = total/timedeltas.length;
-
-    console.log(average);
-    timeformatted = new Date(average * 1000)
-
-
-    for(i=0;i<10;i++){
-
-    }
-
-    var day_delta = timeformatted.getUTCDate();
-    var hour_delta = timeformatted.getUTCHours();
-    var minute_delta = timeformatted.getUTCMinutes();
-    var second_delta = timeformatted.getUTCSeconds();
-
-    log10_timedelta = Math.log10(average+1);
-
-    console.log(Math.log10(average+1));
-  
-  
-//   console.log(timeformatted.getUTCDate() + ":" + timeformatted.getUTCHours() + ":" + timeformatted.getUTCMinutes() + ":" + timeformatted.getUTCSeconds());
-//   console.log(timeformatted.toISOString());
-  
-    insert_node(idA,nameA,groupA);
-    insert_node(idB,nameB,groupB);
-    insert_edge(idA,idB,count,log10_timedelta);
+    groups: {
     
-    
-}
+    Courses: {
 
-  console.log(node_info);
-  
-  
-  // create a network
-  //nodes: nodes,
-  //  edges: edges,
-  //
-  var container = document.getElementById('mynetwork');
-  var data = {
-    nodes: node_info,
-    edges: r_info,
-    options: options
-  };
-  var options = {
-   
-  groups: {
+        shape: 'circle',
+
+        widthConstraint: { maximum: 120 }
+        
+    },
 
     Student: {
 
-      shape: 'circle',
+        shape: 'circle',
 
         widthConstraint: { maximum: 120 }
-      
+        
     },
     Resources: {
 
-      shape: 'circle',
+        shape: 'circle',
 
         widthConstraint: { maximum: 120 }
-      
+        
     }
-  },
-  
-  physics: {
-    enabled: true,
-    "barnesHut": {
-      "avoidOverlap": 1
-    }
-  
-//     hierarchicalRepulsion: {
-//         centralGravity: 0.0,
-//         nodeDistance: 30,
-//     },
-//      solver: 'hierarchicalRepulsion'
-},
-  
-  
-  edges:{
-    arrows: 'to',
-    color: 'red',
-    font: '12px arial #ff0000',
-    scaling:{
-      label: true,
     },
-    shadow: true,
-    smooth: true,
-  }
-  
- 
-  
-  };
-  var network = new vis.Network(container, data, options);
-  network.on( 'click', function(properties) {
+
+    physics: {
+        enabled: true,
+        barnesHut: {
+            "avoidOverlap": 1
+        },
+        hierarchicalRepulsion: {
+            centralGravity: 0.0,
+            springLength: 100,
+            springConstant: 0.01,
+            nodeDistance: 120,
+            damping: 0.09
+        }
+
+        //     hierarchicalRepulsion: {
+        //         centralGravity: 0.0,
+        //         nodeDistance: 30,
+        //     },
+        //      solver: 'hierarchicalRepulsion'
+        },
+
+
+        edges:{
+        arrows: 'to',
+        color: 'red',
+        font: '12px arial #ff0000',
+        scaling:{
+            label: true,
+        },
+        shadow: true,
+        smooth: true,
+    }
+
+
+
+    };
+    var network = new vis.Network(container, data, options);
+    network.on( 'click', function(properties) {
     var ids = properties.nodes;
-    var clickedNodes = nodes.get(ids);
+    var clickedNodes = node_info.get(ids);
     console.log('clicked nodes:', clickedNodes);
-});
     
-  // on application exit:
-  driver.close();
+    for (node of clickedNodes){
+        if(node['courseid'] != null){
+            console.log(`Course id is ${node['courseid']} ....`)
+        }
+    
+        
+    }
+        var ids = properties.nodes;
+        var clickedNodes = node_info.get(ids);
+        courseid = clickedNodes[0]['courseid']
+        
+        if(courseid == null){
+            return;
+        }
+        
+        console.log('clicked nodes:', clickedNodes);
+        const resultPromise = session.run(
+        `match (A:Student {userid : '55'})-[r:ACCESS_ORDER]->(B:Resources  {courseid : '${courseid}'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B) union match (A:Resources  {courseid : '${courseid}'})-[r:ACCESS_ORDER]->(B:Resources  {courseid : '${courseid}'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B)`
+        );
+
+        resultPromise.then(result => {
+        session.close();
+        console.log(result)
+        create_graph_access_order(result);
+        network.redraw();
+        console.log("finished")
+       });
+        
+        
+    });
+
+    // on application exit:
+    driver.close();
 });
 
 

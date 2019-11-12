@@ -1,0 +1,240 @@
+<!doctype html>
+<html>
+<head>
+  <title>Network</title>
+  <script type="text/javascript" src="https://unpkg.com/vis-network@latest/dist/vis-network.min.js"></script>
+  <link href="https://unpkg.com/vis-network@latest/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
+  <style type="text/css">
+    #mynetwork {
+      width: 1200px;
+      height: 800px;
+      border: 1px solid lightgray;
+    }
+  </style>
+</head>
+<body>
+<div id="mynetwork"></div>
+
+<script type="text/javascript" src="jquery.min.js"></script>
+<script src="https://unpkg.com/neo4j-driver@1.7.6/lib/browser/neo4j-web.min.js"></script>
+<script type="text/javascript">
+
+
+function insert_node(id, label,group){
+    try{
+        node_info.add({id : id, label: label, group: group});
+    }
+  
+    catch(e){
+    }
+}
+
+function insert_edge(idA,idB,count,log10_timedelta){
+     try{
+    r_info.add({from: idA, to: idB,width: count,length: 200 + 15*log10_timedelta});
+  }
+  
+  catch(e){
+  }
+}
+
+function average_delta(){}
+
+function create_graph_access_order(result){
+    session.close();
+
+
+    const singleRecord = result.records[0];
+    const node = singleRecord.get(0);
+
+    for (record of result.records){
+        var nameA;
+
+        if(record.get('typeA') == "Student"){
+            nameA =  record.get('A').properties.trajectory_name;
+        }
+
+        else{
+            nameA = record.get('A').properties.name;
+        }
+
+
+
+        nameB = record.get('B').properties.name;
+
+        idA = record.get("id(A)").toNumber();
+        idB = record.get("id(B)").toNumber();
+
+        const count = record.get('r').properties.count.toNumber();
+        var groupA = record.get('typeA')[0];
+        var groupB = record.get('typeB')[0];
+
+        console.log("deltas of " + idA + "," + idB);
+        console.log(record.get('r'));
+        timedeltas = record.get('r').properties.timedeltas;
+        var total = 0;
+
+        for (timedelta of timedeltas){
+        total += parseInt(timedelta,10);
+        }
+
+        average = total/timedeltas.length;
+
+        console.log(average);
+        timeformatted = new Date(average * 1000)
+
+        log10_timedelta = Math.log10(average+1);
+
+        console.log(Math.log10(average+1));
+    
+        insert_node(idA,nameA,groupA);
+        insert_node(idB,nameB,groupB);
+        insert_edge(idA,idB,count,log10_timedelta);
+        
+    
+        }
+
+}
+
+
+
+
+const driver = neo4j.v1.driver("bolt://localhost:7687", neo4j.v1.auth.basic("neo4j", "cinted"));
+const session = driver.session();
+const resultPromise = session.run(
+  "match (A:Student {userid : '55'})-[r:ACCESS_ORDER]->(B:Resources  {courseid : '6'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B) union match (A:Resources  {courseid : '6'})-[r:ACCESS_ORDER]->(B:Resources  {courseid : '6'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B)"
+);
+
+var node_info = new vis.DataSet();
+var r_info = new vis.DataSet();
+
+resultPromise.then(result => {
+    session.close();
+
+
+    const singleRecord = result.records[0];
+    const node = singleRecord.get(0);
+
+    for (record of result.records){
+        var nameA;
+
+        if(record.get('typeA') == "Student"){
+            nameA =  record.get('A').properties.trajectory_name;
+        }
+
+        else{
+            nameA = record.get('A').properties.name;
+        }
+
+
+
+        nameB = record.get('B').properties.name;
+
+        idA = record.get("id(A)").toNumber();
+        idB = record.get("id(B)").toNumber();
+
+        const count = record.get('r').properties.count.toNumber();
+        var groupA = record.get('typeA')[0];
+        var groupB = record.get('typeB')[0];
+
+        console.log("deltas of " + idA + "," + idB);
+        console.log(record.get('r'));
+        timedeltas = record.get('r').properties.timedeltas;
+        var total = 0;
+
+        for (timedelta of timedeltas){
+        total += parseInt(timedelta,10);
+        }
+
+        average = total/timedeltas.length;
+
+        console.log(average);
+        timeformatted = new Date(average * 1000)
+
+        log10_timedelta = Math.log10(average+1);
+
+        console.log(Math.log10(average+1));
+    
+        insert_node(idA,nameA,groupA);
+        insert_node(idB,nameB,groupB);
+        insert_edge(idA,idB,count,log10_timedelta);
+        
+    
+        }
+    
+    });
+    
+    
+
+
+  console.log(node_info);
+  
+  
+  // create a network
+  //nodes: nodes,
+  //  edges: edges,
+  //
+  var container = document.getElementById('mynetwork');
+  var data = {
+    nodes: node_info,
+    edges: r_info,
+    options: options
+  };
+  var options = {
+   
+  groups: {
+
+    Student: {
+
+      shape: 'circle',
+
+        widthConstraint: { maximum: 120 }
+      
+    },
+    Resources: {
+
+      shape: 'circle',
+
+        widthConstraint: { maximum: 120 }
+      
+    }
+  },
+  
+  physics: {
+    enabled: true,
+    "barnesHut": {
+      "avoidOverlap": 1
+    }
+},
+  
+  
+  edges:{
+    arrows: 'to',
+    color: 'red',
+    font: '12px arial #ff0000',
+    scaling:{
+      label: true,
+    },
+    shadow: true,
+    smooth: true,
+  }
+  
+ 
+  
+  };
+  var network = new vis.Network(container, data, options);
+  network.on( 'click', function(properties) {
+    var ids = properties.nodes;
+    var clickedNodes = nodes.get(ids);
+    console.log('clicked nodes:', clickedNodes);
+});
+    
+  // on application exit:
+  driver.close();
+
+
+
+  
+</script>
+</body>
+</html>
