@@ -19,10 +19,7 @@
 <script src="https://unpkg.com/neo4j-driver@1.7.6/lib/browser/neo4j-web.min.js"></script>
 <script type="text/javascript">
 
-function testParamter(test){
-    console.log(`test ${test}`);
 
-}
 
 
 function insert_node(id, label,group,hide,courseid = null){
@@ -32,14 +29,17 @@ console.log(`${hide} hide`);
     }
 
     try{
+       
         node_info.add({id : id, label: label, group: group,courseid : courseid});
+         console.log(`node ${id} inserted! ${hide}`);
     }
   
     catch(e){
-            node_info.update([{id : id, hidden: hide}]);
+    
+            if(group === "Resources") node_info.update([{id : id, hidden: hide}]);
         
     
-            console.log(`node ${id} already exists! ${hide}`);
+           console.log(`resources ${group === "Resources"} ${group}`);
     }
 }
 
@@ -49,7 +49,8 @@ function insert_edge(idA,idB,count,log10_timedelta,hide){
     }
 
      try{
-    r_info.add({from: idA, to: idB,width: count,length: 200 + 15*log10_timedelta});
+    r_info.add({from: idA, to: idB,width: count,length: 100 + 15*log10_timedelta});
+    //r_info.add({from: idA, to: idB,width: count,length: 100 + 1*log10_timedelta});
   }
   
   catch(e){
@@ -78,7 +79,7 @@ function create_graph_access_order(result, hide){
         }
         
         var hideA;
-        var hideB = true;
+        var hideB = hide;
         
         console.log(`${hide} hide`);
 
@@ -89,6 +90,13 @@ function create_graph_access_order(result, hide){
                 nameA =  record.get('A').properties.trajectory_name;
                 hideA = false;
             }
+            
+            else if(record.get('typeA') == "Courses"){
+                nameA =  record.get('A').properties.coursename;
+                hideA = false;
+            
+            }
+
 
             else{
                 nameA = record.get('A').properties.name;
@@ -116,22 +124,22 @@ function create_graph_access_order(result, hide){
 
             average = total/timedeltas.length;
 
-            console.log(average);
+          //  console.log(average);
             timeformatted = new Date(average * 1000)
 
             log10_timedelta = Math.log10(average+1);
 
-            console.log(Math.log10(average+1));
+           // console.log(Math.log10(average+1));
         
             if(hideA == true) insert_node(idA,nameA,groupA,true);
             else insert_node(idA,nameA,groupA,false);
             
             if(hideB == true) insert_node(idB,nameB,groupB,true);
-            else insert_node(idA,nameB,groupB,false);
+            else insert_node(idB,nameB,groupB,false);
             
-            testParamter(hideA);
-             console.log(`${hideA} hide2`);
-             console.log(`${hideB} hide3`);
+            console.log(`${idA} . ${idB}`);
+         //    console.log(`${hideA} hide2`);
+          //   console.log(`${hideB} hide3`);
             
             if(getEdgeBetweenNodes(idA,idB) == false){
                 insert_edge(idA,idB,count,log10_timedelta,hide);
@@ -219,6 +227,7 @@ resultPromise.then(result => {
     Courses: {
 
         shape: 'circle',
+        color: '#FFA07A',
 
         widthConstraint: { maximum: 120 }
         
@@ -227,6 +236,7 @@ resultPromise.then(result => {
     Student: {
 
         shape: 'circle',
+        color: '#228B22',
 
         widthConstraint: { maximum: 120 }
         
@@ -239,26 +249,57 @@ resultPromise.then(result => {
         
     }
     },
+//     layout: {
+//      clusterThreshold: 10,
+//       hierarchical: {
+//         direction: "UD",
+//          
+//       }
+//     },
+//     
+   
+layout:{
+        randomSeed: 1,
+        improvedLayout: true,
+    
+                },
+ physics: {
+                    forceAtlas2Based: {
+                        gravitationalConstant: -50,
+                        centralGravity: 0.005,
+                        springLength: 230,
+                        springConstant: 0.18
+                    },
+                    maxVelocity: 146,
+                    solver: 'forceAtlas2Based',
+                    timestep: 0.35,
+                    stabilization: {
+                        enabled:true,
+                        iterations:2000,
+                        updateInterval:5
+                    }
+                },
+    
 
-    physics: {
-        enabled: true,
-        barnesHut: {
-            "avoidOverlap": 1
-        },
-        hierarchicalRepulsion: {
-            centralGravity: 0.0,
-            springLength: 100,
-            springConstant: 0.01,
-            nodeDistance: 120,
-            damping: 0.09
-        }
-
-        //     hierarchicalRepulsion: {
-        //         centralGravity: 0.0,
-        //         nodeDistance: 30,
-        //     },
-        //      solver: 'hierarchicalRepulsion'
-        },
+//     physics: {
+//         enabled: true,
+//         barnesHut: {
+//             "avoidOverlap": 4
+//         },
+//         hierarchicalRepulsion: {
+//             centralGravity: 0.0,
+//             springLength: 50,
+//             springConstant: 0.01,
+//             nodeDistance: 200,
+//             damping: 0.09
+//         }
+// 
+//         //     hierarchicalRepulsion: {
+//         //         centralGravity: 0.0,
+//         //         nodeDistance: 30,
+//         //     },
+//         //      solver: 'hierarchicalRepulsion'
+//         },
 
 
         edges:{
@@ -298,7 +339,7 @@ resultPromise.then(result => {
         
         console.log('clicked nodes:', clickedNodes);
         const resultPromise = session.run(
-        `match (A:Student {userid : '55'})-[r:ACCESS_ORDER]->(B:Resources  {courseid : '${courseid}'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B) union match (A:Resources  {courseid : '${courseid}'})-[r:ACCESS_ORDER]->(B:Resources  {courseid : '${courseid}'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B)`
+        `match (C:Student {userid : '55'})-[r:ACCESS_ORDER]->(B:Resources  {courseid : '${courseid}'}),(A:Courses {courseid : '${courseid}'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B) union match (A:Resources  {courseid : '${courseid}'})-[r:ACCESS_ORDER]->(B:Resources  {courseid : '${courseid}'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B)`
         );
 
         resultPromise.then(result => {
@@ -311,10 +352,14 @@ resultPromise.then(result => {
             hide = !mapAccess.get(courseid);
             mapAccess.set(courseid, hide);
         }
-        else hide = true;
+        else {
+            hide = false;
+            mapAccess.set(courseid, false);
+        }
+        console.log(`${already_added}//${hide}//course ${courseid}`);
         
-        
-        create_graph_access_order(result, already_added);
+        create_graph_access_order(result, hide);
+        network.body.emitter.emit('_dataChanged')
         network.redraw();
         console.log("finished")
        });

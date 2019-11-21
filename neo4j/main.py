@@ -115,13 +115,13 @@ class Database:
         coursesid = [courseid for courseid in result['courseid'] if courseid]
         
         total_timesaccessed = 0
-        print(resourcesid)
-        print(coursesid)
+        #print(resourcesid)
+        #print(coursesid)
         
-        #print(len(timesaccessed))
         
-        #print(len(timesunix))
-        for timesacessed_resource,resourceid in zip(timesaccessed,resourcesid) :
+        
+        
+        for timesacessed_resource,resourceid,courseid in zip(timesaccessed,resourcesid,coursesid) :
                 timesacessed_resource = int(timesacessed_resource) 
                 
                 timesunix_query_parameter = f"{timesunix[total_timesaccessed]}"
@@ -132,10 +132,9 @@ class Database:
                 query_string = f"MATCH (A : Student {{userid: '{student_id}'}})-[r:Accessed]->(B: Resources {{resourceid : '{resourceid}',type: 'file'}}) set r.timeunix = {timesunix_query_parameter} return r,B.courseid as courseid"
             
                 result = session.write_transaction(self.query_database,query_string)
-                courseid = result.peek()['courseid']
+                #courseid = result.peek()['courseid']
                 
-                if(courseid is None):
-                    print("course match")
+                print(f"Course id {courseid}// {resourceid}")
                 
                 
                 print(query_string)

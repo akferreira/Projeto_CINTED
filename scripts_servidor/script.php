@@ -395,6 +395,7 @@ function get_all_resource_student($studentid){
 	$timesaccessed = array();
 	$timeunix = array();
 	$courses = array();
+	$rtype = array();
 	
 	$resources = $DB->get_records('moodle.logstore_standard_log', array('objecttable'=>'resource','userid'=>$studentid));
 	
