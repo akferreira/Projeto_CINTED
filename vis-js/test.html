@@ -19,25 +19,42 @@
 <script src="https://unpkg.com/neo4j-driver@1.7.6/lib/browser/neo4j-web.min.js"></script>
 <script type="text/javascript">
 
+function testParamter(test){
+    console.log(`test ${test}`);
 
-function insert_node(id, label,group,courseid = null){
+}
+
+
+function insert_node(id, label,group,hide,courseid = null){
+console.log(`${hide} hide`);
+    if(hide === undefined){
+        hide = false;
+    }
 
     try{
         node_info.add({id : id, label: label, group: group,courseid : courseid});
     }
   
     catch(e){
+            node_info.update([{id : id, hidden: hide}]);
+        
+    
+            console.log(`node ${id} already exists! ${hide}`);
     }
 }
 
-function insert_edge(idA,idB,count,log10_timedelta){
-
+function insert_edge(idA,idB,count,log10_timedelta,hide){
+    if(hide === undefined){
+        hide = false;
+    }
 
      try{
     r_info.add({from: idA, to: idB,width: count,length: 200 + 15*log10_timedelta});
   }
   
   catch(e){
+  
+    r_info.update([{id : id, hidden: hide}]);
   }
 }
 
@@ -52,19 +69,30 @@ function getEdgeBetweenNodes(node1,node2) {
 
 function average_delta(){}
 
-function create_graph_access_order(result){
+function create_graph_access_order(result, hide){
         const singleRecord = result.records[0];
         const node = singleRecord.get(0);
+        
+        if(hide === undefined){
+        hide = false;
+        }
+        
+        var hideA;
+        var hideB = true;
+        
+        console.log(`${hide} hide`);
 
         for (record of result.records){
             var nameA;
 
             if(record.get('typeA') == "Student"){
                 nameA =  record.get('A').properties.trajectory_name;
+                hideA = false;
             }
 
             else{
                 nameA = record.get('A').properties.name;
+                hideA = hide;
             }
 
 
@@ -78,8 +106,7 @@ function create_graph_access_order(result){
             var groupA = record.get('typeA')[0];
             var groupB = record.get('typeB')[0];
 
-            console.log("deltas of " + idA + "," + idB);
-            console.log(record.get('r'));
+            
             timedeltas = record.get('r').properties.timedeltas;
             var total = 0;
 
@@ -96,13 +123,18 @@ function create_graph_access_order(result){
 
             console.log(Math.log10(average+1));
         
-            insert_node(idA,nameA,groupA);
-            insert_node(idB,nameB,groupB);
-            console.log("dg");
-            //console.log(getEdgeBetweenNodes(idA,idB));
+            if(hideA == true) insert_node(idA,nameA,groupA,true);
+            else insert_node(idA,nameA,groupA,false);
+            
+            if(hideB == true) insert_node(idB,nameB,groupB,true);
+            else insert_node(idA,nameB,groupB,false);
+            
+            testParamter(hideA);
+             console.log(`${hideA} hide2`);
+             console.log(`${hideB} hide3`);
             
             if(getEdgeBetweenNodes(idA,idB) == false){
-                insert_edge(idA,idB,count,log10_timedelta);
+                insert_edge(idA,idB,count,log10_timedelta,hide);
                 }
             //console.log(getEdgeBetweenNodes(idA,idB));
             
@@ -119,6 +151,11 @@ function create_graph_course_order(result){
             if(record.get('typeA') == "Student"){
                 nameA =  record.get('A').properties.trajectory_name;
             }
+            
+            else if(record.get('typeA') == "Courses"){
+                nameA =  record.get('A').properties.coursename;
+            
+            }
 
             else{
                 nameA = record.get('A').properties.name;
@@ -134,8 +171,8 @@ function create_graph_course_order(result){
             var groupA = record.get('typeA')[0];
             var groupB = record.get('typeB')[0];
         
-            insert_node(idA,nameA,groupA);
-            insert_node(idB,nameB,groupB,courseB);
+            insert_node(idA,nameA,groupA,false);
+            insert_node(idB,nameB,groupB,false,courseB);
             insert_edge(idA,idB,1,1);
             
         
@@ -154,6 +191,8 @@ const resultPromise = session.run(
 
 var node_info = new vis.DataSet();
 var r_info = new vis.DataSet();
+
+var mapAccess = new Map;
 
 resultPromise.then(result => {
     session.close();
@@ -265,7 +304,17 @@ resultPromise.then(result => {
         resultPromise.then(result => {
         session.close();
         console.log(result)
-        create_graph_access_order(result);
+        
+        var already_added = mapAccess.has(courseid);
+        var hide;
+        if(already_added == true) {
+            hide = !mapAccess.get(courseid);
+            mapAccess.set(courseid, hide);
+        }
+        else hide = true;
+        
+        
+        create_graph_access_order(result, already_added);
         network.redraw();
         console.log("finished")
        });
