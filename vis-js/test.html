@@ -20,9 +20,9 @@
 <script type="text/javascript">
 
 
+var mapCoursePosition =  new Map;
 
-
-function insert_node(id, label,group,hide,courseid = null){
+function insert_node(id, label,group,hide,xcord, ycord, courseid = null){
 console.log(`${hide} hide`);
     if(hide === undefined){
         hide = false;
@@ -30,7 +30,8 @@ console.log(`${hide} hide`);
 
     try{
        
-        node_info.add({id : id, label: label, group: group,courseid : courseid});
+        node_info.add({id : id, label: label, group: group,courseid : courseid, y: ycord, x: xcord
+});
          console.log(`node ${id} inserted! ${hide}`);
     }
   
@@ -70,7 +71,7 @@ function getEdgeBetweenNodes(node1,node2) {
 
 function average_delta(){}
 
-function create_graph_access_order(result, hide){
+function create_graph_access_order(result, hide,courseid){
         const singleRecord = result.records[0];
         const node = singleRecord.get(0);
         
@@ -80,10 +81,14 @@ function create_graph_access_order(result, hide){
         
         var hideA;
         var hideB = hide;
+        var xcord;
         
         console.log(`${hide} hide`);
 
         for (record of result.records){
+            idA = record.get("id(A)").toNumber();
+            idB = record.get("id(B)").toNumber();
+        
             var nameA;
 
             if(record.get('typeA') == "Student"){
@@ -94,6 +99,7 @@ function create_graph_access_order(result, hide){
             else if(record.get('typeA') == "Courses"){
                 nameA =  record.get('A').properties.coursename;
                 hideA = false;
+//                 xcord = mapCoursePosition.get(idA);
             
             }
 
@@ -107,8 +113,9 @@ function create_graph_access_order(result, hide){
 
             nameB = record.get('B').properties.name;
 
-            idA = record.get("id(A)").toNumber();
-            idB = record.get("id(B)").toNumber();
+            
+            
+            
 
             const count = record.get('r').properties.count.toNumber();
             var groupA = record.get('typeA')[0];
@@ -130,12 +137,14 @@ function create_graph_access_order(result, hide){
             log10_timedelta = Math.log10(average+1);
 
            // console.log(Math.log10(average+1));
+           
+            console.log("abc");
         
-            if(hideA == true) insert_node(idA,nameA,groupA,true);
-            else insert_node(idA,nameA,groupA,false);
+            insert_node(idA,nameA,groupA,0, 1,hideA);
+            insert_node(idB,nameB,groupB,0, 2,hideB);
             
-            if(hideB == true) insert_node(idB,nameB,groupB,true);
-            else insert_node(idB,nameB,groupB,false);
+//             if(hideB == true) insert_node(idB,nameB,groupB,true);
+//             else insert_node(idB,nameB,groupB,false);
             
             console.log(`${idA} . ${idB}`);
          //    console.log(`${hideA} hide2`);
@@ -153,8 +162,11 @@ function create_graph_access_order(result, hide){
 }
 
 function create_graph_course_order(result){
+   var course_count = 0;
+
     for (record of result.records){
             var nameA;
+            course_count+=1;
 
             if(record.get('typeA') == "Student"){
                 nameA =  record.get('A').properties.trajectory_name;
@@ -173,14 +185,21 @@ function create_graph_course_order(result){
 
             nameB = record.get('B').properties.name;
             courseB = Number(record.get('B').properties.courseid)
+            
+            
 
             idA = record.get("id(A)").toNumber();
             idB = record.get("id(B)").toNumber();
+            
+            var xcord = course_count*150+200
+//             mapCoursePosition.set(idA, xcord+idA);
+//             mapCoursePosition.set(idB, xcord+idB);
+            
             var groupA = record.get('typeA')[0];
             var groupB = record.get('typeB')[0];
         
-            insert_node(idA,nameA,groupA,false);
-            insert_node(idB,nameB,groupB,false,courseB);
+            insert_node(idA,nameA,groupA,false,xcord+idA,0);
+            insert_node(idB,nameB,groupB,false,xcord+idB,0,courseB);
             insert_edge(idA,idB,1,1);
             
         
@@ -263,22 +282,22 @@ layout:{
         improvedLayout: true,
     
                 },
- physics: {
-                    forceAtlas2Based: {
-                        gravitationalConstant: -50,
-                        centralGravity: 0.005,
-                        springLength: 230,
-                        springConstant: 0.18
-                    },
-                    maxVelocity: 146,
-                    solver: 'forceAtlas2Based',
-                    timestep: 0.35,
-                    stabilization: {
-                        enabled:true,
-                        iterations:2000,
-                        updateInterval:5
-                    }
-                },
+//  physics: {
+//                     forceAtlas2Based: {
+//                         gravitationalConstant: -50,
+//                         centralGravity: 0.005,
+//                         springLength: 230,
+//                         springConstant: 0.18
+//                     },
+//                     maxVelocity: 146,
+//                     solver: 'forceAtlas2Based',
+//                     timestep: 0.35,
+//                     stabilization: {
+//                         enabled:true,
+//                         iterations:2000,
+//                         updateInterval:5
+//                     }
+//                 },
     
 
 //     physics: {
@@ -358,7 +377,7 @@ layout:{
         }
         console.log(`${already_added}//${hide}//course ${courseid}`);
         
-        create_graph_access_order(result, hide);
+        create_graph_access_order(result, hide,courseid);
         network.body.emitter.emit('_dataChanged')
         network.redraw();
         console.log("finished")
