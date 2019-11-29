@@ -134,10 +134,10 @@ class Database:
                 result = session.write_transaction(self.query_database,query_string)
                 #courseid = result.peek()['courseid']
                 
-                print(f"Course id {courseid}// {resourceid}")
+                #print(f"Course id {courseid}// {resourceid}")
                 
                 
-                print(query_string)
+                #print(query_string)
                 
                 #if(resourceid == 32):
                     #print(resourceid)
@@ -162,7 +162,8 @@ class Database:
         
         query = f"match (student:Student {{userid: '{student_id}'}})-[access:Accessed]-(resource) where resource.courseid = '{course_id}' return student,access,resource"
     
-        #print(query)
+        if(course_id == 10):
+            print(f"access {query}")
         #print(f"Resource acess order of course {course_id}")
     
         result = session.write_transaction(self.query_database,query)
@@ -209,7 +210,8 @@ class Database:
         first_resource_id_query = sorted_access[0].get_id_match_query()
         query = f" match (student:Student {{userid :'{student_id}'}})-[access:Accessed {{timeunix : {sorted_access[0].unixtime}}}]-(resource: Resources {first_resource_id_query}) create (student)-[:ACCESS_ORDER {{count: 1, timedeltas : [0]}}]->(resource)"
         
-        print(query)
+        if(course_id == 10):
+            print(query)
         session.run(query)
         
         
@@ -221,7 +223,8 @@ class Database:
             resource_2_id_query = sorted_access[index+1].get_id_match_query()
             
             timedelta = sorted_access[index+1].unixtime -sorted_access[index].unixtime
-            print(timedelta)
+            if(course_id == 10):
+                print(timedelta)
             
             query_check_existence = f"match (resource1 : Resources {resource_1_id_query})-[r:ACCESS_ORDER]->(resource2 : Resources {resource_2_id_query}) return r,r.count" 
             

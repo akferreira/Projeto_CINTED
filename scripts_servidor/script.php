@@ -342,7 +342,7 @@ function file_students_use_resource(){
 	global $DB;
 	
 	$myfile = fopen("accessed.csv", "w") or die("Unable to open file!");
-	fwrite($myfile, "userid;resourcesid;timesaccessed;timeunix;courseid;"."\r\n");
+	fwrite($myfile, "userid;resourcesid;timesaccessed;timeunix;courseid;type"."\r\n");
 	
 	$students = get_all_students();
 	
@@ -380,6 +380,8 @@ function file_students_use_resource(){
 		foreach($resourceinfo[3] as $course){
 			fwrite($myfile, $course.",");
 		}
+		
+		
 		fwrite($myfile,";");	
 		fwrite($myfile,"\r\n");
 	}

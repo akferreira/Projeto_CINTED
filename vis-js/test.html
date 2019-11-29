@@ -6,14 +6,16 @@
   <link href="https://unpkg.com/vis-network@latest/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
   <style type="text/css">
     #mynetwork {
-      width: 1200px;
-      height: 800px;
+      width: 10000px;
+      height: 2200px;
       border: 1px solid lightgray;
     }
   </style>
 </head>
 <body>
 <div id="mynetwork"></div>
+<pre id="eventSpan"></pre>
+<img id="canvasImg" alt="Right click to save me!">
 
 <script type="text/javascript" src="jquery.min.js"></script>
 <script src="https://unpkg.com/neo4j-driver@1.7.6/lib/browser/neo4j-web.min.js"></script>
@@ -40,11 +42,11 @@ console.log(`${hide} hide`);
     try{
        
         node_info.add({id : id, label: label, group: group,courseid : courseid, y: ycord, x: xcord,fixed: {
-     x: fixedY,
+     x: true,
      y: fixedY,
    }
 });
-         console.log(`node ${id} inserted! ${hide}`);
+         //console.log(`node ${id} inserted! ${hide}`);
     }
   
     catch(e){
@@ -52,7 +54,7 @@ console.log(`${hide} hide`);
             if(group === "Resources") node_info.update([{id : id, hidden: hide}]);
         
     
-           console.log(`resources ${group === "Resources"} ${group}`);
+           //console.log(`resources ${group === "Resources"} ${group}`);
     }
 }
 
@@ -62,7 +64,8 @@ function insert_edge(idA,idB,count,log10_timedelta,hide){
     }
 
      try{
-    r_info.add({from: idA, to: idB,width: count,length: 100 + 15*log10_timedelta,smooth: {type: 'curvedCW', roundness: 0.4*toggle}});
+    r_info.add({from: idA, to: idB,width: count,length: 100 + 5*log10_timedelta,smooth: {type: 'curvedCW', roundness: 0.3*toggle}});
+    //,smooth: {type: 'curvedCW', roundness: 0.3*toggle}
     //r_info.add({from: idA, to: idB,width: count,length: 100 + 1*log10_timedelta});
     toggle *= -1;
   }
@@ -96,17 +99,19 @@ function create_graph_access_order(result, hide,courseid){
         var hideA;
         var hideB = hide;
         var xcord = null;
-        var ycord = -100;
-        var increment_y = 180
+        var index = 0;
+        var ycord = 30;
+        var increment_y = 150
         
         console.log(`${hide} hide`);
 
         for (record of result.records){
             idA = record.get("id(A)").toNumber();
             idB = record.get("id(B)").toNumber();
-            ycord += increment_y;
+            index+=2;
         
             var nameA;
+            var xb;
 
             if(record.get('typeA') == "Student"){
                 nameA =  record.get('A').properties.trajectory_name;
@@ -116,21 +121,28 @@ function create_graph_access_order(result, hide,courseid){
             else if(record.get('typeA') == "Courses"){
                 nameA =  record.get('A').properties.coursename;
                 hideA = false;
+                if(xcord === null){
                 xcord = mapCoursePosition.get(idA);
+                 xb = mapCoursePosition.get(idB);
+                }
+                console.log(`${xcord} || ${xb}`);
+                 console.log(`${idA} . ${idB}`);
             
             }
-
-
             else{
                 nameA = record.get('A').properties.name;
                 hideA = hide;
                 
             }
+           
+           
+            
 
 
-            if(xcord === null){
-                xcord = mapCoursePosition.get(idB);
-            }
+            
+
+
+            
             nameB = record.get('B').properties.name;
 
             
@@ -158,15 +170,16 @@ function create_graph_access_order(result, hide,courseid){
 
            // console.log(Math.log10(average+1));
            
-            console.log(`xcord order ${xcord}`);
+            console.log(`ycord order ${ycord} ${idA}/${nameA} ${idB}/${nameB} : ${ycord} ${increment_y}`);
         
             insert_node(idA,nameA,groupA,hideA,xcord,ycord);
-            insert_node(idB,nameB,groupB,hideB,xcord, ycord+increment_y);
-            
+            ycord += increment_y;
+            insert_node(idB,nameB,groupB,hideB,xcord, ycord);
+            ycord += increment_y;
 //             if(hideB == true) insert_node(idB,nameB,groupB,true);
 //             else insert_node(idB,nameB,groupB,false);
             
-            console.log(`${idA} . ${idB}`);
+           
          //    console.log(`${hideA} hide2`);
           //   console.log(`${hideB} hide3`);
             
@@ -186,10 +199,10 @@ function create_graph_course_order(result){
 
     for (record of result.records){
             var nameA;
-            course_count+=1;
 
             if(record.get('typeA') == "Student"){
                 nameA =  record.get('A').properties.trajectory_name;
+                console.log(`${record.get("id(A)").toNumber()} ....`);
             }
             
             else if(record.get('typeA') == "Courses"){
@@ -210,21 +223,30 @@ function create_graph_course_order(result){
 
             idA = record.get("id(A)").toNumber();
             idB = record.get("id(B)").toNumber();
-            
+             console.log(`${idA} . ${idB}`);
             console.log("xcord course");
             
             
-            var xcord = course_count*150+200;
-            mapCoursePosition.set(idA, xcord+idA);
-             mapCoursePosition.set(idB, xcord+idB);
-             
+            var xcord = course_count*250;
+            if(course_count == 0) xcord-=100;
+            
+            if(mapCoursePosition.has(idA) == false) mapCoursePosition.set(idA, xcord);
+            course_count+=1;
+            
+            
+             if(course_count > 22) course_count+=1;
+            var xcord2 = course_count*250;
+           
+            
+            if(mapCoursePosition.has(idB) == false) mapCoursePosition.set(idB, xcord2);
+             course_count+=1;
              console.log(`xcord course ${xcord}`);
             
             var groupA = record.get('typeA')[0];
             var groupB = record.get('typeB')[0];
         
-            insert_node(idA,nameA,groupA,false,xcord+idA,0);
-            insert_node(idB,nameB,groupB,false,xcord+idB,0,courseB);
+            insert_node(idA,nameA,groupA,false,xcord,0);
+            insert_node(idB,nameB,groupB,false,xcord2,0,courseB);
             insert_edge(idA,idB,1,1);
             
         
@@ -293,11 +315,25 @@ resultPromise.then(result => {
         
     }
     },
-"physics": {
-    "barnesHut": {
-      "avoidOverlap": 0.1
+// "physics": {
+//     "barnesHut": {
+//       "avoidOverlap": 0.5
+//     },
+//   },
+
+physics: {
+        "barnesHut": {
+       "avoidOverlap": 0.5
+     },
+    
+        repulsion: {
+            springLength: 100,
+            nodeDistance: 300,
+            centralGravity: 0,
+            springConstant: 0.05,
+        },
+        stabilization: true
     },
-  },
 // layout:{
 //         randomSeed: 1,
 //         improvedLayout: true,
@@ -357,6 +393,12 @@ resultPromise.then(result => {
 
     };
     var network = new vis.Network(container, data, options);
+    network.on("afterDrawing", function (ctx) {
+    var dataURL = ctx.canvas.toDataURL();
+    document.getElementById('canvasImg').href = dataURL;
+  });
+    
+    
     network.on( 'click', function(properties) {
     var ids = properties.nodes;
     var clickedNodes = node_info.get(ids);
