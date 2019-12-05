@@ -5,7 +5,9 @@ from itertools import groupby
 from time import time
 import operator
 from datetime import datetime
+import re
 
+regex_unixtime = re.compile(r"\[([0-9])+\]")
 
 def get_semester(unix_time):
     date = datetime.utcfromtimestamp(unix_time)
@@ -31,7 +33,13 @@ def enrolments_by_semester(enrolments):
     return enrolments_semester
 
 class ResourceAccess():
+    
+    
     def __init__(self,unixtime,student,resource):
+        if(type(unixtime) is not int and regex_unixtime.match(unixtime)):
+            unixtime = unixtime.strip('[').strip(']')
+        
+        
         self.unixtime = int(unixtime)
         self.resource = resource
         self.student = student
@@ -125,11 +133,19 @@ class Database:
                 timesacessed_resource = int(timesacessed_resource) 
                 
                 timesunix_query_parameter = f"{timesunix[total_timesaccessed]}"
+                timeunxix_list = timesunix[total_timesaccessed:total_timesaccessed+timesacessed_resource]
+                timeunxix_list = [int(timeunix) for timeunix in timeunxix_list]
                 
                 
+                print(f"{timeunxix_list} course loop")
                 
+                if(int(courseid) == 6):
+                    
+                    
+                    print(f"Acessed {resourceid} {timesacessed_resource} times {timesunix[total_timesaccessed:total_timesaccessed+timesacessed_resource]}")
+                #query_string = f"MATCH (A : Student {{userid: '{student_id}'}})-[r:Accessed]->(B: Resources {{resourceid : '{resourceid}',type: 'file'}}) set r.timeunix = {timesunix_query_parameter} return r,B.courseid as courseid"
                 
-                query_string = f"MATCH (A : Student {{userid: '{student_id}'}})-[r:Accessed]->(B: Resources {{resourceid : '{resourceid}',type: 'file'}}) set r.timeunix = {timesunix_query_parameter} return r,B.courseid as courseid"
+                query_string = f"MATCH (A : Student {{userid: '{student_id}'}})-[r:Accessed]->(B: Resources {{resourceid : '{resourceid}',type: 'file'}}) set r.timeunix = {timeunxix_list} return r,B.courseid as courseid"
             
                 result = session.write_transaction(self.query_database,query_string)
                 #courseid = result.peek()['courseid']
@@ -200,7 +216,9 @@ class Database:
             
         sorted_access = sorted(resources_access, key = lambda resource : resource.unixtime)
         
-        #print(resources_access)
+        unixtime_query = sorted_access[0].unixtime
+        if(type(unixtime_query) is int):
+            unixtime_query = [unixtime_query]
         
         
         
@@ -208,10 +226,10 @@ class Database:
         #create (s)-[:MATRICULADO {{empty: ''}}]->(c)
         
         first_resource_id_query = sorted_access[0].get_id_match_query()
-        query = f" match (student:Student {{userid :'{student_id}'}})-[access:Accessed {{timeunix : {sorted_access[0].unixtime}}}]-(resource: Resources {first_resource_id_query}) create (student)-[:ACCESS_ORDER {{count: 1, timedeltas : [0]}}]->(resource)"
+        query = f" match (student:Student {{userid :'{student_id}'}})-[access:Accessed {{timeunix : {unixtime_query}}}]-(resource: Resources {first_resource_id_query}) create (student)-[:ACCESS_ORDER {{count: 1, timedeltas : [0]}}]->(resource)"
         
-        if(course_id == 10):
-            print(query)
+        
+        print(f"query order {query}")
         session.run(query)
         
         
