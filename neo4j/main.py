@@ -35,7 +35,7 @@ def enrolments_by_semester(enrolments):
 class ResourceAccess():
     
     
-    def __init__(self,unixtime,student,resource):
+    def __init__(self,unixtime,student,resource,timesacessed_resource):
         if(type(unixtime) is not int and regex_unixtime.match(unixtime)):
             unixtime = unixtime.strip('[').strip(']')
         
@@ -43,6 +43,7 @@ class ResourceAccess():
         self.unixtime = int(unixtime)
         self.resource = resource
         self.student = student
+        self.timesacessed_resource = timesacessed_resource
         
     def get_course_id(self):
         return int(self.resource['courseid'])
@@ -176,7 +177,7 @@ class Database:
     def get_resource_access_ordered(self,session,course_id,student_id):
         self.parse_student_access_data_into_graph(session,student_id)
         
-        query = f"match (student:Student {{userid: '{student_id}'}})-[access:Accessed]-(resource) where resource.courseid = '{course_id}' return student,access,resource"
+        query = f"match (student:Student {{userid: '{student_id}'}})-[access:Accessed]-(resource) where resource.courseid = '{course_id}' return student,access,resource,access.timesaccessed"
     
         if(course_id == 10):
             print(f"access {query}")
@@ -194,6 +195,7 @@ class Database:
             student = record['student']
             resource = record['resource']
             unixtimes = record['access']['timeunix']
+            timesacessed_resource = record['access.timesaccessed']
             
             if(student is None and resource is None and unixtimes is None):
                 continue
@@ -208,13 +210,14 @@ class Database:
                 print(record['access'].keys())  
             #print(f"{unixtimes}")    
                 
-            resources_access.extend([ResourceAccess(unixtime,student,resource) for unixtime in unixtimes])
+            resources_access.extend([ResourceAccess(unixtime,student,resource,timesacessed_resource) for unixtime in unixtimes])
             
         if(len(resources_access) == 0):
             return
             
             
         sorted_access = sorted(resources_access, key = lambda resource : resource.unixtime)
+        
         
         unixtime_query = sorted_access[0].unixtime
         if(type(unixtime_query) is int):
@@ -226,7 +229,11 @@ class Database:
         #create (s)-[:MATRICULADO {{empty: ''}}]->(c)
         
         first_resource_id_query = sorted_access[0].get_id_match_query()
-        query = f" match (student:Student {{userid :'{student_id}'}})-[access:Accessed {{timeunix : {unixtime_query}}}]-(resource: Resources {first_resource_id_query}) create (student)-[:ACCESS_ORDER {{count: 1, timedeltas : [0]}}]->(resource)"
+        
+        if(sorted_access[0].timesacessed_resource is None or sorted_access[0].timesacessed_resource == 1):
+            query = f" match (student:Student {{userid :'{student_id}'}})-[access:Accessed {{timeunix : {unixtime_query}}}]-(resource: Resources {first_resource_id_query}) create (student)-[:ACCESS_ORDER {{count: 1, timedeltas : [0]}}]->(resource)"
+        else:
+            query = f" match (student:Student {{userid :'{student_id}'}})-[access:Accessed]-(resource: Resources {first_resource_id_query}) create (student)-[:ACCESS_ORDER {{count: 1, timedeltas : [0]}}]->(resource)"
         
         
         print(f"query order {query}")
