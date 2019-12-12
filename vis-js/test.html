@@ -294,9 +294,18 @@ var mapAccess = new Map;
     C2S.prototype.arrowEndpoint = CanvasRenderingContext2D.prototype.arrowEndpoint;
     C2S.prototype.circleEndpoint = CanvasRenderingContext2D.prototype.circleEndpoint;
     C2S.prototype.dashedLine = CanvasRenderingContext2D.prototype.dashedLine;
+    var network_position;
+    var network_scale;
+    
+    
     function exportSvg()
     {
         var networkContainer = network.body.container;
+        network_position = network.getViewPosition();
+        network_scale = network.getScale();
+        console.log(`\nscale ${network_scale}`);
+        
+        network.fit();
         var ctx = new C2S({width: networkContainer.clientWidth, height: networkContainer.clientHeight, embedImages: true});
         var canvasProto = network.canvas.__proto__;
         var currentGetContext = canvasProto.getContext;
@@ -318,6 +327,10 @@ var mapAccess = new Map;
     {
         var svgBlob = new Blob([svg], {type: 'image/svg+xml'});
         openBlob(svgBlob, "network.svg");
+        network.moveTo({scale : network_scale,position: network_position});
+         network.redraw();
+         network_scale = network.getScale();
+        console.log(`\nscale ${network_scale}`);
         network.redraw();
     }
     
@@ -484,7 +497,7 @@ physics: {
         network.redraw();
         console.log("finished")
         
-        exportSvg();
+        
        });
         
         
@@ -500,6 +513,6 @@ physics: {
 </script>
 
 
-<input type="button" onclick="exportSvg();" value="Export SVG"/>
+<input type="button" onclick="exportSvg();" value="Exportar para SVG"/>
 </body>
 </html>
