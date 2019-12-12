@@ -6,8 +6,8 @@
   <link href="https://unpkg.com/vis-network@latest/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
   <style type="text/css">
     #mynetwork {
-      width: 10000px;
-      height: 2200px;
+      width: 2000px;
+      height: 1080px;
       border: 1px solid lightgray;
     }
   </style>
@@ -15,15 +15,25 @@
 <body>
 <div id="mynetwork"></div>
 <pre id="eventSpan"></pre>
-<img id="canvasImg" alt="Right click to save me!">
+<!--<img id="canvasImg" alt="Right click to save me!">-->
 
 <script type="text/javascript" src="jquery.min.js"></script>
 <script src="https://unpkg.com/neo4j-driver@1.7.6/lib/browser/neo4j-web.min.js"></script>
+<script type="text/javascript" src="canvas2svg.js"></script>
 <script type="text/javascript">
 
 
+
+
+
+
+
+
 var mapCoursePosition =  new Map;
+
 var toggle = 1;
+
+
 
 function insert_node(id, label,group,hide,xcord, ycord, courseid = null){
 console.log(`${hide} hide`);
@@ -64,7 +74,7 @@ function insert_edge(idA,idB,count,log10_timedelta,hide){
     }
 
      try{
-    r_info.add({from: idA, to: idB,width: count,length: 100 + 5*log10_timedelta,smooth: {type: 'curvedCW', roundness: 0.3*toggle}});
+    r_info.add({from: idA, to: idB,width: count,length: 100 + 2*log10_timedelta,smooth: {type: 'curvedCW', roundness: 0.3*toggle}});
     //,smooth: {type: 'curvedCW', roundness: 0.3*toggle}
     //r_info.add({from: idA, to: idB,width: count,length: 100 + 1*log10_timedelta});
     toggle *= -1;
@@ -101,7 +111,9 @@ function create_graph_access_order(result, hide,courseid){
         var xcord = null;
         var index = 0;
         var ycord = 30;
-        var increment_y = 150
+        var increment_y = 180;
+        
+        var ycord_map = new Map;
         
         console.log(`${hide} hide`);
 
@@ -172,16 +184,17 @@ function create_graph_access_order(result, hide,courseid){
            
             console.log(`ycord order ${ycord} ${idA}/${nameA} ${idB}/${nameB} : ${ycord} ${increment_y}`);
         
+            var already_added = ycord_map.has(idA);
+            
             insert_node(idA,nameA,groupA,hideA,xcord,ycord);
-            ycord += increment_y;
+            if(!ycord_map.has(idA)) ycord += increment_y;
             insert_node(idB,nameB,groupB,hideB,xcord, ycord);
-            ycord += increment_y;
+             if(!ycord_map.has(idB)) ycord += increment_y;
 //             if(hideB == true) insert_node(idB,nameB,groupB,true);
 //             else insert_node(idB,nameB,groupB,false);
             
-           
-         //    console.log(`${hideA} hide2`);
-          //   console.log(`${hideB} hide3`);
+           ycord_map.set(idA, true);
+           ycord_map.set(idB, true);
             
             if(getEdgeBetweenNodes(idA,idB) == false){
                 insert_edge(idA,idB,count,log10_timedelta,hide);
@@ -245,8 +258,8 @@ function create_graph_course_order(result){
             var groupA = record.get('typeA')[0];
             var groupB = record.get('typeB')[0];
         
-            insert_node(idA,nameA,groupA,false,xcord,0);
-            insert_node(idB,nameB,groupB,false,xcord2,0,courseB);
+            insert_node(idA,nameA,groupA,false,xcord,-100);
+            insert_node(idB,nameB,groupB,false,xcord2,-100,courseB);
             insert_edge(idA,idB,1,1);
             
         
@@ -265,8 +278,78 @@ const resultPromise = session.run(
 
 var node_info = new vis.DataSet();
 var r_info = new vis.DataSet();
+var network;
 
 var mapAccess = new Map;
+
+ C2S.prototype.circle = CanvasRenderingContext2D.prototype.circle;
+    C2S.prototype.square = CanvasRenderingContext2D.prototype.square;
+    C2S.prototype.triangle = CanvasRenderingContext2D.prototype.triangle;
+    C2S.prototype.triangleDown = CanvasRenderingContext2D.prototype.triangleDown;
+    C2S.prototype.star = CanvasRenderingContext2D.prototype.star;
+    C2S.prototype.diamond = CanvasRenderingContext2D.prototype.diamond;
+    C2S.prototype.roundRect = CanvasRenderingContext2D.prototype.roundRect;
+    C2S.prototype.ellipse_vis = CanvasRenderingContext2D.prototype.ellipse_vis;
+    C2S.prototype.database = CanvasRenderingContext2D.prototype.database;
+    C2S.prototype.arrowEndpoint = CanvasRenderingContext2D.prototype.arrowEndpoint;
+    C2S.prototype.circleEndpoint = CanvasRenderingContext2D.prototype.circleEndpoint;
+    C2S.prototype.dashedLine = CanvasRenderingContext2D.prototype.dashedLine;
+    function exportSvg()
+    {
+        var networkContainer = network.body.container;
+        var ctx = new C2S({width: networkContainer.clientWidth, height: networkContainer.clientHeight, embedImages: true});
+        var canvasProto = network.canvas.__proto__;
+        var currentGetContext = canvasProto.getContext;
+        canvasProto.getContext = function()
+        {
+            return ctx;
+        }
+       
+
+         network.redraw();
+        canvasProto.getContext = currentGetContext;
+        ctx.waitForComplete(function()
+            {
+                var svg = ctx.getSerializedSvg();
+                showSvg(svg);
+            });
+    }
+    function showSvg(svg)
+    {
+        var svgBlob = new Blob([svg], {type: 'image/svg+xml'});
+        openBlob(svgBlob, "network.svg");
+        network.redraw();
+    }
+    
+    function openBlob(blob, fileName)
+	  {
+		if(window.navigator && window.navigator.msSaveOrOpenBlob)
+        {
+            //blobToDataURL(blob, function(dataurl){window.open(dataurl);});
+            window.navigator.msSaveOrOpenBlob(blob,fileName);
+        }
+        else
+        {
+			var a = document.getElementById("blobLink");
+			if(!a)
+			{
+				a = document.createElement("a");
+				document.body.appendChild(a);
+				a.setAttribute("id", "blobLink");
+				a.style = "display: none";
+			}
+			var data = window.URL.createObjectURL(blob);
+			a.href = data;
+			a.download = fileName;
+			a.click();
+			setTimeout(function()
+				{
+				// For Firefox it is necessary to delay revoking the ObjectURL
+				window.URL.revokeObjectURL(data);
+				}
+				, 100);
+        }
+    }
 
 resultPromise.then(result => {
     session.close();
@@ -287,6 +370,13 @@ resultPromise.then(result => {
         options: options
     };
     var options = {
+    nodes: {
+                shapeProperties: {
+                    interpolation: false //so images are not scaled svg will get full image
+                },
+                scaling: { label: { drawThreshold : 0} },
+                font:{color:'#000000'}
+            },
 
     groups: {
     
@@ -315,11 +405,7 @@ resultPromise.then(result => {
         
     }
     },
-// "physics": {
-//     "barnesHut": {
-//       "avoidOverlap": 0.5
-//     },
-//   },
+
 
 physics: {
         "barnesHut": {
@@ -334,48 +420,6 @@ physics: {
         },
         stabilization: true
     },
-// layout:{
-//         randomSeed: 1,
-//         improvedLayout: true,
-//     
-//                 },
-//  physics: {
-//                     forceAtlas2Based: {
-//                         gravitationalConstant: -50,
-//                         centralGravity: 0.005,
-//                         springLength: 230,
-//                         springConstant: 0.18
-//                     },
-//                     maxVelocity: 146,
-//                     solver: 'forceAtlas2Based',
-//                     timestep: 0.35,
-//                     stabilization: {
-//                         enabled:true,
-//                         iterations:2000,
-//                         updateInterval:5
-//                     }
-//                 },
-    
-
-//     physics: {
-//         enabled: true,
-//         barnesHut: {
-//             "avoidOverlap": 4
-//         },
-//         hierarchicalRepulsion: {
-//             centralGravity: 0.0,
-//             springLength: 50,
-//             springConstant: 0.01,
-//             nodeDistance: 200,
-//             damping: 0.09
-//         }
-// 
-//         //     hierarchicalRepulsion: {
-//         //         centralGravity: 0.0,
-//         //         nodeDistance: 30,
-//         //     },
-//         //      solver: 'hierarchicalRepulsion'
-//         },
 
 
         edges:{
@@ -392,13 +436,8 @@ physics: {
 
 
     };
-    var network = new vis.Network(container, data, options);
-    network.on("afterDrawing", function (ctx) {
-    var dataURL = ctx.canvas.toDataURL();
-    document.getElementById('canvasImg').href = dataURL;
-  });
-    
-    
+    network = new vis.Network(container, data, options);
+  
     network.on( 'click', function(properties) {
     var ids = properties.nodes;
     var clickedNodes = node_info.get(ids);
@@ -444,17 +483,23 @@ physics: {
         network.body.emitter.emit('_dataChanged')
         network.redraw();
         console.log("finished")
+        
+        exportSvg();
        });
         
         
     });
-
+    
+    
     // on application exit:
     driver.close();
 });
 
 
-  
+
 </script>
+
+
+<input type="button" onclick="exportSvg();" value="Export SVG"/>
 </body>
 </html>
