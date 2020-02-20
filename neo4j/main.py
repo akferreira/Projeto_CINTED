@@ -118,6 +118,9 @@ class Database:
         result = session.write_transaction(self.query_database,query_string)
         result = result.single()
         
+        if(result is None or result['timeunix'] is None):
+            return
+        
         timesunix = [timeunix for timeunix in result['timeunix'] if timeunix ]
         timesaccessed = [times for times in result['timesaccessed'] if times]
         resourcesid = [int(resourceid) for resourceid in result['resourcesid'] if resourceid]
@@ -136,19 +139,16 @@ class Database:
                 timesunix_query_parameter = f"{timesunix[total_timesaccessed]}"
                 timeunxix_list = timesunix[total_timesaccessed:total_timesaccessed+timesacessed_resource]
                 timeunxix_list = [int(timeunix) for timeunix in timeunxix_list]
+                timesaccessed = len(timeunxix_list)
                 
                 
-                print(f"{timeunxix_list} course loop")
-                
-                if(int(courseid) == 6):
-                    
-                    
-                    print(f"Acessed {resourceid} {timesacessed_resource} times {timesunix[total_timesaccessed:total_timesaccessed+timesacessed_resource]}")
                 #query_string = f"MATCH (A : Student {{userid: '{student_id}'}})-[r:Accessed]->(B: Resources {{resourceid : '{resourceid}',type: 'file'}}) set r.timeunix = {timesunix_query_parameter} return r,B.courseid as courseid"
                 
-                query_string = f"MATCH (A : Student {{userid: '{student_id}'}})-[r:Accessed]->(B: Resources {{resourceid : '{resourceid}',type: 'file'}}) set r.timeunix = {timeunxix_list} return r,B.courseid as courseid"
-            
+                query_string = f"match (A : Student {{userid: '{student_id}'}}), (B: Resources {{resourceid : '{resourceid}', courseid : '{courseid}'}}) CREATE UNIQUE (A)-[r:Accessed {{timeunix : {timeunxix_list} , timesaccessed : {timesaccessed} }}]->(B)"
+                print(query_string)
                 result = session.write_transaction(self.query_database,query_string)
+                
+                print(f"accessed student {student_id}//{resourceid}//{timeunxix_list}")
                 #courseid = result.peek()['courseid']
                 
                 #print(f"Course id {courseid}// {resourceid}")
@@ -175,11 +175,11 @@ class Database:
             
             
     def get_resource_access_ordered(self,session,course_id,student_id):
-        #self.parse_student_access_data_into_graph(session,student_id)
-        
+        self.parse_student_access_data_into_graph(session,student_id)
+    
         query = f"match (student:Student {{userid: '{student_id}'}})-[access:Accessed]-(resource) where resource.courseid = '{course_id}' return student,access,resource,access.timesaccessed"
     
-        if(course_id == 10):
+        if(course_id == 22):
             print(f"access {query}")
         #print(f"Resource acess order of course {course_id}")
     
@@ -203,7 +203,7 @@ class Database:
             if(type(unixtimes) is str or type(unixtimes) is int):
                 unixtimes = [unixtimes]
             
-            print(f"{student_id} {unixtimes}")
+            #print(f"{student_id} {unixtimes}")
                 
             if(unixtimes is not None) : 
                 resources_access.extend([ResourceAccess(unixtime,student,resource,timesacessed_resource) for unixtime in unixtimes])
@@ -223,12 +223,12 @@ class Database:
         first_resource_id_query = sorted_access[0].get_id_match_query()
         
         if(sorted_access[0].timesacessed_resource is None or sorted_access[0].timesacessed_resource == 1):
-            query = f" match (student:Student {{userid :'{student_id}'}})-[access:Accessed {{timeunix : {unixtime_query}}}]-(resource: Resources {first_resource_id_query}) create (student)-[:ACCESS_ORDER {{count: 1, timedeltas : [0]}}]->(resource)"
+            query = f" match (student:Student {{userid :'{student_id}'}})-[access:Accessed {{timeunix : {unixtime_query}}}]-(resource: Resources {first_resource_id_query}) create (student)-[:ACCESS_ORDER {{count: 1, timedeltas : [0],userid :'{student_id}'}}]->(resource)"
         else:
-            query = f" match (student:Student {{userid :'{student_id}'}})-[access:Accessed]-(resource: Resources {first_resource_id_query}) create (student)-[:ACCESS_ORDER {{count: 1, timedeltas : [0]}}]->(resource)"
+            query = f" match (student:Student {{userid :'{student_id}'}})-[access:Accessed]-(resource: Resources {first_resource_id_query}) create (student)-[:ACCESS_ORDER {{count: 1, timedeltas : [0],userid :'{student_id}'}}]->(resource)"
         
-        
-        print(f"query order {query}")
+        if(course_id == 22):
+            print(f"query order {query}")
         session.run(query)
         
         
@@ -243,7 +243,7 @@ class Database:
             if(course_id == 10):
                 print(timedelta)
             
-            query_check_existence = f"match (resource1 : Resources {resource_1_id_query})-[r:ACCESS_ORDER]->(resource2 : Resources {resource_2_id_query}) return r,r.count" 
+            query_check_existence = f"match (resource1 : Resources {resource_1_id_query})-[r:ACCESS_ORDER {{userid :'{student_id}'}}]->(resource2 : Resources {resource_2_id_query}) return r,r.count" 
             
             result_check = session.write_transaction(self.query_database,query_check_existence)
             
@@ -251,7 +251,7 @@ class Database:
                 
                 
                 
-                query = f"match (resource1 : Resources {resource_1_id_query}),(resource2 : Resources {resource_2_id_query})  create (resource1)-[:ACCESS_ORDER {{count: 1, timedeltas : [{timedelta}] }}]->(resource2)"
+                query = f"match (resource1 : Resources {resource_1_id_query}),(resource2 : Resources {resource_2_id_query})  create (resource1)-[:ACCESS_ORDER {{count: 1, timedeltas : [{timedelta}],userid :'{student_id}' }}]->(resource2)"
                 #print(f"{resource_1_id_query}//{resource_2_id_query}\n")
                 #print(query)
                 session.run(query)
@@ -267,7 +267,7 @@ class Database:
             #print(sorted_access[index+1].get_id_match_query())
             
         
-        print(len(resources_access))
+        #print(len(resources_access))
         
         
         
