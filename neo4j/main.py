@@ -175,12 +175,11 @@ class Database:
             
             
     def get_resource_access_ordered(self,session,course_id,student_id):
-        self.parse_student_access_data_into_graph(session,student_id)
+        #self.parse_student_access_data_into_graph(session,student_id)
     
         query = f"match (student:Student {{userid: '{student_id}'}})-[access:Accessed]-(resource) where resource.courseid = '{course_id}' return student,access,resource,access.timesaccessed"
     
-        if(course_id == 22):
-            print(f"access {query}")
+        
         #print(f"Resource acess order of course {course_id}")
     
         result = session.write_transaction(self.query_database,query)
@@ -227,8 +226,7 @@ class Database:
         else:
             query = f" match (student:Student {{userid :'{student_id}'}})-[access:Accessed]-(resource: Resources {first_resource_id_query}) create (student)-[:ACCESS_ORDER {{count: 1, timedeltas : [0],userid :'{student_id}'}}]->(resource)"
         
-        if(course_id == 22):
-            print(f"query order {query}")
+        print(f"query order {query}")
         session.run(query)
         
         
@@ -259,7 +257,7 @@ class Database:
             else:
                 
                 count = int(result_check.single()['r.count']) + 1
-                query_update_count = f"match (resource1 : Resources {resource_1_id_query})-[r:ACCESS_ORDER]->(resource2 : Resources {resource_2_id_query}) set r.count = {count} set r.timedeltas = r.timedeltas + [{timedelta}] return r" 
+                query_update_count = f"match (resource1 : Resources {resource_1_id_query})-[r:ACCESS_ORDER {{userid :'{student_id}'}}]->(resource2 : Resources {resource_2_id_query}) set r.count = {count} set r.timedeltas = r.timedeltas + [{timedelta}] return r" 
                 #print(query_update_count)
                 session.run(query_update_count)
             
@@ -342,7 +340,7 @@ class Database:
                 sorted_enrol = sorted(enrolments, key = lambda enrol : enrol.get_semester())
                 course_id = sorted_enrol[0].get_course_id()
                 grade = sorted_enrol[0].grade
-                query_string = f"match (s:Student {{userid : '{student_id}'}})-[r]-(c:Courses {{courseid: '{course_id}'}}) create (s)-[:MATRICULADO {{userid: '{student_id}'}}]->(c)"
+                query_string = f"match (s:Student {{userid : '{student_id}'}})-[r]-(c:Courses {{courseid: '{course_id}'}}) create (s)-[:MATRICULADO {{userid: '{student_id}',grade: '{grade}'}}]->(c)"
                 session.run(query_string)
                 
                 for index in range(0,len(sorted_enrol)-1):
@@ -352,7 +350,7 @@ class Database:
                     grade1 = sorted_enrol[index].grade
                     grade2 = sorted_enrol[index+1].grade
                     
-                    query_string = f"match (c1:Courses {{courseid : '{first_course_index}'}}),(c2:Courses {{courseid: '{second_course_index}'}}) create (c1)-[:MATRICULADO {{userid: '{student_id}'}}]->(c2)"
+                    query_string = f"match (c1:Courses {{courseid : '{first_course_index}'}}),(c2:Courses {{courseid: '{second_course_index}'}}) create (c1)-[:MATRICULADO {{userid: '{student_id}',grade: '{grade2}'}}]->(c2)"
                     session.run(query_string)
                     
                 for enrol in sorted_enrol:

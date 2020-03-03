@@ -68,13 +68,34 @@ console.log(`${hide} hide`);
     }
 }
 
-function insert_edge(idA,idB,count,log10_timedelta,hide){
+function insert_edge(idA,idB,count,log10_timedelta,hide,timedeltas){
     if(hide === undefined){
         hide = false;
     }
 
      try{
-    r_info.add({from: idA, to: idB,width: count,length: 100 + 2*log10_timedelta,smooth: {type: 'curvedCW', roundness: 0.3*toggle}});
+     var rlabel;
+     var title;
+     
+     if(!(timedeltas === undefined)){
+        title = timedeltas.toString();
+     }
+     
+     
+     if(count <= 1){
+        count = 1;
+        rlabel = 0;
+     }
+     else{
+        rlabel = `<b>${count}</b>`
+     }
+     
+    if(count > 8){
+        count = 8 + count/10;
+    } 
+     
+     
+    r_info.add({from: idA, to: idB,width: count,font: { multi: true },title : title,label:rlabel,smooth: {type: 'curvedCW', roundness: 0.3*toggle}});
     //,smooth: {type: 'curvedCW', roundness: 0.3*toggle}
     //r_info.add({from: idA, to: idB,width: count,length: 100 + 1*log10_timedelta});
     toggle *= -1;
@@ -89,7 +110,7 @@ function insert_edge(idA,idB,count,log10_timedelta,hide){
 
 function getEdgeBetweenNodes(node1,node2) {
     edges =  r_info.get().filter(function (edge) {
-        return (edge.from === node1 && edge.to === node2 )|| (edge.from === node2 && edge.to === node1)
+        return (edge.from === node1 && edge.to === node2 ) //|| (edge.from === node2 && edge.to === node1)
     });
     
     return edges.length > 0;
@@ -197,7 +218,7 @@ function create_graph_access_order(result, hide,courseid){
            ycord_map.set(idB, true);
             
             if(getEdgeBetweenNodes(idA,idB) == false){
-                insert_edge(idA,idB,count,log10_timedelta,hide);
+                insert_edge(idA,idB,count,log10_timedelta,hide,timedeltas);
                 }
             //console.log(getEdgeBetweenNodes(idA,idB));
             
@@ -228,7 +249,7 @@ function create_graph_course_order(result){
             }
 
 
-
+            
             nameB = record.get('B').properties.name;
             courseB = Number(record.get('B').properties.courseid)
             
@@ -260,7 +281,7 @@ function create_graph_course_order(result){
         
             insert_node(idA,nameA,groupA,false,xcord,-100);
             insert_node(idB,nameB,groupB,false,xcord2,-100,courseB);
-            insert_edge(idA,idB,1,1);
+            insert_edge(idA,idB,0,1);
             
         
         }
@@ -272,8 +293,10 @@ function create_graph_course_order(result){
 
 const driver = neo4j.v1.driver("bolt://localhost:7687", neo4j.v1.auth.basic("neo4j", "cinted"));
 const session = driver.session();
+userid = 24
+
 const resultPromise = session.run(
-  "match (A)-[r:MATRICULADO]->(B) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B),B.courseid"
+  `match (A)-[r:MATRICULADO {userid: '${userid}'}]->(B) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B),B.courseid`
 );
 
 var node_info = new vis.DataSet();
@@ -422,28 +445,31 @@ resultPromise.then(result => {
 
 physics: {
         "barnesHut": {
-       "avoidOverlap": 0.5
-     },
+      "avoidOverlap": 1
+    },
     
         repulsion: {
-            springLength: 100,
+            springLength: 50,
             nodeDistance: 300,
             centralGravity: 0,
-            springConstant: 0.05,
+            springConstant: 0.15,
         },
         stabilization: true
     },
 
 
         edges:{
+        
+        font: {
+            size: 28
+        },
         arrows: 'to',
         color: 'red',
-        font: '12px arial #ff0000',
         scaling:{
             label: true,
         },
         shadow: true,
-        smooth: true,
+         smooth: true,
     }
 
 
@@ -473,7 +499,7 @@ physics: {
         
         console.log('clicked nodes:', clickedNodes);
         const resultPromise = session.run(
-        `match (C:Student {userid : '55'})-[r:ACCESS_ORDER]->(B:Resources  {courseid : '${courseid}'}),(A:Courses {courseid : '${courseid}'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B) union match (A:Resources  {courseid : '${courseid}'})-[r:ACCESS_ORDER]->(B:Resources  {courseid : '${courseid}'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B)`
+        `match (C:Student {userid : '${userid}'})-[r:ACCESS_ORDER {userid : '${userid}'}]->(B:Resources  {courseid : '${courseid}'}),(A:Courses {courseid : '${courseid}'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B) order by r.id union match (A:Resources  {courseid : '${courseid}'})-[r:ACCESS_ORDER {userid : '${userid}'}]->(B:Resources  {courseid : '${courseid}'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B) order by id(r)`
         );
 
         resultPromise.then(result => {

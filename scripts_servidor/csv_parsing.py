@@ -32,3 +32,11 @@ with open("/home/arthur/Documents/cinted/compar/folders.csv") as folders:
     with open("/home/arthur/Documents/cinted/compar/acessed_general.csv",'a+') as accessed:
         for access in folders_dict:
             accessed.write(f"folder;{access['folderid']};{access['userid']};{access['timeunix']}\n")
+
+
+#with open("/home/arthur/Documents/cinted/compar/files.csv") as files:
+    #files_dict = csv.DictReader(files, delimiter = ';')
+    
+    #with open("/home/arthur/Documents/cinted/compar/acessed_general.csv",'a+') as accessed:
+        #for access in files_dict:
+            #accessed.write(f"file;{access['fileid']};{access['userid']};{access['timeunix']}\n")
