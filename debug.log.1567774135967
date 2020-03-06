@@ -1,0 +1,561 @@
+2019-09-06 12:48:56.882+0000 INFO [o.n.k.i.f.CommunityEditionModule] No locking implementation specified, defaulting to 'forseti'
+2019-09-06 12:48:56.889+0000 INFO [o.n.k.i.f.StatementLocksFactorySelector] No services implementing StatementLocksFactory found. Using SimpleStatementLocksFactory
+2019-09-06 12:48:57.051+0000 INFO [o.n.k.AvailabilityGuard] Requirement makes database unavailable: Database available
+2019-09-06 12:48:57.061+0000 INFO [o.n.k.i.DiagnosticsManager] --- INITIALIZED diagnostics START ---
+2019-09-06 12:48:57.061+0000 INFO [o.n.k.i.DiagnosticsManager] Neo4j Kernel properties:
+2019-09-06 12:48:57.062+0000 INFO [o.n.k.i.DiagnosticsManager] dbms.allow_upgrade=false
+2019-09-06 12:48:57.062+0000 INFO [o.n.k.i.DiagnosticsManager] unsupported.dbms.memory.pagecache.warmup.enable=false
+2019-09-06 12:48:57.062+0000 INFO [o.n.k.i.DiagnosticsManager] dbms.backup.enabled=false
+2019-09-06 12:48:57.062+0000 INFO [o.n.k.i.DiagnosticsManager] dbms.directories.tx_log=/home/arthur/backup/neo4j/graph.db-backup/temp-copy
+2019-09-06 12:48:57.062+0000 INFO [o.n.k.i.DiagnosticsManager] unsupported.dbms.edition=enterprise
+2019-09-06 12:48:57.062+0000 INFO [o.n.k.i.DiagnosticsManager] dbms.directories.logs=/home/arthur/backup/neo4j/graph.db-backup/temp-copy
+2019-09-06 12:48:57.062+0000 INFO [o.n.k.i.DiagnosticsManager] unsupported.dbms.directories.neo4j_home=/home/arthur/backup/neo4j/graph.db-backup/temp-copy
+2019-09-06 12:48:57.062+0000 INFO [o.n.k.i.DiagnosticsManager] dbms.tx_log.rotation.retention_policy=true
+2019-09-06 12:48:57.062+0000 INFO [o.n.k.i.DiagnosticsManager] unsupported.dbms.ephemeral=false
+2019-09-06 12:48:57.062+0000 INFO [o.n.k.i.DiagnosticsManager] Diagnostics providers:
+2019-09-06 12:48:57.062+0000 INFO [o.n.k.i.DiagnosticsManager] org.neo4j.kernel.configuration.Config
+2019-09-06 12:48:57.062+0000 INFO [o.n.k.i.DiagnosticsManager] org.neo4j.kernel.info.DiagnosticsManager
+2019-09-06 12:48:57.062+0000 INFO [o.n.k.i.DiagnosticsManager] SYSTEM_MEMORY
+2019-09-06 12:48:57.062+0000 INFO [o.n.k.i.DiagnosticsManager] JAVA_MEMORY
+2019-09-06 12:48:57.062+0000 INFO [o.n.k.i.DiagnosticsManager] OPERATING_SYSTEM
+2019-09-06 12:48:57.062+0000 INFO [o.n.k.i.DiagnosticsManager] JAVA_VIRTUAL_MACHINE
+2019-09-06 12:48:57.062+0000 INFO [o.n.k.i.DiagnosticsManager] CLASSPATH
+2019-09-06 12:48:57.062+0000 INFO [o.n.k.i.DiagnosticsManager] LIBRARY_PATH
+2019-09-06 12:48:57.062+0000 INFO [o.n.k.i.DiagnosticsManager] SYSTEM_PROPERTIES
+2019-09-06 12:48:57.062+0000 INFO [o.n.k.i.DiagnosticsManager] TIMEZONE_DATABASE
+2019-09-06 12:48:57.062+0000 INFO [o.n.k.i.DiagnosticsManager] LINUX_SCHEDULERS
+2019-09-06 12:48:57.063+0000 INFO [o.n.k.i.DiagnosticsManager] NETWORK
+2019-09-06 12:48:57.063+0000 INFO [o.n.k.i.DiagnosticsManager] System memory information:
+2019-09-06 12:48:57.063+0000 INFO [o.n.k.i.DiagnosticsManager] Total Physical memory: 15.37 GB
+2019-09-06 12:48:57.063+0000 INFO [o.n.k.i.DiagnosticsManager] Free Physical memory: 8.71 GB
+2019-09-06 12:48:57.064+0000 INFO [o.n.k.i.DiagnosticsManager] Committed virtual memory: 7.10 GB
+2019-09-06 12:48:57.064+0000 INFO [o.n.k.i.DiagnosticsManager] Total swap space: 0.00 B
+2019-09-06 12:48:57.064+0000 INFO [o.n.k.i.DiagnosticsManager] Free swap space: 0.00 B
+2019-09-06 12:48:57.064+0000 INFO [o.n.k.i.DiagnosticsManager] JVM memory information:
+2019-09-06 12:48:57.064+0000 INFO [o.n.k.i.DiagnosticsManager] Free  memory: 154.09 MB
+2019-09-06 12:48:57.064+0000 INFO [o.n.k.i.DiagnosticsManager] Total memory: 186.50 MB
+2019-09-06 12:48:57.064+0000 INFO [o.n.k.i.DiagnosticsManager] Max   memory: 3.42 GB
+2019-09-06 12:48:57.065+0000 INFO [o.n.k.i.DiagnosticsManager] Garbage Collector: PS Scavenge: [PS Eden Space, PS Survivor Space]
+2019-09-06 12:48:57.065+0000 INFO [o.n.k.i.DiagnosticsManager] Garbage Collector: PS MarkSweep: [PS Eden Space, PS Survivor Space, PS Old Gen]
+2019-09-06 12:48:57.066+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: Code Cache (Non-heap memory): committed=6.75 MB, used=6.70 MB, max=240.00 MB, threshold=0.00 B
+2019-09-06 12:48:57.066+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: Metaspace (Non-heap memory): committed=22.50 MB, used=21.13 MB, max=-1.00 B, threshold=0.00 B
+2019-09-06 12:48:57.066+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: Compressed Class Space (Non-heap memory): committed=3.25 MB, used=2.88 MB, max=1.00 GB, threshold=0.00 B
+2019-09-06 12:48:57.066+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: PS Eden Space (Heap memory): committed=62.00 MB, used=16.55 MB, max=1.26 GB, threshold=?
+2019-09-06 12:48:57.066+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: PS Survivor Space (Heap memory): committed=10.00 MB, used=0.00 B, max=10.00 MB, threshold=?
+2019-09-06 12:48:57.066+0000 INFO [o.n.k.i.DiagnosticsManager] Memory Pool: PS Old Gen (Heap memory): committed=114.50 MB, used=15.86 MB, max=2.56 GB, threshold=0.00 B
+2019-09-06 12:48:57.066+0000 INFO [o.n.k.i.DiagnosticsManager] Operating system information:
+2019-09-06 12:48:57.067+0000 INFO [o.n.k.i.DiagnosticsManager] Operating System: Linux; version: 5.2.11-1-MANJARO; arch: amd64; cpus: 4
+2019-09-06 12:48:57.067+0000 INFO [o.n.k.i.DiagnosticsManager] Max number of file descriptors: 1048576
+2019-09-06 12:48:57.067+0000 INFO [o.n.k.i.DiagnosticsManager] Number of open file descriptors: 240
+2019-09-06 12:48:57.067+0000 INFO [o.n.k.i.DiagnosticsManager] Process id: 16008@arthur-pc
+2019-09-06 12:48:57.067+0000 INFO [o.n.k.i.DiagnosticsManager] Byte order: LITTLE_ENDIAN
+2019-09-06 12:48:57.070+0000 INFO [o.n.k.i.DiagnosticsManager] Local timezone: America/Sao_Paulo
+2019-09-06 12:48:57.070+0000 INFO [o.n.k.i.DiagnosticsManager] JVM information:
+2019-09-06 12:48:57.070+0000 INFO [o.n.k.i.DiagnosticsManager] VM Name: OpenJDK 64-Bit Server VM
+2019-09-06 12:48:57.070+0000 INFO [o.n.k.i.DiagnosticsManager] VM Vendor: Azul Systems, Inc.
+2019-09-06 12:48:57.070+0000 INFO [o.n.k.i.DiagnosticsManager] VM Version: 25.131-b11
+2019-09-06 12:48:57.070+0000 INFO [o.n.k.i.DiagnosticsManager] JIT compiler: HotSpot 64-Bit Tiered Compilers
+2019-09-06 12:48:57.070+0000 INFO [o.n.k.i.DiagnosticsManager] VM Arguments: [-Dfile.encoding=UTF-8]
+2019-09-06 12:48:57.071+0000 INFO [o.n.k.i.DiagnosticsManager] Java classpath:
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/bcprov-jdk15on-1.60.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-expression-3.4-3.4.9.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-expression-3.4-3.4.9.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-frontend-3.1-3.1.9.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/kiama_2.11-2.1.0.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-logging-3.4.9.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/slf4j-api-1.7.25.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-security-enterprise-3.4.9.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-spatial-index-3.4.9.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/commons-lang3-3.7.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-jmx-3.4.9.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-metrics-3.4.9.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jackson-core-asl-1.9.13.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jetty-security-9.4.11.v20180605.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jersey-core-1.19.3.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-physical-planning-3.4.9.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/parboiled-core-1.1.7.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/asm-6.2.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/parboiled-core-1.1.7.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/simpleclient-0.1.0.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-morsel-runtime-3.4.9.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.1] file:/home/arthur/.config/Neo4j%20Desktop/Application/distributions/java/zulu8.21.0.1-jdk8.0.131/jre/lib/ext/sunjce_provider.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/shiro-config-ogdl-1.4.0.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/rhino-1.7.9.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/scala-reflect-2.11.12.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jline-2.12.jar
+2019-09-06 12:48:57.077+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/shiro-lang-1.4.0.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/simpleclient_httpserver-0.1.0.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/plugins
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-enterprise-cypher-3.4.9.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jetty-http-9.4.11.v20180605.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/commons-io-2.6.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/commons-io-2.6.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-server-enterprise-3.4.9.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jetty-server-9.4.11.v20180605.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [bootstrap] /home/arthur/.config/Neo4j Desktop/Application/distributions/java/zulu8.21.0.1-jdk8.0.131/jre/lib/charsets.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-unsafe-3.4.9.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jetty-security-9.4.11.v20180605.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-consistency-check-3.4.9.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-frontend-3.1-3.1.9.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [bootstrap] /home/arthur/.config/Neo4j Desktop/Application/distributions/java/zulu8.21.0.1-jdk8.0.131/jre/lib/rt.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-server-commercial-3.4.9.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/commons-logging-1.1.1.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-bolt-3.4.9.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-shell-3.4.9.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/commons-collections-3.2.2.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-graph-algo-3.4.9.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.1] file:/home/arthur/.config/Neo4j%20Desktop/Application/distributions/java/zulu8.21.0.1-jdk8.0.131/jre/lib/ext/dnsns.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jetty-xml-9.4.11.v20180605.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/lucene-codecs-5.5.5.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jackson-core-asl-1.9.13.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [bootstrap] /home/arthur/.config/Neo4j Desktop/Application/distributions/java/zulu8.21.0.1-jdk8.0.131/jre/classes
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/server-api-3.4.9.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/commons-compress-1.16.1.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/lucene-core-5.5.5.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-server-3.4.9.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-lucene-index-3.4.9.jar
+2019-09-06 12:48:57.078+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-ssl-3.4.9.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-dbms-3.4.9.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [bootstrap] /home/arthur/.config/Neo4j Desktop/Application/distributions/java/zulu8.21.0.1-jdk8.0.131/jre/lib/resources.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-browser-3.2.10.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-3.4.9.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jetty-server-9.4.11.v20180605.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-compiler-2.3-2.3.12.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-csv-3.4.9.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-values-3.4.9.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/shiro-event-1.4.0.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-auth-plugin-api-3.4.9.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/shiro-cache-1.4.0.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/distributions/java/zulu8.21.0.1-jdk8.0.131/lib/tools.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-jmx-3.4.9.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/metrics-graphite-4.0.2.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-graph-matching-3.1.9.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-primitive-collections-3.4.9.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-compiler-2.3-2.3.12.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-ir-3.4-3.4.9.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/shiro-crypto-cipher-1.4.0.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-primitive-collections-3.4.9.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-collections-3.4.9.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/conf/
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jProcesses-1.6.4.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-codegen-3.4.9.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/asm-tree-6.2.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-graph-matching-3.1.9.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/caffeine-2.6.2.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/simpleclient_httpserver-0.1.0.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/metrics-core-4.0.2.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-frontend-3.3-3.3.7.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/shiro-crypto-hash-1.4.0.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-resource-3.4.9.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-kernel-3.4.9.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-compiler-3.3-3.3.7.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jetty-xml-9.4.11.v20180605.jar
+2019-09-06 12:48:57.079+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-ir-3.3-3.3.7.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-com-3.4.9.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/distributions/java/zulu8.21.0.1-jdk8.0.131/lib/tools.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/shiro-cache-1.4.0.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jersey-servlet-1.19.3.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/caffeine-2.6.2.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-slotted-runtime-3.4.9.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jetty-util-9.4.11.v20180605.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/opencsv-2.3.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/scala-library-2.11.12.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-causal-clustering-commercial-3.4.9.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-resource-3.4.9.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/shiro-crypto-cipher-1.4.0.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-bolt-3.4.9.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-procedure-api-3.4.9.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-csv-3.4.9.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/plugins/*
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/plugins/
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jProcesses-1.6.4.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-query-logging-3.4.9.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-planner-spi-3.4-3.4.9.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-security-enterprise-3.4.9.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-management-3.4.9.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-3.4.9.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-frontend-3.3-3.3.7.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/server-api-3.4.9.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-frontend-2.3-2.3.12.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jPowerShell-1.9.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/lucene-analyzers-common-5.5.5.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [bootstrap] /home/arthur/.config/Neo4j Desktop/Application/distributions/java/zulu8.21.0.1-jdk8.0.131/jre/lib/jfr.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/shiro-lang-1.4.0.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/bcpkix-jdk15on-1.60.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-graph-algo-3.4.9.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-collections-3.4.9.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cluster-3.4.9.jar
+2019-09-06 12:48:57.080+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jetty-util-9.4.11.v20180605.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/lz4-1.3.0.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-logical-plans-3.4-3.4.9.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jetty-servlet-9.4.11.v20180605.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jPowerShell-1.9.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/commons-lang-2.6.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-compiler-3.1-3.1.9.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.1] file:/home/arthur/.config/Neo4j%20Desktop/Application/distributions/java/zulu8.21.0.1-jdk8.0.131/jre/lib/ext/jaccess.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/hazelcast-all-3.7.8.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/kiama_2.11-2.1.0.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/asm-6.2.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jackson-mapper-asl-1.9.13.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jsr311-api-1.1.2.r612.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-command-line-3.4.9.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-kernel-3.4.9.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/asm-tree-6.2.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-frontend-2.3-2.3.12.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-kernel-commercial-3.4.9.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-index-3.4.9.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/commons-lang3-3.7.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-kernel-api-3.4.9.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-logical-plans-3.3-3.3.7.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/asm-analysis-6.2.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-runtime-util-3.4.9.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-causal-clustering-commercial-3.4.9.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/commons-compress-1.16.1.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/scallop_2.11-2.1.1.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/parboiled-scala_2.11-1.1.7.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/lucene-analyzers-common-5.5.5.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.1] file:/home/arthur/.config/Neo4j%20Desktop/Application/distributions/java/zulu8.21.0.1-jdk8.0.131/jre/lib/ext/nashorn.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/netty-all-4.1.24.Final.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jline-2.12.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/shiro-core-1.4.0.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/lucene-queryparser-5.5.5.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.1] file:/home/arthur/.config/Neo4j%20Desktop/Application/distributions/java/zulu8.21.0.1-jdk8.0.131/jre/lib/ext/sunec.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [bootstrap] /home/arthur/.config/Neo4j Desktop/Application/distributions/java/zulu8.21.0.1-jdk8.0.131/jre/lib/jsse.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/conf
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-command-line-3.4.9.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-graphdb-api-3.4.9.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/shiro-crypto-core-1.4.0.jar
+2019-09-06 12:48:57.081+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.1] file:/home/arthur/.config/Neo4j%20Desktop/Application/distributions/java/zulu8.21.0.1-jdk8.0.131/jre/lib/ext/sunpkcs11.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-values-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-server-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-security-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-kernel-commercial-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-planner-3.4-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-security-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jsr311-api-1.1.2.r612.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/shiro-crypto-hash-1.4.0.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/shiro-core-1.4.0.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jersey-servlet-1.19.3.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/simpleclient_common-0.1.0.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-util-3.4-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/commons-text-1.3.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-import-tool-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-interpreted-runtime-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cluster-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-spatial-index-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/lucene-core-5.5.5.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.1] file:/home/arthur/.config/Neo4j%20Desktop/Application/distributions/java/zulu8.21.0.1-jdk8.0.131/jre/lib/ext/zipfs.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-com-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-backup-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [bootstrap] /home/arthur/.config/Neo4j Desktop/Application/distributions/java/zulu8.21.0.1-jdk8.0.131/jre/lib/sunrsasign.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-ssl-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jersey-core-1.19.3.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/metrics-core-4.0.2.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-slotted-runtime-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/simpleclient-0.1.0.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [bootstrap] /home/arthur/.config/Neo4j Desktop/Application/distributions/java/zulu8.21.0.1-jdk8.0.131/jre/lib/jce.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-lucene-index-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/commons-configuration-1.10.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-logging-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-configuration-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/parboiled-scala_2.11-1.1.7.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-lucene-upgrade-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/shiro-crypto-core-1.4.0.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-management-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/scallop_2.11-2.1.1.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-unsafe-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/javax.servlet-api-3.1.0.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-graphdb-api-3.4.9.jar
+2019-09-06 12:48:57.082+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-kernel-api-3.4.9.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.1] file:/home/arthur/.config/Neo4j%20Desktop/Application/distributions/java/zulu8.21.0.1-jdk8.0.131/jre/lib/ext/cldrdata.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-runtime-util-3.4.9.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-server-commercial-3.4.9.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/asm-util-6.2.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/lucene-codecs-5.5.5.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/commons-lang-2.6.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/scala-reflect-2.11.12.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/WMI4Java-1.6.1.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/asm-analysis-6.2.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/netty-3.9.9.Final.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-common-3.4.9.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/scala-library-2.11.12.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-enterprise-kernel-3.4.9.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-udc-3.4.9.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-metrics-3.4.9.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/WMI4Java-1.6.1.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/shiro-config-core-1.4.0.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-compiler-3.1-3.1.9.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jetty-io-9.4.11.v20180605.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jackson-mapper-asl-1.9.13.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-backup-3.4.9.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/concurrentlinkedhashmap-lru-1.4.2.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/slf4j-nop-1.7.25.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/commons-beanutils-1.9.3.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jetty-servlet-9.4.11.v20180605.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-planner-3.4-3.4.9.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/javax.servlet-api-3.1.0.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/concurrentlinkedhashmap-lru-1.4.2.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jersey-server-1.19.3.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-planner-spi-3.4-3.4.9.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/commons-collections-3.2.2.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-index-3.4.9.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-import-tool-3.4.9.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/lz4-1.3.0.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-physical-planning-3.4.9.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-ir-3.3-3.3.7.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-io-3.4.9.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-ir-3.4-3.4.9.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.1] file:/home/arthur/.config/Neo4j%20Desktop/Application/distributions/java/zulu8.21.0.1-jdk8.0.131/jre/lib/ext/localedata.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/bcpkix-jdk15on-1.60.jar
+2019-09-06 12:48:57.083+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jackson-jaxrs-1.9.13.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-enterprise-kernel-3.4.9.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-ha-3.4.9.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/netty-all-4.1.24.Final.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-auth-plugin-api-3.4.9.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/commons-configuration-1.10.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/bcprov-jdk15on-1.60.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/opencsv-2.3.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/lucene-queryparser-5.5.5.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-ha-3.4.9.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jackson-jaxrs-1.9.13.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/commons-text-1.3.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-dbms-3.4.9.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/commons-beanutils-1.9.3.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/metrics-graphite-4.0.2.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/simpleclient_dropwizard-0.1.0.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/openCypher-frontend-1-3.4.9.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/plugins/*
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-udc-3.4.9.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-shell-3.4.9.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-query-logging-3.4.9.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/simpleclient_dropwizard-0.1.0.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jetty-webapp-9.4.11.v20180605.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/shiro-config-ogdl-1.4.0.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jetty-io-9.4.11.v20180605.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-browser-3.2.10.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jetty-http-9.4.11.v20180605.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/simpleclient_common-0.1.0.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-logical-plans-3.4-3.4.9.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-procedure-api-3.4.9.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/slf4j-nop-1.7.25.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-common-3.4.9.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-io-3.4.9.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-morsel-runtime-3.4.9.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/shiro-event-1.4.0.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-causal-clustering-3.4.9.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jersey-server-1.19.3.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/netty-3.9.9.Final.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-util-3.4-3.4.9.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-causal-clustering-3.4.9.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/slf4j-api-1.7.25.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-consistency-check-3.4.9.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/asm-util-6.2.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-configuration-3.4.9.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-logical-plans-3.3-3.3.7.jar
+2019-09-06 12:48:57.084+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/hazelcast-all-3.7.8.jar
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-lucene-upgrade-3.4.9.jar
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-enterprise-cypher-3.4.9.jar
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-interpreted-runtime-3.4.9.jar
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/jetty-webapp-9.4.11.v20180605.jar
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/shiro-config-core-1.4.0.jar
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-server-enterprise-3.4.9.jar
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-cypher-compiler-3.3-3.3.7.jar
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/rhino-1.7.9.jar
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/commons-logging-1.1.1.jar
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager]  [classpath] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/neo4j-codegen-3.4.9.jar
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager]  [loader.0] file:/home/arthur/.config/Neo4j%20Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9/lib/openCypher-frontend-1-3.4.9.jar
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager] Library path:
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager] /tmp/.mount_neo4j-4ioHH9/usr/lib
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager] /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager] /usr/java/packages/lib/amd64
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager] /usr/lib
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager] /usr/lib
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager] /usr/lib
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager] /usr/lib
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager] System.properties:
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager] sun.boot.library.path = /home/arthur/.config/Neo4j Desktop/Application/distributions/java/zulu8.21.0.1-jdk8.0.131/jre/lib/amd64
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager] path.separator = :
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager] file.encoding.pkg = sun.io
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager] user.country = US
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager] sun.java.launcher = SUN_STANDARD
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager] sun.os.patch.level = unknown
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager] user.dir = /home/arthur/.config/Neo4j Desktop/Application/neo4jDatabases/database-209c28f2-2578-4fde-a1a9-5e324d9d2e44/installation-3.4.9
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager] sun.jnu.encoding = UTF-8
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager] sun.nio.ch.bugLevel = 
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager] sun.management.compiler = HotSpot 64-Bit Tiered Compilers
+2019-09-06 12:48:57.085+0000 INFO [o.n.k.i.DiagnosticsManager] user.home = /home/arthur
+2019-09-06 12:48:57.086+0000 INFO [o.n.k.i.DiagnosticsManager] user.timezone = America/Sao_Paulo
+2019-09-06 12:48:57.086+0000 INFO [o.n.k.i.DiagnosticsManager] file.encoding = UTF-8
+2019-09-06 12:48:57.086+0000 INFO [o.n.k.i.DiagnosticsManager] user.name = arthur
+2019-09-06 12:48:57.086+0000 INFO [o.n.k.i.DiagnosticsManager] sun.java.command = org.neo4j.commandline.admin.AdminTool backup --from=127.0.0.1 --backup-dir=/home/arthur/backup/neo4j/ --name=graph.db-backup --fallback-to-full=true --check-consistency=true --pagecache=4G
+2019-09-06 12:48:57.086+0000 INFO [o.n.k.i.DiagnosticsManager] sun.arch.data.model = 64
+2019-09-06 12:48:57.086+0000 INFO [o.n.k.i.DiagnosticsManager] user.language = en
+2019-09-06 12:48:57.086+0000 INFO [o.n.k.i.DiagnosticsManager] awt.toolkit = sun.awt.X11.XToolkit
+2019-09-06 12:48:57.086+0000 INFO [o.n.k.i.DiagnosticsManager] file.separator = /
+2019-09-06 12:48:57.086+0000 INFO [o.n.k.i.DiagnosticsManager] sun.io.unicode.encoding = UnicodeLittle
+2019-09-06 12:48:57.086+0000 INFO [o.n.k.i.DiagnosticsManager] sun.cpu.endian = little
+2019-09-06 12:48:57.086+0000 INFO [o.n.k.i.DiagnosticsManager] sun.cpu.isalist = 
+2019-09-06 12:48:57.086+0000 INFO [o.n.k.i.DiagnosticsManager] (IANA) TimeZone Database Version:
+2019-09-06 12:48:57.104+0000 INFO [o.n.k.i.DiagnosticsManager]   TimeZone version: 2017a (available for 600 zone identifiers)
+2019-09-06 12:48:57.104+0000 INFO [o.n.k.i.DiagnosticsManager] Linux scheduler information:
+2019-09-06 12:48:57.106+0000 INFO [o.n.k.i.DiagnosticsManager] [mq-deadline] kyber bfq none
+2019-09-06 12:48:57.106+0000 INFO [o.n.k.i.DiagnosticsManager] [mq-deadline] kyber bfq none
+2019-09-06 12:48:57.106+0000 INFO [o.n.k.i.DiagnosticsManager] Network information:
+2019-09-06 12:48:57.107+0000 INFO [o.n.k.i.DiagnosticsManager] Interface enp2s0:
+2019-09-06 12:48:57.107+0000 INFO [o.n.k.i.DiagnosticsManager]     address: fe80:0:0:0:7ccb:bc56:4a67:1560%enp2s0
+2019-09-06 12:48:57.107+0000 INFO [o.n.k.i.DiagnosticsManager]     address: 143.54.95.230
+2019-09-06 12:48:57.107+0000 INFO [o.n.k.i.DiagnosticsManager] Interface lo:
+2019-09-06 12:48:57.107+0000 INFO [o.n.k.i.DiagnosticsManager]     address: 0:0:0:0:0:0:0:1%lo
+2019-09-06 12:48:57.107+0000 INFO [o.n.k.i.DiagnosticsManager]     address: 127.0.0.1
+2019-09-06 12:48:57.107+0000 INFO [o.n.k.i.DiagnosticsManager] --- INITIALIZED diagnostics END ---
+2019-09-06 12:48:57.176+0000 INFO [o.n.m.MetricsExtension] Initiating metrics...
+2019-09-06 12:48:57.296+0000 INFO [o.n.k.i.s.f.RecordFormatSelector] Selected RecordFormat:StandardV3_4[v0.A.9] record format from store /home/arthur/backup/neo4j/graph.db-backup/temp-copy
+2019-09-06 12:48:57.329+0000 INFO [o.n.k.i.s.f.RecordFormatSelector] Selected RecordFormat:StandardV3_4[v0.A.9] record format from store /home/arthur/backup/neo4j/graph.db-backup/temp-copy
+2019-09-06 12:48:57.329+0000 INFO [o.n.k.i.s.f.RecordFormatSelector] Format not configured. Selected format from the store: RecordFormat:StandardV3_4[v0.A.9]
+2019-09-06 12:48:59.745+0000 INFO [o.n.k.i.i.l.NativeLabelScanStore] Label index cleanup job registered
+2019-09-06 12:48:59.747+0000 INFO [o.n.k.NeoStoreDataSource] No commits found after last check point (which is at LogPosition{logVersion=0, byteOffset=16})
+2019-09-06 12:48:59.748+0000 INFO [o.n.k.i.i.l.NativeLabelScanStore] Label index cleanup job started
+2019-09-06 12:48:59.769+0000 INFO [o.n.k.i.DatabaseHealth] Database health set to OK
+2019-09-06 12:48:59.782+0000 INFO [o.n.k.i.i.l.NativeLabelScanStore] Label index cleanup job finished: Number of pages visited: 3, Number of cleaned crashed pointers: 0, Time spent: 33ms
+2019-09-06 12:48:59.782+0000 INFO [o.n.k.i.i.l.NativeLabelScanStore] Label index cleanup job closed
+2019-09-06 12:48:59.936+0000 INFO [o.n.m.MetricsExtension] Sending metrics to CSV file at /home/arthur/backup/neo4j/graph.db-backup/temp-copy/metrics
+2019-09-06 12:48:59.953+0000 INFO [o.n.k.AvailabilityGuard] Fulfilling of requirement makes database available: Database available
+2019-09-06 12:48:59.953+0000 INFO [o.n.c.s.ExternallyManagedPageCache$GraphDatabaseFactoryWithPageCacheFactory$1] Database is now ready
+2019-09-06 12:48:59.954+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for KernelDiagnostics:Versions START ---
+2019-09-06 12:48:59.954+0000 INFO [o.n.k.i.DiagnosticsManager] Graph Database: enterprise single StoreId{creationTime=1553701354930, randomId=8143888539358390083, storeVersion=16094931155187206, upgradeTime=1553701354930, upgradeId=1}
+2019-09-06 12:48:59.954+0000 INFO [o.n.k.i.DiagnosticsManager] Kernel version: 3.4.9,07b351edac667f6381c0e11250a9961a9972fa3a
+2019-09-06 12:48:59.954+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for KernelDiagnostics:Versions END ---
+2019-09-06 12:48:59.955+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_VERSIONS START ---
+2019-09-06 12:48:59.955+0000 INFO [o.n.k.i.DiagnosticsManager] Store versions:
+2019-09-06 12:48:59.956+0000 INFO [o.n.k.i.DiagnosticsManager] Store versions:
+2019-09-06 12:48:59.956+0000 INFO [o.n.k.i.DiagnosticsManager]   ArrayPropertyStore v0.A.9
+2019-09-06 12:48:59.956+0000 INFO [o.n.k.i.DiagnosticsManager]   NodeStore v0.A.9
+2019-09-06 12:48:59.956+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore v0.A.9
+2019-09-06 12:48:59.956+0000 INFO [o.n.k.i.DiagnosticsManager]   PropertyIndexStore v0.A.9
+2019-09-06 12:48:59.956+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore v0.A.9
+2019-09-06 12:48:59.956+0000 INFO [o.n.k.i.DiagnosticsManager]   ArrayPropertyStore v0.A.9
+2019-09-06 12:48:59.956+0000 INFO [o.n.k.i.DiagnosticsManager]   PropertyStore v0.A.9
+2019-09-06 12:48:59.957+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipStore v0.A.9
+2019-09-06 12:48:59.957+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore v0.A.9
+2019-09-06 12:48:59.957+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipTypeStore v0.A.9
+2019-09-06 12:48:59.957+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore v0.A.9
+2019-09-06 12:48:59.957+0000 INFO [o.n.k.i.DiagnosticsManager]   LabelTokenStore v0.A.9
+2019-09-06 12:48:59.957+0000 INFO [o.n.k.i.DiagnosticsManager]   SchemaStore v0.A.9
+2019-09-06 12:48:59.957+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipGroupStore v0.A.9
+2019-09-06 12:48:59.957+0000 INFO [o.n.k.i.DiagnosticsManager]   NeoStore v0.A.9
+2019-09-06 12:48:59.957+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_VERSIONS END ---
+2019-09-06 12:48:59.957+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_ID_USAGE START ---
+2019-09-06 12:48:59.957+0000 INFO [o.n.k.i.DiagnosticsManager] Id usage:
+2019-09-06 12:48:59.957+0000 INFO [o.n.k.i.DiagnosticsManager] Id usage:
+2019-09-06 12:48:59.957+0000 INFO [o.n.k.i.DiagnosticsManager]   ArrayPropertyStore: used=1 high=0
+2019-09-06 12:48:59.958+0000 INFO [o.n.k.i.DiagnosticsManager]   NodeStore: used=1632 high=1631
+2019-09-06 12:48:59.958+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore: used=22 high=21
+2019-09-06 12:48:59.958+0000 INFO [o.n.k.i.DiagnosticsManager]   PropertyIndexStore: used=21 high=20
+2019-09-06 12:48:59.958+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore: used=503 high=502
+2019-09-06 12:48:59.958+0000 INFO [o.n.k.i.DiagnosticsManager]   ArrayPropertyStore: used=22310 high=22309
+2019-09-06 12:48:59.958+0000 INFO [o.n.k.i.DiagnosticsManager]   PropertyStore: used=17104 high=17103
+2019-09-06 12:48:59.958+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipStore: used=16670 high=16669
+2019-09-06 12:48:59.958+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore: used=5 high=4
+2019-09-06 12:48:59.958+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipTypeStore: used=4 high=3
+2019-09-06 12:48:59.958+0000 INFO [o.n.k.i.DiagnosticsManager]   StringPropertyStore: used=5 high=4
+2019-09-06 12:48:59.958+0000 INFO [o.n.k.i.DiagnosticsManager]   LabelTokenStore: used=4 high=3
+2019-09-06 12:48:59.958+0000 INFO [o.n.k.i.DiagnosticsManager]   SchemaStore: used=1 high=0
+2019-09-06 12:48:59.958+0000 INFO [o.n.k.i.DiagnosticsManager]   RelationshipGroupStore: used=269 high=268
+2019-09-06 12:48:59.958+0000 INFO [o.n.k.i.DiagnosticsManager]   NeoStore: used=15 high=14
+2019-09-06 12:48:59.958+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_ID_USAGE END ---
+2019-09-06 12:48:59.958+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_RECORDS START ---
+2019-09-06 12:48:59.959+0000 INFO [o.n.k.i.DiagnosticsManager] Neostore records:
+2019-09-06 12:48:59.959+0000 INFO [o.n.k.i.DiagnosticsManager] TIME (Creation time): 1553701354930
+2019-09-06 12:48:59.959+0000 INFO [o.n.k.i.DiagnosticsManager] RANDOM_NUMBER (Random number for store id): 8143888539358390083
+2019-09-06 12:48:59.959+0000 INFO [o.n.k.i.DiagnosticsManager] LOG_VERSION (Current log version): 0
+2019-09-06 12:48:59.959+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_TRANSACTION_ID (Last committed transaction): 64
+2019-09-06 12:48:59.959+0000 INFO [o.n.k.i.DiagnosticsManager] STORE_VERSION (Store format version): 16094931155187206
+2019-09-06 12:48:59.959+0000 INFO [o.n.k.i.DiagnosticsManager] FIRST_GRAPH_PROPERTY (First property record containing graph properties): -1
+2019-09-06 12:48:59.959+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_CONSTRAINT_TRANSACTION (Last committed transaction containing constraint changes): 0
+2019-09-06 12:48:59.959+0000 INFO [o.n.k.i.DiagnosticsManager] UPGRADE_TRANSACTION_ID (Transaction id most recent upgrade was performed at): 1
+2019-09-06 12:48:59.959+0000 INFO [o.n.k.i.DiagnosticsManager] UPGRADE_TIME (Time of last upgrade): 1553701354930
+2019-09-06 12:48:59.959+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_TRANSACTION_CHECKSUM (Checksum of last committed transaction): -159615126378
+2019-09-06 12:48:59.959+0000 INFO [o.n.k.i.DiagnosticsManager] UPGRADE_TRANSACTION_CHECKSUM (Checksum of transaction id the most recent upgrade was performed at): 0
+2019-09-06 12:48:59.960+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_CLOSED_TRANSACTION_LOG_VERSION (Log version where the last transaction commit entry has been written into): 0
+2019-09-06 12:48:59.960+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_CLOSED_TRANSACTION_LOG_BYTE_OFFSET (Byte offset in the log file where the last transaction commit entry has been written into): 16
+2019-09-06 12:48:59.960+0000 INFO [o.n.k.i.DiagnosticsManager] LAST_TRANSACTION_COMMIT_TIMESTAMP (Commit time timestamp for last committed transaction): 1558979990762
+2019-09-06 12:48:59.960+0000 INFO [o.n.k.i.DiagnosticsManager] UPGRADE_TRANSACTION_COMMIT_TIMESTAMP (Commit timestamp of transaction the most recent upgrade was performed at): 0
+2019-09-06 12:48:59.960+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for NEO_STORE_RECORDS END ---
+2019-09-06 12:48:59.960+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for TRANSACTION_RANGE START ---
+2019-09-06 12:48:59.961+0000 INFO [o.n.k.i.DiagnosticsManager] Transaction log:
+2019-09-06 12:48:59.961+0000 INFO [o.n.k.i.DiagnosticsManager] Oldest transaction 2 found in log with version 0
+2019-09-06 12:48:59.961+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for TRANSACTION_RANGE END ---
+2019-09-06 12:48:59.964+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for KernelDiagnostics:StoreFiles START ---
+2019-09-06 12:48:59.964+0000 INFO [o.n.k.i.DiagnosticsManager] Disk space on partition (Total / Free / Free %): 1650264526848 / 1613080141824 / 97
+2019-09-06 12:48:59.964+0000 INFO [o.n.k.i.DiagnosticsManager] Storage files: (filename : modification date - size)
+2019-09-06 12:48:59.966+0000 INFO [o.n.k.i.DiagnosticsManager]   debug.log: 2019-09-06T09:48:59-0300 - 89.66 kB
+2019-09-06 12:48:59.966+0000 INFO [o.n.k.i.DiagnosticsManager]   index:
+2019-09-06 12:48:59.966+0000 INFO [o.n.k.i.DiagnosticsManager]   - Total: 2019-09-06T09:48:59-0300 - 0.00 B
+2019-09-06 12:48:59.966+0000 INFO [o.n.k.i.DiagnosticsManager]   metrics:
+2019-09-06 12:48:59.966+0000 INFO [o.n.k.i.DiagnosticsManager]   - Total: 2019-09-06T09:48:57-0300 - 0.00 B
+2019-09-06 12:48:59.967+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore: 2019-09-06T09:48:56-0300 - 8.00 kB
+2019-09-06 12:48:59.967+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.counts.db.a: 2019-09-06T09:48:56-0300 - 832.00 B
+2019-09-06 12:48:59.967+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.counts.db.b: 2019-09-06T09:48:56-0300 - 832.00 B
+2019-09-06 12:48:59.967+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.id: 2019-09-06T09:48:59-0300 - 9.00 B
+2019-09-06 12:48:59.967+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.labelscanstore.db: 2019-09-06T09:48:59-0300 - 48.00 kB
+2019-09-06 12:48:59.967+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.labeltokenstore.db: 2019-09-06T09:48:56-0300 - 8.00 kB
+2019-09-06 12:48:59.967+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.labeltokenstore.db.id: 2019-09-06T09:48:59-0300 - 9.00 B
+2019-09-06 12:48:59.968+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.labeltokenstore.db.names: 2019-09-06T09:48:56-0300 - 8.00 kB
+2019-09-06 12:48:59.968+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.labeltokenstore.db.names.id: 2019-09-06T09:48:59-0300 - 9.00 B
+2019-09-06 12:48:59.968+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.nodestore.db: 2019-09-06T09:48:56-0300 - 23.99 kB
+2019-09-06 12:48:59.968+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.nodestore.db.id: 2019-09-06T09:48:57-0300 - 9.00 B
+2019-09-06 12:48:59.968+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.nodestore.db.labels: 2019-09-06T09:48:56-0300 - 8.00 kB
+2019-09-06 12:48:59.968+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.nodestore.db.labels.id: 2019-09-06T09:48:57-0300 - 9.00 B
+2019-09-06 12:48:59.968+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db: 2019-09-06T09:48:56-0300 - 685.23 kB
+2019-09-06 12:48:59.969+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.arrays: 2019-09-06T09:48:56-0300 - 2.73 MB
+2019-09-06 12:48:59.969+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.arrays.id: 2019-09-06T09:48:58-0300 - 9.00 B
+2019-09-06 12:48:59.969+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.id: 2019-09-06T09:48:58-0300 - 9.00 B
+2019-09-06 12:48:59.969+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.index: 2019-09-06T09:48:56-0300 - 8.00 kB
+2019-09-06 12:48:59.969+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.index.id: 2019-09-06T09:48:57-0300 - 9.00 B
+2019-09-06 12:48:59.969+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.index.keys: 2019-09-06T09:48:56-0300 - 8.00 kB
+2019-09-06 12:48:59.970+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.index.keys.id: 2019-09-06T09:48:57-0300 - 9.00 B
+2019-09-06 12:48:59.970+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.strings: 2019-09-06T09:48:56-0300 - 64.00 kB
+2019-09-06 12:48:59.970+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.propertystore.db.strings.id: 2019-09-06T09:48:58-0300 - 9.00 B
+2019-09-06 12:48:59.970+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshipgroupstore.db: 2019-09-06T09:48:56-0300 - 8.00 kB
+2019-09-06 12:48:59.970+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshipgroupstore.db.id: 2019-09-06T09:48:59-0300 - 9.00 B
+2019-09-06 12:48:59.970+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshipstore.db: 2019-09-06T09:48:56-0300 - 557.81 kB
+2019-09-06 12:48:59.970+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshipstore.db.id: 2019-09-06T09:48:58-0300 - 9.00 B
+2019-09-06 12:48:59.970+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshiptypestore.db: 2019-09-06T09:48:56-0300 - 8.00 kB
+2019-09-06 12:48:59.971+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshiptypestore.db.id: 2019-09-06T09:48:59-0300 - 9.00 B
+2019-09-06 12:48:59.971+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshiptypestore.db.names: 2019-09-06T09:48:56-0300 - 8.00 kB
+2019-09-06 12:48:59.971+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.relationshiptypestore.db.names.id: 2019-09-06T09:48:58-0300 - 9.00 B
+2019-09-06 12:48:59.971+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.schemastore.db: 2019-09-06T09:48:56-0300 - 8.00 kB
+2019-09-06 12:48:59.971+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.schemastore.db.id: 2019-09-06T09:48:59-0300 - 9.00 B
+2019-09-06 12:48:59.972+0000 INFO [o.n.k.i.DiagnosticsManager]   neostore.transaction.db.0: 2019-09-06T09:48:56-0300 - 34.00 B
+2019-09-06 12:48:59.972+0000 INFO [o.n.k.i.DiagnosticsManager]   profiles:
+2019-09-06 12:48:59.972+0000 INFO [o.n.k.i.DiagnosticsManager]     neostore.2222.cacheprof: 2019-09-06T09:48:56-0300 - 21.00 B
+2019-09-06 12:48:59.972+0000 INFO [o.n.k.i.DiagnosticsManager]     neostore.counts.db.a.1636.cacheprof: 2019-09-06T09:48:56-0300 - 21.00 B
+2019-09-06 12:48:59.972+0000 INFO [o.n.k.i.DiagnosticsManager]     neostore.counts.db.b.585.cacheprof: 2019-09-06T09:48:56-0300 - 21.00 B
+2019-09-06 12:48:59.972+0000 INFO [o.n.k.i.DiagnosticsManager]     neostore.labelscanstore.db.2222.cacheprof: 2019-09-06T09:48:56-0300 - 21.00 B
+2019-09-06 12:48:59.973+0000 INFO [o.n.k.i.DiagnosticsManager]     neostore.labeltokenstore.db.2222.cacheprof: 2019-09-06T09:48:56-0300 - 21.00 B
+2019-09-06 12:48:59.973+0000 INFO [o.n.k.i.DiagnosticsManager]     neostore.labeltokenstore.db.names.2222.cacheprof: 2019-09-06T09:48:56-0300 - 21.00 B
+2019-09-06 12:48:59.973+0000 INFO [o.n.k.i.DiagnosticsManager]     neostore.nodestore.db.2222.cacheprof: 2019-09-06T09:48:56-0300 - 21.00 B
+2019-09-06 12:48:59.973+0000 INFO [o.n.k.i.DiagnosticsManager]     neostore.nodestore.db.labels.2222.cacheprof: 2019-09-06T09:48:56-0300 - 21.00 B
+2019-09-06 12:48:59.973+0000 INFO [o.n.k.i.DiagnosticsManager]     neostore.propertystore.db.2222.cacheprof: 2019-09-06T09:48:56-0300 - 24.00 B
+2019-09-06 12:48:59.973+0000 INFO [o.n.k.i.DiagnosticsManager]     neostore.propertystore.db.arrays.2222.cacheprof: 2019-09-06T09:48:56-0300 - 25.00 B
+2019-09-06 12:48:59.973+0000 INFO [o.n.k.i.DiagnosticsManager]     neostore.propertystore.db.index.2222.cacheprof: 2019-09-06T09:48:56-0300 - 21.00 B
+2019-09-06 12:48:59.973+0000 INFO [o.n.k.i.DiagnosticsManager]     neostore.propertystore.db.index.keys.2222.cacheprof: 2019-09-06T09:48:56-0300 - 21.00 B
+2019-09-06 12:48:59.974+0000 INFO [o.n.k.i.DiagnosticsManager]     neostore.propertystore.db.strings.2222.cacheprof: 2019-09-06T09:48:56-0300 - 22.00 B
+2019-09-06 12:48:59.974+0000 INFO [o.n.k.i.DiagnosticsManager]     neostore.relationshipgroupstore.db.2222.cacheprof: 2019-09-06T09:48:56-0300 - 21.00 B
+2019-09-06 12:48:59.974+0000 INFO [o.n.k.i.DiagnosticsManager]     neostore.relationshipstore.db.2222.cacheprof: 2019-09-06T09:48:56-0300 - 24.00 B
+2019-09-06 12:48:59.974+0000 INFO [o.n.k.i.DiagnosticsManager]     neostore.relationshiptypestore.db.2222.cacheprof: 2019-09-06T09:48:56-0300 - 21.00 B
+2019-09-06 12:48:59.974+0000 INFO [o.n.k.i.DiagnosticsManager]     neostore.relationshiptypestore.db.names.2222.cacheprof: 2019-09-06T09:48:56-0300 - 21.00 B
+2019-09-06 12:48:59.974+0000 INFO [o.n.k.i.DiagnosticsManager]     neostore.schemastore.db.2222.cacheprof: 2019-09-06T09:48:56-0300 - 21.00 B
+2019-09-06 12:48:59.974+0000 INFO [o.n.k.i.DiagnosticsManager]   - Total: 2019-09-06T09:48:56-0300 - 389.00 B
+2019-09-06 12:48:59.974+0000 INFO [o.n.k.i.DiagnosticsManager]   store_lock: 2019-09-06T09:48:57-0300 - 0.00 B
+2019-09-06 12:48:59.975+0000 INFO [o.n.k.i.DiagnosticsManager] Storage summary: 
+2019-09-06 12:48:59.975+0000 INFO [o.n.k.i.DiagnosticsManager]   Total size of store: 4.24 MB
+2019-09-06 12:48:59.975+0000 INFO [o.n.k.i.DiagnosticsManager]   Total size of mapped files: 4.15 MB
+2019-09-06 12:48:59.975+0000 INFO [o.n.k.i.DiagnosticsManager] --- STARTED diagnostics for KernelDiagnostics:StoreFiles END ---
+2019-09-06 12:48:59.975+0000 INFO [o.n.c.s.ExternallyManagedPageCache$GraphDatabaseFactoryWithPageCacheFactory$1] Shutdown started
+2019-09-06 12:48:59.976+0000 INFO [o.n.c.s.ExternallyManagedPageCache$GraphDatabaseFactoryWithPageCacheFactory$1] Database is now unavailable
+2019-09-06 12:48:59.988+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Checkpoint triggered by database shutdown @ txId: 64 checkpoint started...
+2019-09-06 12:49:00.085+0000 INFO [o.n.k.i.t.l.c.CheckPointerImpl] Checkpoint triggered by database shutdown @ txId: 64 checkpoint completed in 96ms
+2019-09-06 12:49:00.085+0000 INFO [o.n.k.i.t.l.p.LogPruningImpl] No log version pruned, last checkpoint was made in version 0
+2019-09-06 12:49:00.241+0000 INFO [o.n.k.i.DiagnosticsManager] --- STOPPING diagnostics START ---
+2019-09-06 12:49:00.241+0000 INFO [o.n.k.i.DiagnosticsManager] --- STOPPING diagnostics END ---
