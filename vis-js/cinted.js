@@ -2,7 +2,7 @@ function teste(){
     console.log("aaaaaaaaaaa cinted");
 }
 
-function insert_node(id, label,group,hide,xcord, ycord, courseid = null){
+function insert_node(id, label,group,hide,xcord, ycord, courseid = null,module = null){
 console.log(`${hide} hide`);
     if(hide === undefined){
         hide = false;
@@ -13,9 +13,11 @@ console.log(`${hide} hide`);
     if(ycord === null){
         fixedY = false;
     }
+    var border_color = ["#ff0000","#171796","#ae624c","#50494a","#065535","#833f4d","#ff9900","#318ce7","#cd7f32","#a67b5b"];
+    
     try{
        
-        node_info.add({id : id, label: label, group: group,courseid : courseid, y: ycord, x: xcord,fixed: {
+        node_info.add({id : id, label: label, group: group,courseid : courseid, y: ycord,borderWidth: 2, color : {border: border_color[module]}, x: xcord,fixed: {
      x: true,
      y: fixedY,
    }
@@ -205,6 +207,8 @@ function create_graph_course_order(result){
             
             else if(record.get('typeA') == "Courses"){
                 nameA =  record.get('A').properties.coursename;
+                
+
             
             }
 
@@ -216,7 +220,7 @@ function create_graph_course_order(result){
             
             nameB = record.get('B').properties.name;
             courseB = Number(record.get('B').properties.courseid)
-            
+            moduleB = record.get('B').properties.module;
             
             relation = record.get('r')
             idA = record.get("id(A)").toNumber();
@@ -244,8 +248,8 @@ function create_graph_course_order(result){
             var groupB = record.get('typeB')[0];
         
             insert_node(idA,nameA,groupA,false,xcord,-100);
-            insert_node(idB,nameB,groupB,false,xcord2,-100,courseB);
-            insert_node(relation.identity.toNumber(), `Curso id ${courseB}\nNota ${relation.properties.grade}`,"Resources",false,xcord2, -200);
+            insert_node(idB,nameB,groupB,false,xcord2,-100,courseB,moduleB);
+            insert_node(relation.identity.toNumber(), `Curso id ${courseB}\nNota ${relation.properties.grade}\nModulo ${moduleB}`,"Resources",false,xcord2, -200);
             insert_edge(idA,idB,0,1);
             
             

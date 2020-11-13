@@ -2,12 +2,12 @@
 <html>
 <head>
   <title>Network</title>
-  <script type="text/javascript" src="vis-network.min.js"></script>
-  <script  type="text/css" src="vis-network.min.css"  rel="stylesheet" ></script>
+  <script type="text/javascript" src="https://unpkg.com/vis-network@7.4.0/dist/vis-network.min.js"></script>
+  <link href="https://unpkg.com/vis-network@7.4.0/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
   <style type="text/css">
     #mynetwork {
-      width: 2000px;
-      height: 1080px;
+      width: 1400px;
+      height: 800px;
       border: 1px solid lightgray;
     }
   </style>
@@ -18,60 +18,320 @@
 <!--<img id="canvasImg" alt="Right click to save me!">-->
 
 <script type="text/javascript" src="jquery.min.js"></script>
-<script type="text/javascript" src="neo4j-web.min.js"></script>
-<!--<script src="https://unpkg.com/neo4j-driver@1.7.6/lib/browser/neo4j-web.min.js"></script>-->
+<script src="https://unpkg.com/neo4j-driver@1.7.6/lib/browser/neo4j-web.min.js"></script>
 <script type="text/javascript" src="canvas2svg.js"></script>
-
-<script type="text/javascript" src="cinted.js"></script>
 <script type="text/javascript">
 
+var id_input = document.createElement("INPUT");
+id_input.setAttribute("type", "text");
+id_input.setAttribute("value", "28");
 
 
 
 
 
-
-
-var mapCoursePosition =  new Map;
-
+var mapCoursePosition;
+var mapAccess;
 var toggle = 1;
+var border_color = ["#ff0000","#171796","#ae624c","#50494a","#f1641e","#833f4d","#ff9900","#318ce7","#cd7f32","#a67b5b"];
+var background_color = new Map();
+background_color.set('Courses','#EFDECD');
+background_color.set('Student','#228B22');
+background_color.set('Resources','#487d68');
+background_color.set('CourseInfo','#85ae8e');
 
 
 
-
-
-
-const driver = neo4j.v1.driver("bolt://localhost:7687", neo4j.v1.auth.basic("neo4j", "cinted"));
-const session = driver.session();
-userid = 24
-
-const resultPromise = session.run(
-  `match (A)-[r:MATRICULADO {userid: '${userid}'}]->(B) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B),B.courseid`
-);
-
-var node_info = new vis.DataSet();
-var r_info = new vis.DataSet();
-var network;
-
-var mapAccess = new Map;
-
- C2S.prototype.circle = CanvasRenderingContext2D.prototype.circle;
-    C2S.prototype.square = CanvasRenderingContext2D.prototype.square;
-    C2S.prototype.triangle = CanvasRenderingContext2D.prototype.triangle;
-    C2S.prototype.triangleDown = CanvasRenderingContext2D.prototype.triangleDown;
-    C2S.prototype.star = CanvasRenderingContext2D.prototype.star;
-    C2S.prototype.diamond = CanvasRenderingContext2D.prototype.diamond;
-    C2S.prototype.roundRect = CanvasRenderingContext2D.prototype.roundRect;
-    C2S.prototype.ellipse_vis = CanvasRenderingContext2D.prototype.ellipse_vis;
-    C2S.prototype.database = CanvasRenderingContext2D.prototype.database;
-    C2S.prototype.arrowEndpoint = CanvasRenderingContext2D.prototype.arrowEndpoint;
-    C2S.prototype.circleEndpoint = CanvasRenderingContext2D.prototype.circleEndpoint;
-    C2S.prototype.dashedLine = CanvasRenderingContext2D.prototype.dashedLine;
-    var network_position;
-    var network_scale;
+function insert_node(id, label,group,hide,xcord, ycord, courseid = null, module = null){
+console.log(`${hide} hide`);
+    if(hide === undefined){
+        hide = false;
+    }
+    
+    var fixedY = true;
+    
+    if(ycord === null){
+        fixedY = false;
+    }
+    
+    if(module === null){
+        module = -1;
+    }
     
     
-    function exportSvg()
+
+    try{
+        var bd_color,bg_color,font_color;
+        bd_color = border_color[module];
+        if(group === "Courses"){
+            bg_color = bd_color;font_color = "#FFFFFF";
+            
+        }
+        else{
+             bg_color = background_color.get(group);
+             font_color = "#000000";
+        }
+       
+        node_info.add({id : id, label: label, group: group,courseid : courseid, y: ycord,borderWidth: 2, color : {border: bd_color,background: bg_color}, font : {color: font_color}, x: xcord,fixed: {
+     x: true,
+     y: fixedY,
+   }
+});
+         //console.log(`node ${id} inserted! ${hide}`);
+    }
+  
+    catch(e){
+    
+            if(group === "Resources") node_info.update([{id : id, hidden: hide}]);
+        
+    
+           //console.log(`resources ${group === "Resources"} ${group}`);
+    }
+}
+
+function insert_edge(idA,idB,count,log10_timedelta,hide,timedeltas){
+    if(hide === undefined){
+        hide = false;
+    }
+
+     try{
+     var rlabel;
+     var title;
+     
+     if(!(timedeltas === undefined)){
+        title = timedeltas.toString();
+     }
+     
+     
+     if(count <= 1){
+        count = 1;
+        rlabel = 0;
+     }
+     else{
+        rlabel = `<b>${count}</b>`
+     }
+     
+    if(count > 8){
+        count = 8 + count/10;
+    } 
+     
+     
+    r_info.add({from: idA, to: idB,width: count,font: { multi: true },title : title,label:rlabel,smooth: {type: 'curvedCW', roundness: 0.3*toggle}});
+    //,smooth: {type: 'curvedCW', roundness: 0.3*toggle}
+    //r_info.add({from: idA, to: idB,width: count,length: 100 + 1*log10_timedelta});
+    toggle *= -1;
+  }
+  
+  catch(e){
+  
+    r_info.update([{id : id, hidden: hide}]);
+    network.redraw();
+  }
+}
+
+function getEdgeBetweenNodes(node1,node2) {
+    edges =  r_info.get().filter(function (edge) {
+        return (edge.from === node1 && edge.to === node2 ) //|| (edge.from === node2 && edge.to === node1)
+    });
+    
+    return edges.length > 0;
+    
+};
+
+function average_delta(){}
+
+function create_graph_access_order(result, hide,courseid){
+        const singleRecord = result.records[0];
+        const node = singleRecord.get(0);
+        
+        if(hide === undefined){
+        hide = false;
+        }
+        
+        var hideA;
+        var hideB = hide;
+        var xcord = null;
+        var index = 0;
+        var ycord = 30;
+        var increment_y = 180;
+        
+        var ycord_map = new Map;
+        
+        console.log(`${hide} hide`);
+
+        for (record of result.records){
+            idA = record.get("id(A)").toNumber();
+            idB = record.get("id(B)").toNumber();
+            index+=2;
+        
+            var nameA;
+            var xb;
+
+            if(record.get('typeA') == "Student"){
+                nameA =  record.get('A').properties.trajectory_name;
+                hideA = false;
+            }
+            
+            else if(record.get('typeA') == "Courses"){
+                nameA =  record.get('A').properties.coursename;
+                hideA = false;
+                if(xcord === null){
+                xcord = mapCoursePosition.get(idA);
+                 xb = mapCoursePosition.get(idB);
+                }
+                console.log(`${xcord} || ${xb}`);
+                 console.log(`${idA} . ${idB}`);
+            
+            }
+            else{
+                nameA = record.get('A').properties.name;
+                hideA = hide;
+                
+            }
+           
+           
+            
+
+
+            
+
+
+            
+            nameB = record.get('B').properties.name;
+           
+            
+            
+            
+
+            const count = record.get('r').properties.count.toNumber();
+            var groupA = record.get('typeA')[0];
+            var groupB = record.get('typeB')[0];
+
+            
+            timedeltas = record.get('r').properties.timedeltas;
+            var total = 0;
+
+            for (timedelta of timedeltas){
+            total += parseInt(timedelta,10);
+            }
+
+            average = total/timedeltas.length;
+
+          //  console.log(average);
+            timeformatted = new Date(average * 1000)
+
+            log10_timedelta = Math.log10(average+1);
+
+           // console.log(Math.log10(average+1));
+           
+            console.log(`ycord order ${ycord} ${idA}/${nameA} ${idB}/${nameB} : ${ycord} ${increment_y}`);
+        
+            var already_added = ycord_map.has(idA);
+            
+            insert_node(idA,nameA,groupA,hideA,xcord,ycord,null);
+            if(!ycord_map.has(idA)) ycord += increment_y;
+            insert_node(idB,nameB,groupB,hideB,xcord, ycord,null);
+             if(!ycord_map.has(idB)) ycord += increment_y;
+//             if(hideB == true) insert_node(idB,nameB,groupB,true);
+//             else insert_node(idB,nameB,groupB,false);
+            
+           ycord_map.set(idA, true);
+           ycord_map.set(idB, true);
+            
+            if(getEdgeBetweenNodes(idA,idB) == false){
+                insert_edge(idA,idB,count,log10_timedelta,hide,timedeltas);
+                }
+            //console.log(getEdgeBetweenNodes(idA,idB));
+            
+        
+        }
+
+
+}
+
+C2S.prototype.circle = CanvasRenderingContext2D.prototype.circle;
+C2S.prototype.square = CanvasRenderingContext2D.prototype.square;
+C2S.prototype.triangle = CanvasRenderingContext2D.prototype.triangle;
+C2S.prototype.triangleDown = CanvasRenderingContext2D.prototype.triangleDown;
+C2S.prototype.star = CanvasRenderingContext2D.prototype.star;
+C2S.prototype.diamond = CanvasRenderingContext2D.prototype.diamond;
+C2S.prototype.roundRect = CanvasRenderingContext2D.prototype.roundRect;
+C2S.prototype.ellipse_vis = CanvasRenderingContext2D.prototype.ellipse_vis;
+C2S.prototype.database = CanvasRenderingContext2D.prototype.database;
+C2S.prototype.arrowEndpoint = CanvasRenderingContext2D.prototype.arrowEndpoint;
+C2S.prototype.circleEndpoint = CanvasRenderingContext2D.prototype.circleEndpoint;
+C2S.prototype.dashedLine = CanvasRenderingContext2D.prototype.dashedLine;
+
+
+
+function create_graph_course_order(result){
+   var course_count = 0;
+
+    for (record of result.records){
+            var nameA;
+
+            if(record.get('typeA') == "Student"){
+                nameA =  record.get('A').properties.trajectory_name;
+                console.log(`${record.get("id(A)").toNumber()} ....`);
+            }
+            
+            else if(record.get('typeA') == "Courses"){
+                nameA =  record.get('A').properties.coursename;
+            
+            }
+
+            else{
+                nameA = record.get('A').properties.name;
+            }
+
+
+            
+            nameB = record.get('B').properties.name;
+            courseB = Number(record.get('B').properties.courseid)
+            
+            
+
+            idA = record.get("id(A)").toNumber();
+            idB = record.get("id(B)").toNumber();
+            console.log(`${nameA}`)
+//              console.log(`${idA} . ${idB}`);
+//             console.log("xcord course");
+             relation = record.get('r');
+            
+            var xcord = course_count*250;
+            if(course_count == 0) xcord-=100;
+            
+            if(mapCoursePosition.has(idA) == false) mapCoursePosition.set(idA, xcord);
+            course_count+=1;
+            
+            
+             if(course_count > 22) course_count+=1;
+            var xcord2 = course_count*250;
+           
+            
+            if(mapCoursePosition.has(idB) == false) mapCoursePosition.set(idB, xcord2);
+             course_count+=1;
+//              console.log(`xcord course ${xcord}`);
+            
+            var groupA = record.get('typeA')[0];
+            var groupB = record.get('typeB')[0];
+            moduleB = record.get('B').properties.module;
+            
+            insert_node(idA,nameA,groupA,false,xcord,-100,null,null);
+            insert_node(idB,nameB,groupB,false,xcord2,-100,courseB,moduleB);
+            insert_node(relation.identity.toNumber(), `Curso id ${courseB}\nNota ${relation.properties.grade}\nModulo ${moduleB}`,"CourseInfo",false,xcord2, -200);
+            insert_edge(idA,idB,0,1);
+            
+            
+            
+        
+        }
+
+
+
+}
+
+function exportSvg()
     {
         var networkContainer = network.body.container;
         network_position = network.getViewPosition();
@@ -96,10 +356,12 @@ var mapAccess = new Map;
                 showSvg(svg);
             });
     }
+
+
     function showSvg(svg)
     {
         var svgBlob = new Blob([svg], {type: 'image/svg+xml'});
-        openBlob(svgBlob, "network.svg");
+        openBlob(svgBlob, `aluno${userid}.svg`);
         network.moveTo({scale : network_scale,position: network_position});
          network.redraw();
          network_scale = network.getScale();
@@ -137,128 +399,155 @@ var mapAccess = new Map;
         }
     }
 
-resultPromise.then(result => {
-    session.close();
-    create_graph_course_order(result);
 
 
-    console.log(node_info);
+const driver = neo4j.v1.driver("bolt://localhost:7687", neo4j.v1.auth.basic("neo4j", "cinted"));
+const session = driver.session();
+var network_position;
+var network_scale;
+var node_info = new vis.DataSet();
+var r_info = new vis.DataSet();
+var network;
 
-
-    // create a network
-    //nodes: nodes,
-    //  edges: edges,
-    //
-    var container = document.getElementById('mynetwork');
-    var data = {
-        nodes: node_info,
-        edges: r_info,
-        options: options
-    };
-    var options = {
-    nodes: {
-                shapeProperties: {
-                    interpolation: false //so images are not scaled svg will get full image
+var mapAccess = new Map;
+var container = document.getElementById('mynetwork');
+        var data = {
+            nodes: node_info,
+            edges: r_info,
+            options: options
+        };
+        var options = {
+        nodes: {
+                    shapeProperties: {
+                        interpolation: false
+                    },
+                    scaling: { label: { drawThreshold : 0} },
+                    font:{color:'#000000'}
                 },
-                scaling: { label: { drawThreshold : 0} },
-                font:{color:'#000000'}
+
+        groups: {
+        
+        Courses: {
+
+            shape: 'circle',
+            color: '#FFA07A',
+
+            widthConstraint: { maximum: 120 }
+            
+        },
+            Course: {
+
+            shape: 'circle',
+            color: '#FFA07A',
+
+            widthConstraint: { maximum: 120 }
+            
+        },
+
+        Student: {
+
+            shape: 'circle',
+            color: '#228B22',
+
+            widthConstraint: { maximum: 120 }
+            
+        },
+        CourseInfo: {
+
+            shape: 'circle',
+
+            widthConstraint: { maximum: 120 }
+            
+        },
+        Resources: {
+
+            shape: 'circle',
+
+            widthConstraint: { maximum: 120 }
+            
+        }
+        },
+
+
+    physics: {
+            "barnesHut": {
+        "avoidOverlap": 1
+        },
+        
+            repulsion: {
+                springLength: 50,
+                nodeDistance: 300,
+                centralGravity: 0,
+                springConstant: 0.15,
             },
-
-    groups: {
-    
-    Courses: {
-
-        shape: 'circle',
-        color: '#FFA07A',
-
-        widthConstraint: { maximum: 120 }
-        
-    },
-
-    Student: {
-
-        shape: 'circle',
-        color: '#228B22',
-
-        widthConstraint: { maximum: 120 }
-        
-    },
-    Resources: {
-
-        shape: 'circle',
-
-        widthConstraint: { maximum: 120 }
-        
-    }
-    },
-
-
-physics: {
-        "barnesHut": {
-      "avoidOverlap": 1
-    },
-    
-        repulsion: {
-            springLength: 50,
-            nodeDistance: 300,
-            centralGravity: 0,
-            springConstant: 0.15,
+            stabilization: true
         },
-        stabilization: true
-    },
 
 
-        edges:{
-        
-        font: {
-            size: 28
-        },
-        arrows: 'to',
-        color: 'red',
-        scaling:{
-            label: true,
-        },
-        shadow: true,
-         smooth: true,
-    }
+            edges:{
+            
+            font: {
+                size: 28
+            },
+            arrows: 'to',
+            color: 'red',
+            scaling:{
+                label: true,
+            },
+            shadow: true,
+            smooth: true,
+        }
 
 
 
-    };
-    network = new vis.Network(container, data, options);
-  
-    network.on( 'click', function(properties) {
+        };
+
+
+draw_graph();
+
+function fetch_resource_data(properties, cid){
+var clickedNodes;
+var courseid;
+
+if (properties !== null){
     var ids = properties.nodes;
-    var clickedNodes = node_info.get(ids);
+    clickedNodes = node_info.get(ids);
     console.log('clicked nodes:', clickedNodes);
-    
-    for (node of clickedNodes){
-        if(node['courseid'] != null){
-            console.log(`Course id is ${node['courseid']} ....`)
-        }
-    
-        
+    courseid = clickedNodes[0]['courseid']
+                
+    if(courseid == null){
+        return;
     }
-        var ids = properties.nodes;
-        var clickedNodes = node_info.get(ids);
-        courseid = clickedNodes[0]['courseid']
-        
-        if(courseid == null){
-            return;
-        }
-        
-        console.log('clicked nodes:', clickedNodes);
-        const resultPromise = session.run(
-        `match (C:Student {userid : '${userid}'})-[r:ACCESS_ORDER {userid : '${userid}'}]->(B:Resources  {courseid : '${courseid}'}),(A:Courses {courseid : '${courseid}'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B) order by r.id union match (A:Resources  {courseid : '${courseid}'})-[r:ACCESS_ORDER {userid : '${userid}'}]->(B:Resources  {courseid : '${courseid}'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B) order by id(r)`
-        );
 
-        resultPromise.then(result => {
+}
+
+else{
+clickedNodes = [ node_info.get(cid) ];
+console.log("macarena");
+
+}
+        
+        for (node of clickedNodes){
+            if(node['courseid'] != null){
+                console.log(`Course id is ${node['courseid']} ....`)
+            }
+        
+            
+        }
+            
+            
+            
+            console.log('clicked nodes:', clickedNodes);
+            const resultPromise = session.run(
+            `match (C:Student {userid : '${userid}'})-[r:ACCESS_ORDER {userid : '${userid}'}]->(B:Resources  {courseid : '${courseid}'}),(A:Courses {courseid : '${courseid}'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B) order by r.id union match (A:Resources  {courseid : '${courseid}'})-[r:ACCESS_ORDER {userid : '${userid}'}]->(B:Resources  {courseid : '${courseid}'}) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B) order by id(r)`
+            );
+
+            resultPromise.then(result => {
             session.close();
             console.log(result)
             
             var already_added = mapAccess.has(courseid);
             var hide;
-            
             if(already_added == true) {
                 hide = !mapAccess.get(courseid);
                 mapAccess.set(courseid, hide);
@@ -269,28 +558,79 @@ physics: {
             }
             console.log(`${already_added}//${hide}//course ${courseid}`);
             
+            
+            
             create_graph_access_order(result, hide,courseid);
             network.body.emitter.emit('_dataChanged')
             network.redraw();
             console.log("finished")
-            teste();
+            
+            
+        });
+}
+
+function draw_graph(){
+    
+
+    userid = Number(id_input.value);
+    console.log(`match (A)-[r:MATRICULADO {userid: '${userid}'}]->(B) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B),B.courseid order by id(r)`)
+
+
+    const resultPromise = session.run(
+    `match (A)-[r:MATRICULADO {userid: '${userid}'}]->(B) return A,LABELs(A) as typeA,r,B,LABELs(B) as typeB,id(A),id(B),B.courseid order by id(r)`
+    );
+
+    
+
+    node_info = new vis.DataSet();
+    r_info = new vis.DataSet();
+    mapAccess = new Map;
+    mapCoursePosition =  new Map;
+    data = {
+            nodes: node_info,
+            edges: r_info,
+            options: options
+        };
+        network = new vis.Network(container, data, options);
+    
+   
+    
+    
+    
+
+    resultPromise.then(result => {
+        session.close();
+        create_graph_course_order(result);
+
+
+        console.log(node_info);
+
+
+        // create a network
+        //nodes: nodes,
+        //  edges: edges,
+        //
         
         
-       });
+        
+        network.on( 'click', function(properties) {
+            fetch_resource_data(properties);
+        
+            
+            
+        });
         
         
+        // on application exit:
+        driver.close();
     });
+}
     
-    
-    // on application exit:
-    driver.close();
-});
-
-
+document.body.appendChild(id_input);
 
 </script>
 
-
+<input type="button" onclick="draw_graph();" value="Redesenhar grafo"/>
 <input type="button" onclick="exportSvg();" value="Exportar para SVG"/>
 </body>
 </html>
